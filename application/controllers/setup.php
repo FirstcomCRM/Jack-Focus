@@ -8,48 +8,62 @@ class setup extends CI_Controller {
 		$this->load->model('announcement_model');
 		$this->load->model('nationality_model');
 		$this->load->model('partner_model');
+		$this->load->model('user_permision');
+		$this->load->library('session');
 	}
 
 
 	public function index() {
-		$data['base_url'] = base_url();
-		$data['admin'] ="admin";
-		
-
-		//$data['msg'] = $this->session->flashdata('msg');
-		$b_url = base_url().'announcement/index';
-		$t_rows = $this->announcement_model->count();
-		$pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
-		$this->pagination->initialize($pageConfig);
-		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$data['announcements'] = $this->announcement_model->fetch($pageConfig['per_page'], $page);
-		$data['links'] = $this->pagination->create_links();
-		$current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
-		$data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
-
-		$t_rows_n = $this->nationality_model->count();
-		$pageConfig_n = create_pagination_config( $b_url, $t_rows_n, 10, 3);
-		$this->pagination->initialize($pageConfig_n);
-		$page_n = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$data['nationalityx'] = $this->nationality_model->fetch($pageConfig_n['per_page'], $page);
-		$data['links_n'] = $this->pagination->create_links();
-		$current_page_n =  floor(($this->uri->segment(3) / $pageConfig_n['per_page']) + 1);
-		$data['pagination_msg_n'] = create_pagination_msg($current_page_n, $pageConfig_n['per_page'], $t_rows_n);
-
-		$t_rows_p = $this->partner_model->count();
-		$pageConfig_p = create_pagination_config( $b_url, $t_rows_p, 10, 3);
-		$this->pagination->initialize($pageConfig_p);
-		$page_p = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$data['partners'] = $this->partner_model->fetch($pageConfig_p['per_page'], $page);
-		$data['links_p'] = $this->pagination->create_links();
-		$current_page_p =  floor(($this->uri->segment(3) / $pageConfig_p['per_page']) + 1);
-		$data['pagination_msg_p'] = create_pagination_msg($current_page_p, $pageConfig_p['per_page'], $t_rows_p);
 
 
-		
-		$this->load->view('_template/header', $data);
-		$this->load->view('setup/index', $data);
-		$this->load->view('_template/footer', $data);
+			$a = $this->user_permision->check_action_permision('setup_view',$this->session->userdata('fcs_user_id'));
+
+
+			if($a['setup_view'] == 0){
+
+				redirect(base_url().'error_550');
+		     }else{
+
+						$data['base_url'] = base_url();
+						$data['admin'] ="admin";
+						
+
+						//$data['msg'] = $this->session->flashdata('msg');
+						$b_url = base_url().'announcement/index';
+						$t_rows = $this->announcement_model->count();
+						$pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
+						$this->pagination->initialize($pageConfig);
+						$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+						$data['announcements'] = $this->announcement_model->fetch($pageConfig['per_page'], $page);
+						$data['links'] = $this->pagination->create_links();
+						$current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
+						$data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
+
+						$t_rows_n = $this->nationality_model->count();
+						$pageConfig_n = create_pagination_config( $b_url, $t_rows_n, 10, 3);
+						$this->pagination->initialize($pageConfig_n);
+						$page_n = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+						$data['nationalityx'] = $this->nationality_model->fetch($pageConfig_n['per_page'], $page);
+						$data['links_n'] = $this->pagination->create_links();
+						$current_page_n =  floor(($this->uri->segment(3) / $pageConfig_n['per_page']) + 1);
+						$data['pagination_msg_n'] = create_pagination_msg($current_page_n, $pageConfig_n['per_page'], $t_rows_n);
+
+						$t_rows_p = $this->partner_model->count();
+						$pageConfig_p = create_pagination_config( $b_url, $t_rows_p, 10, 3);
+						$this->pagination->initialize($pageConfig_p);
+						$page_p = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+						$data['partners'] = $this->partner_model->fetch($pageConfig_p['per_page'], $page);
+						$data['links_p'] = $this->pagination->create_links();
+						$current_page_p =  floor(($this->uri->segment(3) / $pageConfig_p['per_page']) + 1);
+						$data['pagination_msg_p'] = create_pagination_msg($current_page_p, $pageConfig_p['per_page'], $t_rows_p);
+
+
+						
+						$this->load->view('_template/header', $data);
+						$this->load->view('setup/index', $data);
+						$this->load->view('_template/footer', $data);
+
+		}				
 	}
 
 

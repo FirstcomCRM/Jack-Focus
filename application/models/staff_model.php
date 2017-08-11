@@ -123,6 +123,29 @@ class staff_model extends CI_Model
         return false;
     }
 
+
+    public function fetch_staff_permmission($id){
+        $this->db->select('a.*,b.staff_username');
+        $this->db->from('user_permision a');
+        $this->db->join('staff b', 'a.staff_id=b.staff_id', 'left');       
+        $this->db->where('a.staff_id', $id);
+        $this->db->limit(1);
+   
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+
+
+
+
      public function collect($id){
         $this->db->select('s.*, b.branch_name, r.role_title');
         $this->db->from('staff s');

@@ -206,9 +206,31 @@
                                <a class="<?=$this->uri->segment(1)=='insurance_package'?'active':''?>" href="<?=base_url()?>insurance_package"><i class="fa fa-ambulance" aria-hidden="true"></i> &nbsp;&nbsp;Insurance</a>
                           </li>
                       
-                          <li>
+                        <!--   <li>
                                 <a class="<?=$this->uri->segment(1)=='staff'?'active':''?>" href="<?=base_url()?>staff"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;Staff</a>
-                            </li>
+                            </li> -->
+
+
+                          <li class="dropdown">
+                                  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;Staff
+                                      <span class="fa arrow"></span></a>
+                                           <ul class="nav nav-second-level">
+                                              <li>
+                                                 <a class="<?=$this->uri->segment(1)=='staff'?'active':''?>" href="<?=base_url()?>staff"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;Staff Listing</a>
+                                              </li>
+                                              <li>
+                                                  <a class="<?=$this->uri->segment(1)=='staff'?'active':''?>" href="<?=base_url()?>staff/staff_permission"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;Staff Permission</a>
+                                              </li>
+                                            
+                                            
+                                              
+                                           </ul>
+                              </li>
+
+
+
+
+
                            <li>
                                              <a class="<?=$this->uri->segment(1)=='invoice'?'active':''?>" href="<?=base_url()?>invoice"><i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;&nbsp;Invoice</a>
                                              </li>
@@ -223,14 +245,14 @@
                                    </li>
                             
 
-
+<!-- 
                             <li>
                                 <a class="<?=$this->uri->segment(1)=='setup'?'active':''?>" href="<?=base_url()?>setup"><i class="fa fa-wrench" aria-hidden="true"></i> &nbsp;&nbsp;Setup</a>
-                            </li>
+                            </li> -->
 
                           
                            <li class="dropdown">
-                                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Temporary
+                                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Setup
                                       <span class="fa arrow"></span></a>
                                            <ul class="nav nav-second-level">
                                               <li>

@@ -15,25 +15,39 @@ class sales extends CI_Controller {
 		//	redirect(base_url().'error_403');
 		//}
 		$this->load->model('sales_model');
+		$this->load->model('user_permision');
+		$this->load->library('session');
 	}
 
 	public function index() {
-		$data['msg'] = $this->session->flashdata('msg');
-		$b_url = base_url().'sales/index';
-		$t_rows = $this->sales_model->count();
-		$pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
-		$this->pagination->initialize($pageConfig);
-		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		
-		$data['salesx'] = $this->sales_model->fetch($pageConfig['per_page'], $page);
-		$data['links'] = $this->pagination->create_links();
 
-		$current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
-		$data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
+			$a = $this->user_permision->check_action_permision('sales_view',$this->session->userdata('fcs_user_id'));
 
-		$this->load->view('_template/header', $data);
-        $this->load->view('sales/index', $data);
-        $this->load->view('_template/footer', $data);
+
+			if($a['sales_view'] == 0){
+
+				redirect(base_url().'error_550');
+		     }else{
+
+
+				$data['msg'] = $this->session->flashdata('msg');
+				$b_url = base_url().'sales/index';
+				$t_rows = $this->sales_model->count();
+				$pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
+				$this->pagination->initialize($pageConfig);
+				$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+				
+				$data['salesx'] = $this->sales_model->fetch($pageConfig['per_page'], $page);
+				$data['links'] = $this->pagination->create_links();
+
+				$current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
+				$data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
+
+				$this->load->view('_template/header', $data);
+		        $this->load->view('sales/index', $data);
+		        $this->load->view('_template/footer', $data);
+
+		    }
 	}
 	public function add(){
 		$this->load->helper(array('form'));

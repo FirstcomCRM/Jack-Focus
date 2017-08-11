@@ -29,27 +29,40 @@ class invoice extends CI_Controller {
 		$this->load->model('insurance_package_model');
 		$this->load->model('package_model');
 		$this->load->model('branch_model');
+		$this->load->model('user_permision');
+		$this->load->library('session');
 
 	}
 
 		public function index() {
-		$data['msg'] = $this->session->flashdata('msg');
-		$b_url = base_url().'invoice/index';
-		$t_rows = $this->invoice_model->count();
-		$pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
-		$this->pagination->initialize($pageConfig);
-		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		
-		$data['quotations'] = $this->invoice_model->fetch($pageConfig['per_page'], $page);
-		$data['links'] = $this->pagination->create_links();
 
-		$current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
-		$data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
-		$data['customers'] = $this->customer_maid_model->get();
-		$data['staffx'] = $this->staff_model->get();
-		$this->load->view('_template/header', $data);
-        $this->load->view('invoice/index', $data);
-        $this->load->view('_template/footer', $data);
+				$a = $this->user_permision->check_action_permision('inv_view',$this->session->userdata('fcs_user_id'));
+
+
+			if($a['inv_view'] == 0){
+
+				redirect(base_url().'error_550');
+		     }else{
+
+				$data['msg'] = $this->session->flashdata('msg');
+				$b_url = base_url().'invoice/index';
+				$t_rows = $this->invoice_model->count();
+				$pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
+				$this->pagination->initialize($pageConfig);
+				$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+				
+				$data['quotations'] = $this->invoice_model->fetch($pageConfig['per_page'], $page);
+				$data['links'] = $this->pagination->create_links();
+
+				$current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
+				$data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
+				$data['customers'] = $this->customer_maid_model->get();
+				$data['staffx'] = $this->staff_model->get();
+				$this->load->view('_template/header', $data);
+		        $this->load->view('invoice/index', $data);
+		        $this->load->view('_template/footer', $data);
+
+		     }   
 	}
 	public function add(){
 		$this->load->helper(array('form'));
@@ -119,33 +132,45 @@ class invoice extends CI_Controller {
 	}
 
 		public function add_package(){
-		$this->load->helper(array('form'));
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('customer_id', 'customer', 'required');
-		$this->form_validation->set_rules('quotation_date', 'date', 'required');
-		$this->form_validation->set_rules('gst', 'GST', 'required');
 
-		if($this->form_validation->run() === FALSE) {
-			$data['action'] = 'add';
-			$data['customers'] = $this->customer_maid_model->get();
-			$data['products'] = $this->package_model->get();
-			$data['maid_products'] = $this->maid_model->getAvailable();
-			$data['insurance_products'] = $this->insurance_package_model->get();
-			$data['sale_persons'] = $this->staff_model->get();
-			$data['branches'] = $this->branch_model->get();
-			$this->load->view('_template/header', $data);
-			$this->load->view('invoice_package/add_edit', $data);
-			$this->load->view('_template/footer', $data);
-		}
-		else{
-			$quotation_id = $this->invoice_model->add_package();
-			$this->session->set_flashdata('msg', '	Invoice Successfully Created');
-			$ret = array(
-				'status'       => 'success',
-				'quotation_id' => $quotation_id,
-			);
-			echo json_encode($ret);
-		}
+
+			$a = $this->user_permision->check_action_permision('inv_add',$this->session->userdata('fcs_user_id'));
+
+
+			if($a['inv_add'] == 0){
+
+				redirect(base_url().'error_550');
+		     }else{
+
+					$this->load->helper(array('form'));
+					$this->load->library('form_validation');
+					$this->form_validation->set_rules('customer_id', 'customer', 'required');
+					$this->form_validation->set_rules('quotation_date', 'date', 'required');
+					$this->form_validation->set_rules('gst', 'GST', 'required');
+
+					if($this->form_validation->run() === FALSE) {
+						$data['action'] = 'add';
+						$data['customers'] = $this->customer_maid_model->get();
+						$data['products'] = $this->package_model->get();
+						$data['maid_products'] = $this->maid_model->getAvailable();
+						$data['insurance_products'] = $this->insurance_package_model->get();
+						$data['sale_persons'] = $this->staff_model->get();
+						$data['branches'] = $this->branch_model->get();
+						$this->load->view('_template/header', $data);
+						$this->load->view('invoice_package/add_edit', $data);
+						$this->load->view('_template/footer', $data);
+					}
+					else{
+						$quotation_id = $this->invoice_model->add_package();
+						$this->session->set_flashdata('msg', '	Invoice Successfully Created');
+						$ret = array(
+							'status'       => 'success',
+							'quotation_id' => $quotation_id,
+						);
+						echo json_encode($ret);
+					}
+
+			}		
 	}
 
 	public function jsoncustomer(){
@@ -611,41 +636,52 @@ class invoice extends CI_Controller {
 	}
 
 	public function edit_package($id){
-		$data['msg'] = $this->session->flashdata('msg');
-		$data['quotation'] = $this->invoice_model->getQuo($id);
-		if (empty($data['quotation'])) {
-			show_404();
-		}
-		$this->load->helper('form');
-		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('customer_id', 'customer', 'required');
-		$this->form_validation->set_rules('quotation_date', 'date', 'required');
-		$this->form_validation->set_rules('gst', 'GST', 'required');
+			$a = $this->user_permision->check_action_permision('inv_edit',$this->session->userdata('fcs_user_id'));
 
-		if($this->form_validation->run() === FALSE) {
-			$data['action'] = 'edit';
-			$data['sale_persons'] = $this->staff_model->get();
-			$data['customers'] = $this->customer_maid_model->get();
-			$data['products'] = $this->package_model->get();
-			$data['maid_products'] = $this->maid_model->get();
-			$data['insurance_products'] = $this->insurance_package_model->get();
-			$data['quotation_products'] = $this->invoice_model->get_package_product($id);
-			$data['quotation_id']  = $id;
-			$data['branches'] = $this->branch_model->get();
-			$this->load->view('_template/header', $data);
-			$this->load->view('invoice_package/add_edit', $data);
-			$this->load->view('_template/footer', $data);	
-		}
 
-		else {
-			$this->invoice_model->update($id);
-			$this->session->set_flashdata('msg', 'Invoice Successfully Updated');
-			$ret = array(
-				'status' 	=> 'success',
-			);
-			echo json_encode($ret);
-		}
+			if($a['inv_edit'] == 0){
+
+				redirect(base_url().'error_550');
+		     }else{
+
+				$data['msg'] = $this->session->flashdata('msg');
+				$data['quotation'] = $this->invoice_model->getQuo($id);
+				if (empty($data['quotation'])) {
+					show_404();
+				}
+				$this->load->helper('form');
+				$this->load->library('form_validation');
+
+				$this->form_validation->set_rules('customer_id', 'customer', 'required');
+				$this->form_validation->set_rules('quotation_date', 'date', 'required');
+				$this->form_validation->set_rules('gst', 'GST', 'required');
+
+				if($this->form_validation->run() === FALSE) {
+					$data['action'] = 'edit';
+					$data['sale_persons'] = $this->staff_model->get();
+					$data['customers'] = $this->customer_maid_model->get();
+					$data['products'] = $this->package_model->get();
+					$data['maid_products'] = $this->maid_model->get();
+					$data['insurance_products'] = $this->insurance_package_model->get();
+					$data['quotation_products'] = $this->invoice_model->get_package_product($id);
+					$data['quotation_id']  = $id;
+					$data['branches'] = $this->branch_model->get();
+					$this->load->view('_template/header', $data);
+					$this->load->view('invoice_package/add_edit', $data);
+					$this->load->view('_template/footer', $data);	
+				}
+
+				else {
+					$this->invoice_model->update($id);
+					$this->session->set_flashdata('msg', 'Invoice Successfully Updated');
+					$ret = array(
+						'status' 	=> 'success',
+					);
+					echo json_encode($ret);
+				}
+
+			}	
 	}
 
 	public function edit_insurance($id){
@@ -731,12 +767,23 @@ class invoice extends CI_Controller {
 	}
 
 	public function delete($id="") {
-		if ($id=="") {
-			show_404();
-		}
-		$this->invoice_model->delete($id);	
-		$this->session->set_flashdata('msg', 'Invoice successfully deleted');
-		redirect(base_url().'invoice');
+
+			$a = $this->user_permision->check_action_permision('inv_del',$this->session->userdata('fcs_user_id'));
+
+
+			if($a['inv_del'] == 0){
+
+				redirect(base_url().'error_550');
+
+		     }else{
+				if ($id=="") {
+					show_404();
+				}
+				$this->invoice_model->delete($id);	
+				$this->session->set_flashdata('msg', 'Invoice successfully deleted');
+				redirect(base_url().'invoice');
+
+			}
 	}
 
 	public function aj_get_product_details($id) {
