@@ -80,10 +80,17 @@ class staff extends CI_Controller {
 					$this->load->view('staff/add_edit', $data);
 					$this->load->view('_template/footer', $data);
 				}
-				else{
-					$this->staff_model->add();
-					$this->session->set_flashdata('msg', 'New staff successfully created');
-					redirect(base_url().'staff');
+				else{	
+					$a = $this->staff_model->add();
+
+					if($a){
+
+						$a = $this->staff_model->add_permission($a,$this->input->post('role_id'));
+						$this->session->set_flashdata('msg', 'New staff successfully created');
+						redirect(base_url().'staff');
+					}	
+
+					
 				}
 
 			}
@@ -199,13 +206,13 @@ class staff extends CI_Controller {
 
 	public function staff_permission() {
 
-			// $a = $this->user_permision->check_action_permision('staff_view',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('user_permision_view',$this->session->userdata('fcs_user_id'));
 
 
-			// if($a['staff_view'] == 0){
+			if($a['user_permision_view'] == 0){
 
-			// 	redirect(base_url().'error_550');
-		 //     }else{
+				redirect(base_url().'error_550');
+		     }else{
 
 					$data['msg'] = $this->session->flashdata('msg');
 					$b_url = base_url().'staff/index';
@@ -224,33 +231,40 @@ class staff extends CI_Controller {
 			        $this->load->view('staff/staff_permission', $data);
 			        $this->load->view('_template/footer', $data);
 
-			// }        
+			}        
 	}
 
 
 		public function staff_permission_edit($id) {
-			$data ="";
 	
+			$a = $this->user_permision->check_action_permision('user_permision_edit',$this->session->userdata('fcs_user_id'));
+
+
+			if($a['user_permision_edit'] == 0){
+
+				redirect(base_url().'error_550');
+		     }else{
 
 					$data['msg'] = $this->session->flashdata('msg');
 					$data['staff_p'] = $this->staff_model->fetch_staff_permmission($id);
 
-					// $b_url = base_url().'staff/index';
-					// $t_rows = $this->staff_model->count();
-					// $pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
-					// $this->pagination->initialize($pageConfig);
-					// $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+						$this->load->helper(array('form'));
+						$this->load->library('form_validation');
+
+
+						if(isset($_POST['form_permission'])){
+									$this->user_permision->update_staff_permission($id);
+									$this->session->set_flashdata('msg', 'staff permission successfully updated');
+									redirect(base_url().'staff/staff_permission');
+						}
+
+								$this->load->view('_template/header', $data);
+								$this->load->view('staff/staff_permission_edit', $data);
+								$this->load->view('_template/footer', $data);
+
+			}
 					
-					// $data['staffx'] = $this->staff_model->fetch($pageConfig['per_page'], $page);
-					// $data['links'] = $this->pagination->create_links();
-
-					// $current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
-					// $data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
-
-					$this->load->view('_template/header', $data);
-			        $this->load->view('staff/staff_permission_edit', $data);
-			        $this->load->view('_template/footer', $data);
-
 		      
 	}
 

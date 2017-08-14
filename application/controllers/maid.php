@@ -402,10 +402,10 @@ class maid extends CI_Controller {
 
         public function view_full_details($id){
 
-	        $a = $this->user_permision->check_action_permision('maid_view',$this->session->userdata('fcs_user_id'));
+	        $a = $this->user_permision->check_action_permision('maid_view_bio',$this->session->userdata('fcs_user_id'));
 
 
-			if($a['maid_view'] == 0){
+			if($a['maid_view_bio'] == 0){
 
 				redirect(base_url().'error_550');
 		     }else{

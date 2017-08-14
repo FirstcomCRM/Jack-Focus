@@ -78,6 +78,9 @@ class invoice extends CI_Controller {
 			$data['sale_persons'] = $this->staff_model->get();
 			$data['packages'] = $this->package_model->get();
 			$data['insurances'] = $this->insurance_package_model->get();
+
+			
+			
 			//$data['sale_persons'] = $this->sale_person_model->get();
 			//$data['products']  = $this->product_model->get();
 			$this->load->view('_template/header', $data);
@@ -147,6 +150,9 @@ class invoice extends CI_Controller {
 					$this->form_validation->set_rules('customer_id', 'customer', 'required');
 					$this->form_validation->set_rules('quotation_date', 'date', 'required');
 					$this->form_validation->set_rules('gst', 'GST', 'required');
+
+					$fcs_role_id = $this->session->userdata('fcs_role_id');
+					$branch_id = $this->session->userdata('branch_id');
 
 					if($this->form_validation->run() === FALSE) {
 						$data['action'] = 'add';

@@ -35,14 +35,14 @@
     <div class="row">
                  <form role="form" id="JackForm"  method="post" enctype = "multipart/form-data">
                     
-                      <img style="width: 250px; height: 300px;" src = "<?= (isset($maid['maid_img'])) ? base_url().$maid['maid_img'] : base_url().'public/maid_pictures/ID-0.jpg' ?>" name="maid_img" class="img-responsive">
+<!--                       <img style="width: 250px; height: 300px;" src = "<?= (isset($maid['maid_img'])) ? base_url().$maid['maid_img'] : base_url().'public/maid_pictures/ID-0.jpg' ?>" name="maid_img" class="img-responsive">
                        
                                     <h5>.jpg files only *to be updated</h5>
                                     <input type="file" name="userfile" size="20"  />
 
                                     <br />                               
                                   
-                                    <input type="hidden" name="maid_id" value="<?= (isset($maid['maid_id'])) ? $maid['maid_id'] :  $maxid + 1  ?>">
+                                    <input type="hidden" name="maid_id" value="<?= (isset($maid['maid_id'])) ? $maid['maid_id'] :  $maxid + 1  ?>"> -->
                                   
           
 
@@ -62,7 +62,21 @@
             <div class="panel-heading">
                  <p> <?=$action=='add'?'BIODATA OF FOREIGN DOMESTIC WORKER (FDW) Please ensure that you run through the information within the biodata as it is an important document to help you select a suitable FDW':'Maid Info'?> </p>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="position: relative;">
+
+                <div style="position: absolute; top: 1%; right: 15%;">   
+
+                            <img style="width: 250px; height: 300px;" src = "<?= (isset($maid['maid_img'])) ? base_url().$maid['maid_img'] : base_url().'public/maid_pictures/ID-0.jpg' ?>" name="maid_img" class="img-responsive">
+                       
+                                    <h5>.jpg files only *to be updated</h5>
+                                    <input type="file" name="userfile" size="20"  />
+
+                                    <br />                               
+                                  
+                                    <input type="hidden" name="maid_id" value="<?= (isset($maid['maid_id'])) ? $maid['maid_id'] :  $maxid + 1  ?>">
+                                  
+                    
+                </div>
          
                 <div class="row">
                    

@@ -73,18 +73,34 @@
                               
                             </div>
                         </div>
+
+                        <!-- ($this->session->userdata('fcs_validate_user') !== 5) ? 'disabled' : ''?> -->
                         <div class="form-group">
                                 <div class="row">                            
-                                <div class="col-lg-4"><label>Branch</label></div>
+                                <div class="col-lg-4"><label>Branch <?=$this->session->userdata('branch_id')?></label></div>
                                 <div class="col-lg-6">
-                                    <select class="form-control input-sm" name="branch_id" id="branch_id">
-                                        <?php if ($branches!=''): ?>
-                                            <option value=""> - Please Select Branch - </option>
-                                            <?php foreach ($branches as $branch): ?>
-                                            <option value="<?=$branch['branch_id']?>" <?= isset($quotation['branch_id'])&&$quotation['branch_id']==$branch['branch_id']?'selected':'' ?> ><?= ucwords($branch['branch_name']) ?></option>
-                                          
-                                            <?php endforeach ?>
-                                        <?php endif ?>
+                                    <select class="form-control input-sm" name="branch_id" id="branch_id"  >
+
+                                            <?php if ($branches!=''): ?>
+                                               
+
+                                                <?php if($this->session->userdata('fcs_role_id') ==5){ ?>
+                                                          <option value="<?=$this->session->userdata('branch_id')?>" selected>
+                                                                  <?php foreach ($branches as $branch): ?>
+                                                                  <?= ($this->session->userdata('branch_id') == $branch['branch_id']) ? ucwords($branch['branch_name']) : '' ?>
+                                                                  <?php endforeach ?> 
+                                                          </option>
+                                                <?php }else { ?>
+                                                    <option value=""> - Please Select Branch - </option> 
+                                                      <?php foreach ($branches as $branch): ?>
+                                                   
+                                                      <option value="<?=$branch['branch_id']?>"  <?= isset($quotation['branch_id'])&&$quotation['branch_id']==$branch['branch_id']?'selected':'' ?> ><?= ucwords($branch['branch_name']) ?></option>
+                                                    
+                                                      <?php endforeach ?>
+                                                
+                                                <?php } ?>
+                                            <?php endif ?>
+
                                     </select>
                                 </div>
                               

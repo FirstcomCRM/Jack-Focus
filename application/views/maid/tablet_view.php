@@ -166,7 +166,7 @@
                             <?php if (!empty($maids)): ?>
                                 <?php foreach ($maids as $maid): ?>
                                 <tr>
-                                    <td><a title="Edit" href="<?=base_url()?>maid/edit_img/<?=$maid->maid_id?>">
+                                    <td><a title="Edit" href="<?=base_url()?>maid/view_full_details/<?=$maid->maid_id?>">
                                     <img class="img-rounded" src = "<?=base_url()?><?=$maid->maid_img?>" height="120" width="95">
                                     </a></td>
                                     <td><?=$maid->maid_ref_no?></td>
