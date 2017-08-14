@@ -376,29 +376,29 @@ class customer_maid_model extends CI_Model
     }
 
       public function count_maid_record(){
-        $this->db->select('m.maid_id,m.maid_name, c.customer_id , c.customer_name,qp.select_date, qp.total_amount');
+      $this->db->select('m.maid_id,m.maid_name, c.customer_id , c.customer_name, qp.select_date, qp.total_amount, qp.quotation_id');
         $this->db->from('maid m');
         $this->db->join('customer_maid c', 'c.customer_id=m.customer_id', 'left');
         $this->db->join('quotation_maid_product qp', 'qp.maid_id=m.maid_id', 'left');
   
         $this->db->where('m.active', 1);
         $this->db->where('c.active', 1);
-        $this->db->where('qp.active', 1);
+         $this->db->where('qp.active', 1);
 
-        if (isset($_GET['maid_name'])&&$_GET['maid_name']!='') {
-            $this->db->like('m.maid_name', $_GET['maid_name']);
+        if($this->session->userdata('fcs_role_id') == 4){
+             $this->db->where('m.supplier_id', $this->session->userdata('fcs_supplier_id'));
         }
 
-        if (isset($_GET['supplier_name'])&&$_GET['supplier_name']!='') {
-            $this->db->like('s.supplier_id', $_GET['supplier_name']);
-        }
 
-        if (isset($_GET['status_name'])&&$_GET['status_name']!='') {
-            $this->db->like('t.status_id', $_GET['status_name']);
+        if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
+            $this->db->like('customer_name', $_GET['customer_name']);
         }
-
-        if (isset($_GET['nationality_name'])&&$_GET['nationality_name']!='') {
-            $this->db->like('n.nationality_id', $_GET['nationality_name']);
+        
+        if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
+            $this->db->order_by($_GET['sort_by']);
+        }
+        else{
+            $this->db->order_by('customer_id','desc');
         }
 
         $query = $this->db->get();
@@ -415,10 +415,15 @@ class customer_maid_model extends CI_Model
         $this->db->where('c.active', 1);
          $this->db->where('qp.active', 1);
 
+        if($this->session->userdata('fcs_role_id') == 4){
+             $this->db->where('m.supplier_id', $this->session->userdata('fcs_supplier_id'));
+        }
+
+
         if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
             $this->db->like('customer_name', $_GET['customer_name']);
         }
-        $this->db->limit($limit, $start);
+             $this->db->limit($limit, $start);
         if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
             $this->db->order_by($_GET['sort_by']);
         }

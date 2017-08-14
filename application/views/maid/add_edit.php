@@ -64,7 +64,7 @@
             </div>
             <div class="panel-body" style="position: relative;">
 
-                <div style="position: absolute; top: 1%; right: 15%;">   
+                <div style="position: absolute; top: 1%; right: 15%; z-index: 9999;">   
 
                             <img style="width: 250px; height: 300px;" src = "<?= (isset($maid['maid_img'])) ? base_url().$maid['maid_img'] : base_url().'public/maid_pictures/ID-0.jpg' ?>" name="maid_img" class="img-responsive">
                        
@@ -87,11 +87,24 @@
                                     <div class="col-lg-2"><label>Supplier</label></div>
                                     <div class="col-lg-4">
                                         <select name="supplier_id" class="form-control input-sm" id="supplier" required>
-                                            <option value="">- Please Select Supplier -</option>
+                                           
                                             <?php if ($suppliers!=''): ?>
-                                                  <?php foreach ($suppliers as $supplier): ?>
-                                                    <option value="<?=$supplier['supplier_id']?>" <?=isset($_POST['supplier_id'])&&$supplier['supplier_id']==$_POST['supplier_id']?'select':(isset($maid['supplier_id'])&&$maid['supplier_id']==$supplier['supplier_id']?'selected':'')?>><?=$supplier['supplier_code']?></option>
-                                                    <?php endforeach ?>
+                                                <?php if($this->session->userdata('fcs_role_id') ==4){ ?>
+
+                                                            
+                                                        <option value="<?=$this->session->userdata('fcs_supplier_id')?>" selected>
+                                                                <?php foreach ($suppliers as $supplier): ?> 
+                                                                    <?= ($this->session->userdata('fcs_supplier_id') == $supplier['supplier_id']) ? ucwords($supplier['supplier_code']) : '' ?>
+                                                                <?php endforeach ?>                                                         
+                                                        </option>
+                                                       
+                                                <?php }else {?>
+                                                         <option value="">- Please Select Supplier -</option>
+                                                      <?php foreach ($suppliers as $supplier): ?>
+                                                        <option value="<?=$supplier['supplier_id']?>" <?=isset($_POST['supplier_id'])&&$supplier['supplier_id']==$_POST['supplier_id']?'select':(isset($maid['supplier_id'])&&$maid['supplier_id']==$supplier['supplier_id']?'selected':'')?>><?=$supplier['supplier_code']?></option>
+                                                        <?php endforeach ?>
+
+                                                <?php } ?>
                                             <?php endif ?>
                                         </select>
                                     </div>

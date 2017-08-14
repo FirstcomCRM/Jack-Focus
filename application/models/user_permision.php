@@ -36,6 +36,7 @@ class user_permision extends CI_Model
                              'maid_edit'             => $this->input->post('maid_edit'),
                              'maid_del'             => $this->input->post('maid_del'),
                              'maid_view_bio'             => $this->input->post('maid_view_bio'),
+                             'maid_tablet_view'             => $this->input->post('maid_tablet_view'),
                              'maid_loan_edit'             => $this->input->post('maid_loan_edit'),
                              'emp_view'             => $this->input->post('emp_view'),
                              'emp_edit'             => $this->input->post('emp_edit'),

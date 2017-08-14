@@ -3,7 +3,7 @@
     <div class="col-lg-12">
         <ol class="breadcrumb">
           <li><a href="<?=base_url()?>dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
-          <li class="active">Customer</li>
+          <li class="active">Employer</li>
         </ol>
     </div>
 </div>
@@ -19,7 +19,7 @@
     <div class="col-lg-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Customer Listing
+                Employer Listing
                 <div class="pull-right">
                     <div class="btn-group">
                         <a class="btn btn-default btn-xs" href="<?=base_url()?>customer_maid/add"><i class="fa fa-plus"></i> Add</a>
@@ -31,17 +31,17 @@
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <input class="form-control input-sm" name="customer_name" placeholder="Customer Name" value="<?=isset($_GET['customer_name'])?$_GET['customer_name']:''?>">
+                                <input class="form-control input-sm" name="customer_name" placeholder="Employer Name" value="<?=isset($_GET['customer_name'])?$_GET['customer_name']:''?>">
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <input class="form-control input-sm" name="customer_code" placeholder="Customer Code" value="<?=isset($_GET['customer_code'])?$_GET['customer_code']:''?>">
+                                <input class="form-control input-sm" name="customer_code" placeholder="Employer Code" value="<?=isset($_GET['customer_code'])?$_GET['customer_code']:''?>">
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <input class="form-control input-sm" name="customer_email" placeholder="Customer Email" value="<?=isset($_GET['customer_email'])?$_GET['customer_email']:''?>">
+                                <input class="form-control input-sm" name="customer_email" placeholder="Employer Email" value="<?=isset($_GET['customer_email'])?$_GET['customer_email']:''?>">
                             </div>
                         </div>
                         <div class="col-lg-2">

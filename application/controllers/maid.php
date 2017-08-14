@@ -487,48 +487,53 @@ class maid extends CI_Controller {
 	}
 
 	public function tablet_view() {
-		$data['action'] = 'tablet_view';
-		$data['msg'] = $this->session->flashdata('msg');
-		$b_url = base_url().'maid/tablet_view';
-		$t_rows = $this->maid_model->count();
-		// $pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
-		// $this->pagination->initialize($pageConfig);
-		// $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 		
-		$data['maids'] = $this->maid_model->fetch(0, 0);
-		// $data['links'] = $this->pagination->create_links();
 
-		// $current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
-		// $data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
-
-	
-		$data['suppliers'] = $this->supplier_model->get();
-		$data['statusx'] = $this->status_model->get();
-		$data['nationalities'] = $this->nationality_model->get();
-		$data['staffx'] = $this->staff_model->get();
-
-// cart part
-
-		$cart_item = array();
-			if($this->session->userdata('arr_data')){
-				$arr_item = $this->session->userdata('arr_data');
-				foreach($arr_item as $r){
-
-					$cart_item[] = $this->maid_model->fetchMaidCart($r);
-
-				}
+			$a = $this->user_permision->check_action_permision('maid_tablet_view',$this->session->userdata('fcs_user_id'));
 
 
-			 }			
+			if($a['maid_tablet_view'] == 0){
 
-		$data['cart_item'] = $cart_item; 
+				redirect(base_url().'error_550');
+		     }else{
+
+				$data['action'] = 'tablet_view';
+				$data['msg'] = $this->session->flashdata('msg');
+				$b_url = base_url().'maid/tablet_view';
+				$t_rows = $this->maid_model->count();
+			
+				
+				$data['maids'] = $this->maid_model->fetch(0, 0);
+			
+			
+				$data['suppliers'] = $this->supplier_model->get();
+				$data['statusx'] = $this->status_model->get();
+				$data['nationalities'] = $this->nationality_model->get();
+				$data['staffx'] = $this->staff_model->get();
+
+		// cart part
+
+				$cart_item = array();
+					if($this->session->userdata('arr_data')){
+						$arr_item = $this->session->userdata('arr_data');
+						foreach($arr_item as $r){
+
+							$cart_item[] = $this->maid_model->fetchMaidCart($r);
+
+						}
+
+
+					 }			
+
+				$data['cart_item'] = $cart_item; 
 
 
 
-		$this->load->view('_template/header', $data);
-        $this->load->view('maid/tablet_view', $data);
-        $this->load->view('_template/footer', $data);
+				$this->load->view('_template/header', $data);
+		        $this->load->view('maid/tablet_view', $data);
+		        $this->load->view('_template/footer', $data);
 
+		      }  
 
 	}
 

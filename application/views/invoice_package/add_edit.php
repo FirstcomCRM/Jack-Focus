@@ -77,7 +77,7 @@
                         <!-- ($this->session->userdata('fcs_validate_user') !== 5) ? 'disabled' : ''?> -->
                         <div class="form-group">
                                 <div class="row">                            
-                                <div class="col-lg-4"><label>Branch <?=$this->session->userdata('branch_id')?></label></div>
+                                <div class="col-lg-4"><label>Branch</label></div>
                                 <div class="col-lg-6">
                                     <select class="form-control input-sm" name="branch_id" id="branch_id"  >
 
@@ -293,14 +293,14 @@
                                             <option value="" selected> --- </option>
                                             <?php if($products != '') { ?>
                                                 <?php foreach($products as $product) {  
-                                                    echo "<option value='". $product['package_id'] . "' >" . $product['package_name'] . "</option>";
+                                                    echo "<option value='". $product['package_id'] . "' data_val = '".$product['package_price']."' >" . $product['package_name'] . "</option>";
                                                 } ?>
                                             <?php } ?>
                                         </select>   
                                     </div>
                                      <div class="col-lg-1"><label>Package Price</label></div>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control input-sm" name="unit_price" id='unit-price' placeholder="Enter Price" />
+                                            <input type="text" class="form-control input-sm" name="unit_price" id='unit-price' placeholder="Enter Price" readonly>
                                         </div>
                                                <!-- <div class="col-md-1">
                                                     <input type="text" class="form-control input-sm" name="quantity" id='quantity' placeholder="Qty" />
@@ -329,7 +329,7 @@
                                     <div class="col-lg-1"><label>Maid</label></div>
                                             <div class="col-md-5">
                                         <select class="form-control input-sm" name="product_maid_id" id="product_maid_id">
-                                            <option value="" selected> --- </option>
+                                            <option value="0" selected> --- </option>
                                             <?php if($maid_products != '') { ?>
                                                 <?php foreach($maid_products as $maid_product) {  
                                                     echo "<option value='". $maid_product['maid_id'] . "' >" . $maid_product['maid_code']." ".$maid_product['maid_name'] . "</option>";
@@ -357,17 +357,17 @@
                                         <div class="col-lg-1"><label>Insurance</label></div>
                                             <div class="col-md-3">
                                                 <select class="form-control input-sm" name="product_insurance_id" id="product_insurance_id">
-                                                <option value="" selected> --- </option>
+                                                <option value="0" selected> --- </option>
                                                     <?php if($insurance_products != '') { ?>
                                                         <?php foreach($insurance_products as $insurance_product) {  
-                                                            echo "<option value='". $insurance_product['insurance_id'] . "' >" . $insurance_product['insurance_name'] . "</option>";
+                                                    echo "<option value='". $insurance_product['insurance_id'] . "' data_val = '".$insurance_product['fee']."' >" . $insurance_product['insurance_name'] . "</option>";
                                                         } ?>
                                                     <?php } ?>
                                                 </select>   
                                             </div>
                                             <div class="col-lg-1"><label>Insurance Price</label></div>
                                             <div class="col-md-2">
-                                                <input type="text" class="form-control input-sm" name="unit_insurance_price" id='unit_insurance_price' placeholder="Insurance Fee" />
+                                                <input type="text" class="form-control input-sm" name="unit_insurance_price" id='unit_insurance_price' placeholder="Insurance Fee" readonly>
                                             </div>
                                                    <!-- <div class="col-md-1">
                                                         <input type="text" class="form-control input-sm" name="quantity" id='quantity' placeholder="Qty" />
@@ -465,6 +465,26 @@
     </div> 
 </div>
 <script>
+
+$(document).ready(function(){
+      $('#product-id').change(function(){
+       
+        var a = $(this).find('option:selected').attr('data_val');           
+          $('#unit-price').val(a);
+      });
+
+
+      
+
+       $('#product_insurance_id').change(function(){
+        
+        var a = $(this).find('option:selected').attr('data_val');           
+          $('#unit_insurance_price').val(a);
+      });
+});
+
+
+
    var burl = "<?= base_url() ?>";
    var state = "<?= $action ?>";
    var detailarr = {};

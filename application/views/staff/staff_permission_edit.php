@@ -53,6 +53,7 @@
                                         <p><label><input type="checkbox" name="maid_edit"  value="1"  <?=(isset($p->maid_edit) && $p->maid_edit == 1) ? 'checked' : ''?> > Edit Maid</label></p>
                                         <p><label><input type="checkbox" name="maid_del"  value="1"  <?=(isset($p->maid_del) && $p->maid_del == 1) ? 'checked' : ''?> > Delete Maid</label></p>
                                         <p><label><input type="checkbox" name="maid_view_bio"  value="1"  <?=(isset($p->maid_view_bio) && $p->maid_view_bio == 1) ? 'checked' : ''?> > View Maid Bio Data</label></p>
+                                         <p><label><input type="checkbox" name="maid_tablet_view"  value="1"  <?=(isset($p->maid_tablet_view) && $p->maid_tablet_view == 1) ? 'checked' : ''?> > Maid Tablet View</label></p>
                                         <p><label><input type="checkbox" name="maid_loan_edit"  value="1"  <?=(isset($p->maid_loan_edit) && $p->maid_loan_edit == 1) ? 'checked' : ''?> > Edit Maid Loan</label></p>
 
                                     </div>

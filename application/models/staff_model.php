@@ -36,6 +36,7 @@ class staff_model extends CI_Model
                 'fcs_username'         => $row->staff_username,
                 'fcs_role_id'          => $row->role_id,
                  'branch_id'          => $row->branch_id,
+                 'fcs_supplier_id'          => $row->supplier_id,
                 'fcs_validate_user'    => true,
             );
             $this->session->set_userdata($data);
@@ -96,6 +97,7 @@ class staff_model extends CI_Model
                              'staff_id'             => $id,
                              'maid_add'             => 1,   
                              'maid_view'             => 1,
+                              'maid_tablet_view'             => 1,
                              'maid_edit'             => 1,
                              'maid_del'             => 1,
                              'maid_view_bio'             => 1,
@@ -164,6 +166,7 @@ class staff_model extends CI_Model
                                  'maid_edit'             => 0,
                                  'maid_del'             => 0,
                                 'maid_view_bio'             => 0,
+                                'maid_tablet_view'             => 0,
                                  'maid_loan_edit'             => 0,
                                  'emp_view'             => 0,
                                  'emp_edit'             => 0,

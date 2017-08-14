@@ -431,6 +431,13 @@ class maid_model extends CI_Model
         $this->db->join('staff f', 'm.staff_id=f.staff_id','left', 'left');
         $this->db->join('branch b', 'm.branch_id=b.branch_id', 'left');
         $this->db->where('m.active', 1);
+
+        if($this->session->userdata('fcs_role_id') == 4){
+
+             $this->db->where('m.supplier_id', $this->session->userdata('fcs_supplier_id'));
+        }
+
+
         if (isset($_GET['maid_name'])&&$_GET['maid_name']!='') {
             $this->db->like('maid_name', $_GET['maid_name']);
         }
@@ -775,6 +782,13 @@ public function update_status($id){
         $this->db->join('staff f', 'm.staff_id=f.staff_id','left');
         $this->db->join('branch b', 'm.branch_id=b.branch_id', 'left');
         $this->db->where('m.active', 1);
+
+        if($this->session->userdata('fcs_role_id') == 4){
+
+             $this->db->where('m.supplier_id', $this->session->userdata('fcs_supplier_id'));
+        }
+
+
         if (isset($_GET['maid_name'])&&$_GET['maid_name']!='') {
             $this->db->like('maid_name', $_GET['maid_name']);
         }
@@ -829,6 +843,14 @@ public function update_status($id){
         $this->db->join('branch b', 'm.branch_id=b.branch_id', 'left');
         $this->db->where('m.active', 1);
         $this->db->where('m.maid_id >', $id);
+
+        if($this->session->userdata('fcs_role_id') == 4){
+
+             $this->db->where('m.supplier_id', $this->session->userdata('fcs_supplier_id'));
+        }
+
+
+
         $this->db->limit(20);
      
      if (isset($_GET['maid_name'])&&$_GET['maid_name']!='') {

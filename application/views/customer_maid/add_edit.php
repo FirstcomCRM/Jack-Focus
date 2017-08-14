@@ -125,14 +125,14 @@
                 </div>
         <div class="panel panel-primary">
             <div class="panel-heading">
-           <?=$action=='add'?'New':'Edit'?> Customer
+           <?=$action=='add'?'New':'Edit'?> Employer
             </div>
             <div class="panel-body">
             <form role="form" method="post" data-toggle="validator" >  
             
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Customer Info
+                    Employer Info
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -140,7 +140,7 @@
                              <div class="col-lg-6"> <!-- =================================  -->
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-lg-4"><label>Name</label></div>
+                                    <div class="col-lg-4"><label>FDW Name</label></div>
                                     <div class="col-lg-6 -field-block">
                                     <div class="help-block with-errors"></div>
                                         <input data-error="This field is required"  class="form-control input-sm" name="customer_name" value="<?=isset($_POST['customer_name'])?$_POST['customer_name']:(isset($customer['customer_name'])?$customer['customer_name']:'')?>" required>
@@ -343,6 +343,83 @@
                         </div>
                         
                     </div>
+
+                     <div class="row">
+                        <div class="col-lg-6">
+
+                             <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4"><label>Current Employer Name</label></div>
+                                    <div class="col-lg-6">
+                                        <input class="form-control input-sm" name="current_employer_name" value="<?= (isset($customer['current_employer_name'])?$customer['current_employer_name']:'') ?>"></div>
+                                    </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4"><label></label></div>
+                                    <div class="col-lg-6"></div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4"><label>Employer Name (AS IN NRIC)</label></div>
+                                    <div class="col-lg-6"><input class="form-control input-sm" name="employer_name" value="<?= (isset($customer['employer_name'])?$customer['employer_name']:'') ?>"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                     <div class="col-lg-4"><label>Employer Marital Status</label></div>
+                                     <div class="col-lg-6"><select name="employer_marital_status" class="form-control input-sm" id="employer_marital_status" >
+                                                                <option value="">- Please Select Marital Status -</option>
+                                                                <option value="single" <?= (isset($customer['employer_marital_status'])) ? ($customer['employer_marital_status'] == "single") ? "selected" : "" : "" ?>> Single </option>
+
+                                                                <option value="married" <?= (isset($customer['employer_marital_status'])) ? ($customer['employer_marital_status'] == "married") ? "selected" : "" : "" ?>> Married </option>
+
+                                                                <option value="divorced" <?= (isset($customer['employer_marital_status'])) ? ($customer['employer_marital_status'] == "divorced") ? "selected" : "" : "" ?>> Divorced </option>
+
+                                                                <option value="seperated" <?= (isset($customer['employer_marital_status'])) ? ($customer['employer_marital_status'] == "seperated") ? "selected" : "" : "" ?>> Seperated </option>
+
+                                                                <option value="widowed" <?= (isset($customer['employer_marital_status'])) ? ($customer['employer_marital_status'] == "widowed") ? "selected" : "" : "" ?>> Widowed </option>                                                             
+                                                           </select>
+                                    </div>
+                                </div>    
+                            </div> 
+
+
+                        </div>
+                        <div class="col-lg-6">
+                            
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4"><label>W/P No.</label></div>
+                                    <div class="col-lg-6"><input class="form-control input-sm" name="current_employer_wp_no" value="<?= (isset($customer['current_employer_wp_no'])?$customer['current_employer_wp_no']:'') ?>"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4"><label>FIN No.</label></div>
+                                    <div class="col-lg-6"><input class="form-control input-sm" name="current_employer_fin_no" value="<?= (isset($customer['current_employer_fin_no'])?$customer['current_employer_fin_no']:'') ?>"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4"><label>I/C No.</label></div>
+                                    <div class="col-lg-6"><input class="form-control input-sm" name="employer_ic_no" value="<?= (isset($customer['employer_ic_no'])?$customer['employer_ic_no']:'') ?>"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    
                 </div>
          
             </div>
@@ -514,7 +591,7 @@
             </div>
     </div>            
 </div>
-    <div class="panel panel-default">
+    <!-- <div class="panel panel-default">
         <div class="panel-heading">
                    FDW Info
         </div>
@@ -593,7 +670,7 @@
                         </div>
                     </div>
                 </div>   
-    </div>      
+    </div>     -->  
         
         <div class="container">
             <div class="row">
