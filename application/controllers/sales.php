@@ -21,7 +21,7 @@ class sales extends CI_Controller {
 
 	public function index() {
 
-			$a = $this->user_permision->check_action_permision('sales_view',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('sales_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['sales_view'] == 0){

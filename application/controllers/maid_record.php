@@ -18,6 +18,8 @@ class maid_record extends CI_Controller {
 	}
 
 	public function index() {
+		$data['b'] = $this->session->userdata('fcs_role_id');
+
 		$data['msg'] = $this->session->flashdata('msg');
 		$b_url = base_url().'customer_maid/maid_record';
 		$t_rows = $this->customer_maid_model->count_maid_record();

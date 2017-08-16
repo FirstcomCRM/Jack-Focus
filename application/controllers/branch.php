@@ -24,7 +24,7 @@ class branch extends CI_Controller {
 
 	public function index() {
 
-			$a = $this->user_permision->check_action_permision('branch_view',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('branch_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['branch_view'] == 0){
@@ -82,7 +82,7 @@ class branch extends CI_Controller {
 	public function add(){
 
 
-			$a = $this->user_permision->check_action_permision('branch_add',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('branch_add',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['branch_add'] == 0){
@@ -124,7 +124,7 @@ class branch extends CI_Controller {
 	public function edit($id){
 
 
-		$a = $this->user_permision->check_action_permision('branch_edit',$this->session->userdata('fcs_user_id'));
+		$a = $this->user_permision->check_action_permision('branch_edit',$this->session->userdata('fcs_role_id'));
 
 
 		if($a['branch_edit'] == 0){
@@ -171,7 +171,7 @@ class branch extends CI_Controller {
 
 
 
-			$a = $this->user_permision->check_action_permision('branch_del',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('branch_del',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['branch_del'] == 0){

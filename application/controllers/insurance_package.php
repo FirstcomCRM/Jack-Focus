@@ -21,7 +21,7 @@ class insurance_package extends CI_Controller {
 
 	public function index() {
 
-			$a = $this->user_permision->check_action_permision('insu_view',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('insu_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['insu_view'] == 0){
@@ -53,7 +53,7 @@ class insurance_package extends CI_Controller {
 	public function add(){
 
 
-			$a = $this->user_permision->check_action_permision('insu_add',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('insu_add',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['insu_add'] == 0){
@@ -95,7 +95,7 @@ class insurance_package extends CI_Controller {
 	public function edit($id){
 
 
-			$a = $this->user_permision->check_action_permision('insu_edit',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('insu_edit',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['insu_edit'] == 0){
@@ -144,7 +144,7 @@ class insurance_package extends CI_Controller {
 
 
 
-			$a = $this->user_permision->check_action_permision('insu_del',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('insu_del',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['insu_del'] == 0){

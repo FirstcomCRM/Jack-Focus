@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-lg-12">
         <ol class="breadcrumb">
-          <li><a href="<?=base_url()?>dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
+          <li><a href="<?=base_url()?>dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a></li>
           <li class="active">Maid</li>
         </ol>
     </div>
@@ -39,7 +39,9 @@
                         </div>
 
 
-
+                <?php if($b !== '4'){ ?>         
+      
+                  
                          <div class="col-lg-2">
                             <div class="form-group">
                                 <select class="form-control input-sm" name="supplier_name" id="supplier_id">
@@ -50,6 +52,8 @@
                                 </select>
                             </div>
                         </div>
+
+                <?php } ?>        
 
                         <div class="col-lg-2">
                             <div class="form-group">

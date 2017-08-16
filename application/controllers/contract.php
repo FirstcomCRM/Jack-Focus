@@ -22,7 +22,7 @@ class contract extends CI_Controller {
 	public function index() {
 
 
-			$a = $this->user_permision->check_action_permision('cont_view',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('cont_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['cont_view'] == 0){
@@ -53,7 +53,7 @@ class contract extends CI_Controller {
 	}
 	public function add(){
 
-			$a = $this->user_permision->check_action_permision('cont_add',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('cont_add',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['cont_add'] == 0){
@@ -94,7 +94,7 @@ class contract extends CI_Controller {
 
 	public function edit($id){
 
-			$a = $this->user_permision->check_action_permision('cont_edit',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('cont_edit',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['cont_edit'] == 0){
@@ -139,7 +139,7 @@ class contract extends CI_Controller {
 
 	public function delete($id="") {
 
-			$a = $this->user_permision->check_action_permision('cont_del',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('cont_del',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['cont_del'] == 0){

@@ -24,7 +24,7 @@ class customer_maid extends CI_Controller {
 	public function index() {
 
 		
-	 		 $a = $this->user_permision->check_action_permision('emp_view',$this->session->userdata('fcs_user_id'));
+	 		 $a = $this->user_permision->check_action_permision('emp_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['emp_view'] == 0){
@@ -58,7 +58,7 @@ class customer_maid extends CI_Controller {
 	}
 	public function add(){		
 
-		 $a = $this->user_permision->check_action_permision('emp_add',$this->session->userdata('fcs_user_id'));
+		 $a = $this->user_permision->check_action_permision('emp_add',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['emp_add'] == 0){
@@ -100,7 +100,7 @@ class customer_maid extends CI_Controller {
 	public function edit($id){
 
 
-		 $a = $this->user_permision->check_action_permision('emp_edit',$this->session->userdata('fcs_user_id'));
+		 $a = $this->user_permision->check_action_permision('emp_edit',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['emp_edit'] == 0){
@@ -150,7 +150,7 @@ class customer_maid extends CI_Controller {
 
 	public function delete($id="") {
 
-		 $a = $this->user_permision->check_action_permision('emp_del',$this->session->userdata('fcs_user_id'));
+		 $a = $this->user_permision->check_action_permision('emp_del',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['emp_del'] == 0){

@@ -10,12 +10,12 @@ class user_permision extends CI_Model
         $this->load->database();
     }
 
-     public function check_action_permision($menu,$staff_id){
+     public function check_action_permision($menu,$role_id){
 
-            if($menu !== '' && $staff_id !== 0 && $staff_id !== ''){
+            if($menu !== '' && $role_id !== 0 && $role_id !== ''){
                 $this->db->select($menu);
                 $this->db->from('user_permision');
-                $this->db->where('staff_id', $staff_id);
+                $this->db->where('role_id', $role_id);
 
                 $query = $this->db->get();
 
@@ -94,7 +94,7 @@ class user_permision extends CI_Model
            
            
         );
-        $this->db->where('staff_id', $id);
+        $this->db->where('role_id', $id);
         return $this->db->update('user_permision', $data);
 
      }

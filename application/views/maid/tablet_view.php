@@ -41,7 +41,7 @@
                             </div>
                         </div>
 
-
+                         <?php if($b !== '4'){ ?>   
 
                          <div class="col-lg-2">
                             <div class="form-group">
@@ -53,6 +53,8 @@
                                 </select>
                             </div>
                         </div>
+
+                        <?php } ?>
 
                         <div class="col-lg-2">
                             <div class="form-group">

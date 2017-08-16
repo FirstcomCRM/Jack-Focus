@@ -15,42 +15,64 @@ class nationality extends CI_Controller {
 		//	redirect(base_url().'error_403');
 		//}
 		$this->load->model('nationality_model');
+			$this->load->model('user_permision');
+		$this->load->library('session');
 	}
 
 	public function index() {
-		$data['msg'] = $this->session->flashdata('msg');
-		$b_url = base_url().'nationality/index';
-		$t_rows = $this->nationality_model->count();
-		$pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
-		$this->pagination->initialize($pageConfig);
-		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		
-		$data['nationalityx'] = $this->nationality_model->fetch($pageConfig['per_page'], $page);
-		$data['links'] = $this->pagination->create_links();
 
-		$current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
-		$data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
 
-		$this->load->view('_template/header', $data);
-        $this->load->view('nationality/index', $data);
-        $this->load->view('_template/footer', $data);
+			$a = $this->user_permision->check_action_permision('setup_view',$this->session->userdata('fcs_role_id'));
+
+
+		if($a['setup_view'] == 0){
+
+			redirect(base_url().'error_550');
+	     }else{
+				$data['msg'] = $this->session->flashdata('msg');
+				$b_url = base_url().'nationality/index';
+				$t_rows = $this->nationality_model->count();
+				$pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
+				$this->pagination->initialize($pageConfig);
+				$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+				
+				$data['nationalityx'] = $this->nationality_model->fetch($pageConfig['per_page'], $page);
+				$data['links'] = $this->pagination->create_links();
+
+				$current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
+				$data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
+
+				$this->load->view('_template/header', $data);
+		        $this->load->view('nationality/index', $data);
+		        $this->load->view('_template/footer', $data);
+		}        
 	}
 	public function add(){
-		$this->load->helper(array('form'));
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('nationality_name', 'nationality_name', 'required|callback_check_add_company_name');
 
-		if($this->form_validation->run() === FALSE) {
-			$data['action'] = 'add';
-			$this->load->view('_template/header', $data);
-			$this->load->view('nationality/add_edit', $data);
-			$this->load->view('_template/footer', $data);
-		}
-		else{
-			$this->nationality_model->add();
-			$this->session->set_flashdata('msg', 'New nationality successfully added');
-			redirect(base_url().'nationality');
-		}
+			$a = $this->user_permision->check_action_permision('setup_view',$this->session->userdata('fcs_role_id'));
+
+
+		if($a['setup_view'] == 0){
+
+			redirect(base_url().'error_550');
+	     }else{
+				$this->load->helper(array('form'));
+				$this->load->library('form_validation');
+				$this->form_validation->set_rules('nationality_name', 'nationality_name', 'required|callback_check_add_company_name');
+
+				if($this->form_validation->run() === FALSE) {
+					$data['action'] = 'add';
+					$this->load->view('_template/header', $data);
+					$this->load->view('nationality/add_edit', $data);
+					$this->load->view('_template/footer', $data);
+				}
+				else{
+					$this->nationality_model->add();
+					$this->session->set_flashdata('msg', 'New nationality successfully added');
+					redirect(base_url().'nationality');
+				}
+
+		}			
 	}
 
 	public function check_add_company_name(){
@@ -65,26 +87,39 @@ class nationality extends CI_Controller {
 	}
 
 	public function edit($id){
-		$data['nationality'] = $this->nationality_model->get($id);
-		if (empty($data['nationality'])) {
-			show_404();
-		}
-		$this->load->helper('form');
-		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('nationality_name', 'category', 'required|callback_check_edit_company_name['.$id.']');
 
-		if($this->form_validation->run() === FALSE) {
-			$data['action'] = 'edit';
-			$this->load->view('_template/header', $data);
-			$this->load->view('nationality/add_edit', $data);
-			$this->load->view('_template/footer', $data);	
-		}
-		else {
-			$this->nationality_model->update($id);
-			$this->session->set_flashdata('msg', 'Nationality successfully updated');
-			redirect(base_url().'nationality');
-		}
+			$a = $this->user_permision->check_action_permision('setup_view',$this->session->userdata('fcs_role_id'));
+
+
+		if($a['setup_view'] == 0){
+
+			redirect(base_url().'error_550');
+	     }else{
+				$data['nationality'] = $this->nationality_model->get($id);
+				if (empty($data['nationality'])) {
+					show_404();
+				}
+				$this->load->helper('form');
+				$this->load->library('form_validation');
+
+				$this->form_validation->set_rules('nationality_name', 'category', 'required|callback_check_edit_company_name['.$id.']');
+
+				if($this->form_validation->run() === FALSE) {
+					$data['action'] = 'edit';
+					$this->load->view('_template/header', $data);
+					$this->load->view('nationality/add_edit', $data);
+					$this->load->view('_template/footer', $data);	
+				}
+				else {
+					$this->nationality_model->update($id);
+					$this->session->set_flashdata('msg', 'Nationality successfully updated');
+					redirect(base_url().'nationality');
+				}
+
+		}			
+
+
 	}
 	public function check_edit_company_name($str, $id){
 		$nationality_name = $this->input->post('nationality_name');

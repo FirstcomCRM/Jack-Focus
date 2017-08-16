@@ -36,7 +36,7 @@ class invoice extends CI_Controller {
 
 		public function index() {
 
-				$a = $this->user_permision->check_action_permision('inv_view',$this->session->userdata('fcs_user_id'));
+				$a = $this->user_permision->check_action_permision('inv_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['inv_view'] == 0){
@@ -137,7 +137,7 @@ class invoice extends CI_Controller {
 		public function add_package(){
 
 
-			$a = $this->user_permision->check_action_permision('inv_add',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('inv_add',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['inv_add'] == 0){
@@ -643,7 +643,7 @@ class invoice extends CI_Controller {
 
 	public function edit_package($id){
 
-			$a = $this->user_permision->check_action_permision('inv_edit',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('inv_edit',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['inv_edit'] == 0){
@@ -774,7 +774,7 @@ class invoice extends CI_Controller {
 
 	public function delete($id="") {
 
-			$a = $this->user_permision->check_action_permision('inv_del',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('inv_del',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['inv_del'] == 0){

@@ -49,6 +49,15 @@
                                 <input class="form-control input-sm" name="employer_ic_no" placeholder="Employer I/C No." value="<?=isset($_GET['employer_ic_no'])?$_GET['employer_ic_no']:''?>">
                             </div>
                         </div>
+                           <div class="col-lg-2">
+                            <div class="form-group">
+                                <select name="sort_by" class="form-control input-sm">
+                                    <option value="DESC" <?=isset($_GET['sort_by']) ? ($_GET['sort_by'] == 'DESC') ? 'selected' : '':''?> >DESC</option>
+                                    <option value="ASC" <?=isset($_GET['sort_by']) ? ($_GET['sort_by'] == 'ASC') ? 'selected' : '':''?> >ASC</option>
+
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-lg-2">
                             <button type="submit" class="btn btn-default btn-sm">Search</button>
                         </div>
@@ -59,8 +68,11 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                            	<th>Customer Code</th>
+
+                            	<th>Employer Code</th>
                                 <th>Name</th>
+
+                    <?php if ($this->session->userdata('fcs_role_id') == '1' || $this->session->userdata('fcs_role_id') == '2') { ?>
                                 <th>Address</th>
                                 <th>Email</th>
                                 <th>Telephone</th>
@@ -69,14 +81,17 @@
                                 <th>Postal Code</th>
                                 <th>Branch Name</th>
                                 <th class="col-md-1">Action</th>
+                    <?php } ?>            
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (!empty($customers)): ?>
                                 <?php foreach ($customers as $customer): ?>
                                 <tr>
-                                    <td><?=$customer->customer_code?></td>
-                                    <td><?=$customer->customer_name?></td>
+                                    <td><a  href="<?=base_url()?>customer_maid/edit/<?=$customer->customer_id?>"><?=$customer->customer_code?></a></td>
+                                    <td><a  href="<?=base_url()?>customer_maid/edit/<?=$customer->customer_id?>"><?=$customer->customer_name?></a></td>
+
+                     <?php if ($this->session->userdata('fcs_role_id') == '1' || $this->session->userdata('fcs_role_id') == '2') { ?>                
                                     <td><?=$customer->customer_address?></td>
                                     <td><?=$customer->customer_email?></td>
                                     <td><?=$customer->customer_tel?></td>
@@ -88,6 +103,7 @@
                                         <a title="Edit" href="<?=base_url()?>customer_maid/edit/<?=$customer->customer_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
                                         <a title="Delete" href="<?=base_url()?>customer_maid/delete/<?=$customer->customer_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
                                     </td>
+                    <?php } ?>                
                                 </tr>
                                 <?php endforeach ?>
                             <?php endif ?>

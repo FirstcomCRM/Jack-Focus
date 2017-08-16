@@ -189,72 +189,7 @@ class customer_maid_model extends CI_Model
 
     public function count(){
 
-        if($this->session->userdata('fcs_role_id') == 1){
-                $this->db->select('*');
-                $this->db->where('active', 1);
-                if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
-                    $this->db->like('customer_name', $_GET['customer_name']);
-                }
-
-
-                if (isset($_GET['customer_code'])&&$_GET['customer_code']!='') {
-                    $this->db->like('customer_maid.customer_code', $_GET['customer_code']);
-                }
-
-                if (isset($_GET['customer_email'])&&$_GET['customer_email']!='') {
-                    $this->db->like('customer_maid.customer_email', $_GET['customer_email']);
-                }
-
-                if (isset($_GET['employer_ic_no'])&&$_GET['employer_ic_no']!='') {
-                    $this->db->like('customer_maid.employer_ic_no', $_GET['employer_ic_no']);
-                }
-
-
-                $query = $this->db->get('customer_maid');
-                return $query->num_rows(); 
-
-
-
-        }else{
-
-            if(isset($_GET['customer_name']) || isset($_GET['customer_code']) || isset($_GET['customer_email']) || isset($_GET['employer_ic_no'])){
-                $this->db->select('*');
-                $this->db->where('active', 1);
-                if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
-                    $this->db->like('customer_name', $_GET['customer_name']);
-                }
-
-
-                if (isset($_GET['customer_code'])&&$_GET['customer_code']!='') {
-                    $this->db->like('customer_maid.customer_code', $_GET['customer_code']);
-                }
-
-                if (isset($_GET['customer_email'])&&$_GET['customer_email']!='') {
-                    $this->db->like('customer_maid.customer_email', $_GET['customer_email']);
-                }
-
-                if (isset($_GET['employer_ic_no'])&&$_GET['employer_ic_no']!='') {
-                    $this->db->like('customer_maid.employer_ic_no', $_GET['employer_ic_no']);
-                }
-
-
-                $query = $this->db->get('customer_maid');
-                return $query->num_rows(); 
-
-            }
-
-
-
-        }
-
-
-        
-        return 0;    
-    }
-
-    public function fetch($limit, $start){
-            
-
+       
          if($this->session->userdata('fcs_role_id') == 1){
 
 
@@ -281,12 +216,109 @@ class customer_maid_model extends CI_Model
                     }
 
 
-                        $this->db->limit($limit, $start);
+                      
                         if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
-                            $this->db->order_by($_GET['sort_by']);
-                        }
+                                            $this->db->order_by('customer_maid.customer_id',$_GET['sort_by']);
+                                        }
                         else{
                             $this->db->order_by('customer_maid.customer_id','desc');
+                        }
+
+
+
+                       $query = $this->db->get();
+                     return $query->num_rows();
+
+
+         }else {
+
+
+                if(isset($_GET['customer_name']) || isset($_GET['customer_code']) || isset($_GET['customer_email']) || isset($_GET['employer_ic_no'])){
+
+                          if($_GET['customer_name']!='' || $_GET['customer_code']!='' || $_GET['customer_email']!='' || $_GET['employer_ic_no']!='')  {
+                                $this->db->select('customer_maid.*,branch.branch_name,branch.branch_code');
+                                $this->db->from('customer_maid');
+                                $this->db->where('customer_maid.active', 1);
+                                $this->db->join('branch', 'branch.branch_id = customer_maid.branch_id', 'left');
+
+                                if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
+                                    $this->db->like('customer_maid.customer_name', $_GET['customer_name']);
+                                }
+
+                                if (isset($_GET['customer_code'])&&$_GET['customer_code']!='') {
+                                    $this->db->like('customer_maid.customer_code', $_GET['customer_code']);
+                                }
+
+
+                                  if (isset($_GET['customer_email'])&&$_GET['customer_email']!='') {
+                                    $this->db->like('customer_maid.customer_email', $_GET['customer_email']);
+                                }
+
+                                  if (isset($_GET['employer_ic_no'])&&$_GET['employer_ic_no']!='') {
+                                    $this->db->like('customer_maid.employer_ic_no', $_GET['employer_ic_no']);
+                                }
+
+
+                                 
+                                     if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
+                                            $this->db->order_by('customer_maid.customer_id',$_GET['sort_by']);
+                                        }
+                        else{
+                            $this->db->order_by('customer_maid.customer_id','desc');
+                        }
+
+
+                               $query = $this->db->get();
+                               return $query->num_rows();
+
+                          }          
+
+                }
+
+
+         }  
+
+        
+        return 0;    
+    }
+
+    public function fetch($limit, $start){
+            
+
+         if($this->session->userdata('fcs_role_id') == 1){
+
+
+                    $this->db->select('a.*,branch.branch_name,branch.branch_code');
+                    $this->db->from('customer_maid a');
+                    $this->db->where('a.active', 1);
+                    $this->db->join('branch', 'branch.branch_id = a.branch_id', 'left');
+
+                    if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
+                        $this->db->like('a.customer_name', $_GET['customer_name']);
+                    }
+
+                    if (isset($_GET['customer_code'])&&$_GET['customer_code']!='') {
+                        $this->db->like('a.customer_code', $_GET['customer_code']);
+                    }
+
+
+                      if (isset($_GET['customer_email'])&&$_GET['customer_email']!='') {
+                        $this->db->like('a.customer_email', $_GET['customer_email']);
+                    }
+
+                      if (isset($_GET['employer_ic_no'])&&$_GET['employer_ic_no']!='') {
+                        $this->db->like('a.employer_ic_no', $_GET['employer_ic_no']);
+                    }
+
+
+                        $this->db->limit($limit, $start);
+                 
+
+                          if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
+                                            $this->db->order_by('a.customer_id',$_GET['sort_by']);
+                                        }
+                        else{
+                            $this->db->order_by('a.customer_id','desc');
                         }
 
 
@@ -305,46 +337,47 @@ class customer_maid_model extends CI_Model
 
                 if(isset($_GET['customer_name']) || isset($_GET['customer_code']) || isset($_GET['customer_email']) || isset($_GET['employer_ic_no'])){
 
-                    $this->db->select('customer_maid.*,branch.branch_name,branch.branch_code');
-                    $this->db->from('customer_maid');
-                    $this->db->where('customer_maid.active', 1);
-                    $this->db->join('branch', 'branch.branch_id = customer_maid.branch_id', 'left');
+                          if($_GET['customer_name']!='' || $_GET['customer_code']!='' || $_GET['customer_email']!='' || $_GET['employer_ic_no']!='')  {
+                                $this->db->select('customer_maid.*,branch.branch_name,branch.branch_code');
+                                $this->db->from('customer_maid a');
+                                $this->db->where('a.active', 1);
+                                $this->db->join('branch', 'branch.branch_id = a.branch_id', 'left');
 
-                    if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
-                        $this->db->like('customer_maid.customer_name', $_GET['customer_name']);
-                    }
+                                if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
+                                    $this->db->like('a.customer_name', $_GET['customer_name']);
+                                }
 
-                    if (isset($_GET['customer_code'])&&$_GET['customer_code']!='') {
-                        $this->db->like('customer_maid.customer_code', $_GET['customer_code']);
-                    }
-
-
-                      if (isset($_GET['customer_email'])&&$_GET['customer_email']!='') {
-                        $this->db->like('customer_maid.customer_email', $_GET['customer_email']);
-                    }
-
-                      if (isset($_GET['employer_ic_no'])&&$_GET['employer_ic_no']!='') {
-                        $this->db->like('customer_maid.employer_ic_no', $_GET['employer_ic_no']);
-                    }
+                                if (isset($_GET['customer_code'])&&$_GET['customer_code']!='') {
+                                    $this->db->like('a.customer_code', $_GET['customer_code']);
+                                }
 
 
-                        $this->db->limit($limit, $start);
-                        if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
-                            $this->db->order_by($_GET['sort_by']);
-                        }
-                        else{
-                            $this->db->order_by('customer_maid.customer_id','desc');
-                        }
+                                  if (isset($_GET['customer_email'])&&$_GET['customer_email']!='') {
+                                    $this->db->like('a.customer_email', $_GET['customer_email']);
+                                }
+
+                                  if (isset($_GET['employer_ic_no'])&&$_GET['employer_ic_no']!='') {
+                                    $this->db->like('a.employer_ic_no', $_GET['employer_ic_no']);
+                                }
 
 
-                        $query = $this->db->get();
+                                    $this->db->limit($limit, $start);
+                                       if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
+                                            $this->db->order_by('a.customer_id',$_GET['sort_by']);
+                                        }else{
+                                            $this->db->order_by('a.customer_id','desc');
+                                        }
 
-                        if ($query->num_rows() > 0) {
-                            foreach ($query->result() as $row) {
-                                $data[] = $row;
-                            }
-                            return $data;
-                        }
+                                    $query = $this->db->get();
+
+                                    if ($query->num_rows() > 0) {
+                                        foreach ($query->result() as $row) {
+                                            $data[] = $row;
+                                        }
+                                        return $data;
+                                    }
+
+                          }          
 
                 }
 
@@ -376,69 +409,231 @@ class customer_maid_model extends CI_Model
     }
 
       public function count_maid_record(){
-      $this->db->select('m.maid_id,m.maid_name, c.customer_id , c.customer_name, qp.select_date, qp.total_amount, qp.quotation_id');
-        $this->db->from('maid m');
-        $this->db->join('customer_maid c', 'c.customer_id=m.customer_id', 'left');
-        $this->db->join('quotation_maid_product qp', 'qp.maid_id=m.maid_id', 'left');
-  
-        $this->db->where('m.active', 1);
-        $this->db->where('c.active', 1);
-         $this->db->where('qp.active', 1);
+                
+                    if($this->session->userdata('fcs_role_id') == 1){
+                        $this->db->select('m.maid_code,m.maid_name, c.customer_code , c.customer_name, qp.select_date, qp.total_amount, qp.quotation_id');
+                        $this->db->from('maid m');
+                        $this->db->join('customer_maid c', 'c.customer_id=m.customer_id', 'left');
+                        $this->db->join('quotation_maid_product qp', 'qp.maid_id=m.maid_id', 'left');
+                  
+                        $this->db->where('m.active', 1);
+                        $this->db->where('c.active', 1);
+                         $this->db->where('qp.active', 1);
 
-        if($this->session->userdata('fcs_role_id') == 4){
-             $this->db->where('m.supplier_id', $this->session->userdata('fcs_supplier_id'));
+
+                            if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
+                            $this->db->like('c.customer_name', $_GET['customer_name']);
+                            }
+
+                            if (isset($_GET['customer_code'])&&$_GET['customer_code']!='') {
+                            $this->db->like('c.customer_code', $_GET['customer_code']);
+                            }
+
+
+                            if (isset($_GET['customer_email'])&&$_GET['customer_email']!='') {
+                            $this->db->like('c.customer_email', $_GET['customer_email']);
+                            }
+
+                            if (isset($_GET['employer_ic_no'])&&$_GET['employer_ic_no']!='') {
+                            $this->db->like('c.employer_ic_no', $_GET['employer_ic_no']);
+                            }
+
+
+                           
+                            if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
+                                $this->db->order_by('c.customer_id',$_GET['sort_by']);
+                            }
+                            else{
+                                $this->db->order_by('c.customer_id','desc');
+                            }
+                      
+                       
+
+                         $query = $this->db->get();
+                          return $query->num_rows(); 
+
+
+        }else{
+
+                 if(isset($_GET['customer_name']) || isset($_GET['customer_code']) || isset($_GET['customer_email']) || isset($_GET['employer_ic_no'])){
+
+                        if($_GET['customer_name']!='' || $_GET['customer_code']!='' || $_GET['customer_email']!='' || $_GET['employer_ic_no']!='')  {
+                                $this->db->select('m.maid_code,m.maid_name, c.customer_code , c.customer_name, qp.select_date, qp.total_amount, qp.quotation_id');
+                                $this->db->from('maid m');
+                                $this->db->join('customer_maid c', 'c.customer_id=m.customer_id', 'left');
+                                $this->db->join('quotation_maid_product qp', 'qp.maid_id=m.maid_id', 'left');
+                          
+                                $this->db->where('m.active', 1);
+                                $this->db->where('c.active', 1);
+                                 $this->db->where('qp.active', 1);
+
+
+                                       if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
+                                        $this->db->like('c.customer_name', $_GET['customer_name']);
+                                        }
+
+                                        if (isset($_GET['customer_code'])&&$_GET['customer_code']!='') {
+                                        $this->db->like('c.customer_code', $_GET['customer_code']);
+                                        }
+
+
+                                        if (isset($_GET['customer_email'])&&$_GET['customer_email']!='') {
+                                        $this->db->like('c.customer_email', $_GET['customer_email']);
+                                        }
+
+                                        if (isset($_GET['employer_ic_no'])&&$_GET['employer_ic_no']!='') {
+                                        $this->db->like('c.employer_ic_no', $_GET['employer_ic_no']);
+                                        }
+
+                                        
+
+                                       
+                                    
+                           
+                                        if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
+                                            $this->db->order_by('c.customer_id',$_GET['sort_by']);
+                                        }
+                                        else{
+                                            $this->db->order_by('c.customer_id','desc');
+                                        }
+
+
+                                         $query = $this->db->get();
+                                        return $query->num_rows(); 
+
+                        }
+
+
+
+         
+             }
+
+
         }
 
 
-        if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
-            $this->db->like('customer_name', $_GET['customer_name']);
-        }
-        
-        if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
-            $this->db->order_by($_GET['sort_by']);
-        }
-        else{
-            $this->db->order_by('customer_id','desc');
-        }
-
-        $query = $this->db->get();
-        return $query->num_rows(); 
+               return 0;
     }
 
     public function fetch_maid_record($limit, $start){
-        $this->db->select('m.maid_id,m.maid_name, c.customer_id , c.customer_name, qp.select_date, qp.total_amount, qp.quotation_id');
-        $this->db->from('maid m');
-        $this->db->join('customer_maid c', 'c.customer_id=m.customer_id', 'left');
-        $this->db->join('quotation_maid_product qp', 'qp.maid_id=m.maid_id', 'left');
-  
-        $this->db->where('m.active', 1);
-        $this->db->where('c.active', 1);
-         $this->db->where('qp.active', 1);
-
-        if($this->session->userdata('fcs_role_id') == 4){
-             $this->db->where('m.supplier_id', $this->session->userdata('fcs_supplier_id'));
-        }
 
 
-        if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
-            $this->db->like('customer_name', $_GET['customer_name']);
-        }
-             $this->db->limit($limit, $start);
-        if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
-            $this->db->order_by($_GET['sort_by']);
-        }
-        else{
-            $this->db->order_by('customer_id','desc');
-        }
-        $query = $this->db->get();
+         if($this->session->userdata('fcs_role_id') == 1){
+                        $this->db->select('m.maid_code,m.maid_name, c.customer_code , c.customer_name, qp.select_date, qp.total_amount, qp.quotation_id');
+                        $this->db->from('maid m');
+                        $this->db->join('customer_maid c', 'c.customer_id=m.customer_id', 'left');
+                        $this->db->join('quotation_maid_product qp', 'qp.maid_id=m.maid_id', 'left');
+                  
+                        $this->db->where('m.active', 1);
+                        $this->db->where('c.active', 1);
+                         $this->db->where('qp.active', 1);
 
-        if ($query->num_rows() > 0) {
-            foreach ($query->result() as $row) {
-                $data[] = $row;
-            }
-            return $data;
+
+                            if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
+                            $this->db->like('c.customer_name', $_GET['customer_name']);
+                            }
+
+                            if (isset($_GET['customer_code'])&&$_GET['customer_code']!='') {
+                            $this->db->like('c.customer_code', $_GET['customer_code']);
+                            }
+
+
+                            if (isset($_GET['customer_email'])&&$_GET['customer_email']!='') {
+                            $this->db->like('c.customer_email', $_GET['customer_email']);
+                            }
+
+                            if (isset($_GET['employer_ic_no'])&&$_GET['employer_ic_no']!='') {
+                            $this->db->like('c.employer_ic_no', $_GET['employer_ic_no']);
+                            }
+
+
+                            $this->db->limit($limit, $start);
+                       
+                           
+                            if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
+                                $this->db->order_by('c.customer_id',$_GET['sort_by']);
+                            }
+                            else{
+                                $this->db->order_by('c.customer_id','desc');
+                            }
+                      
+                        $query = $this->db->get();
+
+                        if ($query->num_rows() > 0) {
+                            foreach ($query->result() as $row) {
+                                $data[] = $row;
+                            }
+                            return $data;
+                        }
+
+
+        }else{
+
+                 if(isset($_GET['customer_name']) || isset($_GET['customer_code']) || isset($_GET['customer_email']) || isset($_GET['employer_ic_no'])){
+
+                        if($_GET['customer_name']!='' || $_GET['customer_code']!='' || $_GET['customer_email']!='' || $_GET['employer_ic_no']!='')  {
+                                $this->db->select('m.maid_code,m.maid_name, c.customer_code , c.customer_name, qp.select_date, qp.total_amount, qp.quotation_id');
+                                $this->db->from('maid m');
+                                $this->db->join('customer_maid c', 'c.customer_id=m.customer_id', 'left');
+                                $this->db->join('quotation_maid_product qp', 'qp.maid_id=m.maid_id', 'left');
+                          
+                                $this->db->where('m.active', 1);
+                                $this->db->where('c.active', 1);
+                                 $this->db->where('qp.active', 1);
+
+
+                                       if (isset($_GET['customer_name'])&&$_GET['customer_name']!='') {
+                                        $this->db->like('c.customer_name', $_GET['customer_name']);
+                                        }
+
+                                        if (isset($_GET['customer_code'])&&$_GET['customer_code']!='') {
+                                        $this->db->like('c.customer_code', $_GET['customer_code']);
+                                        }
+
+
+                                        if (isset($_GET['customer_email'])&&$_GET['customer_email']!='') {
+                                        $this->db->like('c.customer_email', $_GET['customer_email']);
+                                        }
+
+                                        if (isset($_GET['employer_ic_no'])&&$_GET['employer_ic_no']!='') {
+                                        $this->db->like('c.employer_ic_no', $_GET['employer_ic_no']);
+                                        }
+
+                                        
+
+                                        $this->db->limit($limit, $start);
+                                       
+                           
+                                        if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
+                                            $this->db->order_by('c.customer_id',$_GET['sort_by']);
+                                        }
+                                        else{
+                                            $this->db->order_by('c.customer_id','desc');
+                                        }
+
+
+                                        $query = $this->db->get();
+
+                                        if ($query->num_rows() > 0) {
+                                            foreach ($query->result() as $row) {
+                                                $data[] = $row;
+                                            }
+                                            return $data;
+                                        }
+
+                                        }
+
+
+
+         
+                        }
+
+
         }
+
         return false;
     }
 }
 // --------------------------------------------------------------------------------------------------------------------------
+
+

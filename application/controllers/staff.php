@@ -24,7 +24,7 @@ class staff extends CI_Controller {
 
 	public function index() {
 
-			$a = $this->user_permision->check_action_permision('staff_view',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('staff_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['staff_view'] == 0){
@@ -55,7 +55,7 @@ class staff extends CI_Controller {
 
 
 
-			$a = $this->user_permision->check_action_permision('staff_add',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('staff_add',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['staff_add'] == 0){
@@ -85,7 +85,7 @@ class staff extends CI_Controller {
 
 					if($a){
 
-						$a = $this->staff_model->add_permission($a,$this->input->post('role_id'));
+						$a = $this->staff_model->add_permission($this->input->post('role_id'));
 						$this->session->set_flashdata('msg', 'New staff successfully created');
 						redirect(base_url().'staff');
 					}	
@@ -123,7 +123,7 @@ class staff extends CI_Controller {
 
 	public function edit($id){
 
-			$a = $this->user_permision->check_action_permision('staff_edit',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('staff_edit',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['staff_edit'] == 0){
@@ -184,7 +184,7 @@ class staff extends CI_Controller {
 
 	public function delete($id="") {
 
-			$a = $this->user_permision->check_action_permision('staff_del',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('staff_del',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['staff_del'] == 0){
@@ -206,7 +206,7 @@ class staff extends CI_Controller {
 
 	public function staff_permission() {
 
-			$a = $this->user_permision->check_action_permision('user_permision_view',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('user_permision_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['user_permision_view'] == 0){
@@ -215,17 +215,9 @@ class staff extends CI_Controller {
 		     }else{
 
 					$data['msg'] = $this->session->flashdata('msg');
-					$b_url = base_url().'staff/index';
-					$t_rows = $this->staff_model->count();
-					$pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
-					$this->pagination->initialize($pageConfig);
-					$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 					
-					$data['staffx'] = $this->staff_model->fetch($pageConfig['per_page'], $page);
-					$data['links'] = $this->pagination->create_links();
-
-					$current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
-					$data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
+					$data['role'] = $this->staff_model->fetch_role();
+					
 
 					$this->load->view('_template/header', $data);
 			        $this->load->view('staff/staff_permission', $data);
@@ -237,7 +229,7 @@ class staff extends CI_Controller {
 
 		public function staff_permission_edit($id) {
 	
-			$a = $this->user_permision->check_action_permision('user_permision_edit',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('user_permision_edit',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['user_permision_edit'] == 0){

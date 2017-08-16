@@ -27,51 +27,40 @@
                 </div> -->
             </div>
             <div class="panel-body">
-                <form role="form" action="<?=base_url()?>maid">
+                <form role="form" action="<?=base_url()?>maid_record">
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <input class="form-control input-sm" name="maid_name" placeholder="Name" value="<?=isset($_GET['maid_name'])?$_GET['maid_name']:''?>">
+                                <input class="form-control input-sm" name="customer_name" placeholder="Employer Name" value="<?=isset($_GET['customer_name'])?$_GET['customer_name']:''?>">
                             </div>
                         </div>
-
-
-
-                         <div class="col-lg-2">
-                            <div class="form-group">
-                                <select class="form-control input-sm" name="supplier_name" id="supplier_id">
-                                    <option value=""> - All Suppliers - </option>
-                                    <?php foreach ($suppliers as $supplier): ?>
-                                    <option value="<?=$supplier['supplier_id']?>" <?=isset($_GET['supplier_name'])&&$_GET['supplier_name']==$supplier['supplier_id']?"selected":""?>><?=$supplier['supplier_name']?></option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                        </div>
-
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <select class="form-control input-sm" name="nationality_name" id="nationality_id">
-                                    <option value=""> - All Nationality - </option>
-                                    <?php foreach ($nationalities as $nationality): ?>
-                                    <option value="<?=$nationality['nationality_id']?>" <?=isset($_GET['nationality_name'])&&$_GET['nationality_name']==$nationality['nationality_id']?"selected":""?>><?=$nationality['nationality_name']?></option>
-                                    <?php endforeach ?>
-                                </select>
+                                <input class="form-control input-sm" name="customer_code" placeholder="Employer Code" value="<?=isset($_GET['customer_code'])?$_GET['customer_code']:''?>">
                             </div>
                         </div>
-
-                             <div class="col-lg-2">
+                        <div class="col-lg-2">
                             <div class="form-group">
-                                <select class="form-control input-sm" name="status_name" id="status_id">
-                                    <option value=""> - Status - </option>
-                                    <?php foreach ($statusx as $status): ?>
-                                    <option value="<?=$status['status_id']?>" <?=isset($_GET['status_name'])&&$_GET['status_name']==$status['status_id']?"selected":""?>><?=$status['status_name']?></option>
-                                    <?php endforeach ?>
+                                <input class="form-control input-sm" name="customer_email" placeholder="Employer Email" value="<?=isset($_GET['customer_email'])?$_GET['customer_email']:''?>">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <input class="form-control input-sm" name="employer_ic_no" placeholder="Employer I/C No." value="<?=isset($_GET['employer_ic_no'])?$_GET['employer_ic_no']:''?>">
+                            </div>
+                        </div>
+                         <div class="col-lg-2">
+                            <div class="form-group">
+                                <select name="sort_by" class="form-control input-sm">
+                                    <option value="DESC" <?=isset($_GET['sort_by']) ? ($_GET['sort_by'] == 'DESC') ? 'selected' : '':''?> >DESC</option>
+                                    <option value="ASC" <?=isset($_GET['sort_by']) ? ($_GET['sort_by'] == 'ASC') ? 'selected' : '':''?> >ASC</option>
+
                                 </select>
                             </div>
                         </div>
 
-                  
 
+          
 
                     
                         <!--insert here -->
@@ -85,9 +74,9 @@
                         <thead>
                             <tr>
                                 <th>Invoice No.</th>
-                                <th>Customer Id</th>
-                            	<th>Customer</th>
-                                <th>Maid Id</th>
+                                <th>Customer Code</th>
+                            	<th>Employer Name</th>
+                                <th>Maid Code</th>
                                 <th>Maid</th>
                                 <th>Select Date</th>
                                 <th>Total Amount</th>
@@ -102,9 +91,9 @@
          
                                  
                                     <td><?=$cnm->quotation_id?></td>
-                                    <td><?=$cnm->customer_id?></td>
+                                    <td><?=$cnm->customer_code?></td>
                                     <td><?=$cnm->customer_name?></td>
-                                    <td><?=$cnm->maid_id?></td>
+                                    <td><?=$cnm->maid_code?></td>
                                     <td><?=$cnm->maid_name?></td>
                                     <td><?=$cnm->select_date?></td>
                                     <td><?=$cnm->total_amount?></td>

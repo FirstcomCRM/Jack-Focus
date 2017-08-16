@@ -55,23 +55,21 @@
                             <tr>
                                 
                                
-                                <th>Username</th>
-                                <th>Branch</th>
                                 <th>Role</th>
+                            
                                 <th class="col-md-1">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (!empty($staffx)): ?>
-                                <?php foreach ($staffx as $staff): ?>
+                            <?php if (!empty($role)): ?>
+                                <?php foreach ($role as $r): ?>
                                 <tr>
                                     
                         
-                                    <td><?=$staff->staff_username?></td>
-                                    <td><?=$staff->branch_name?></td>
-                                    <td><?=$staff->role_title?></td>
+                                    <td><?=$r->role_title?></td>
+                                 
                                     <td>
-                                        <a title="Edit" href="<?=base_url()?>staff/staff_permission_edit/<?=$staff->staff_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
+                                     <a title="Edit" href="<?=base_url()?>staff/staff_permission_edit/<?=$r->role_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp 
                                      
                                     </td>
                                 </tr>
@@ -83,12 +81,7 @@
             </div>
             <div class="panel-footer">
                 <div class="row">
-                    <div class="col-lg-6 text-left">
-                        <strong><?php echo $pagination_msg?></strong>
-                    </div>
-                    <div class="col-lg-6 text-right">
-                        <?php echo $links; ?>
-                    </div>
+                 
                 </div>
             </div>
         </div>

@@ -72,7 +72,7 @@ class staff_model extends CI_Model
     }
 
 
-    public function add_permission($id,$role) {
+    public function add_permission($role) {
         // $data = array(
         //     'staff_branch'    => $this->input->post('staff_branch'),
         //     'staff_name'      => $this->input->post('staff_name'),
@@ -94,7 +94,7 @@ class staff_model extends CI_Model
 
         if($role == 1){
              $data = array(
-                             'staff_id'             => $id,
+                             'role_id'             => $role,
                              'maid_add'             => 1,   
                              'maid_view'             => 1,
                               'maid_tablet_view'             => 1,
@@ -160,7 +160,7 @@ class staff_model extends CI_Model
         }else{
 
                   $data = array(
-                                'staff_id'             => $id,
+                                'role_id'             => $role,
                                  'maid_add'             => 0,   
                                  'maid_view'             => 0,
                                  'maid_edit'             => 0,
@@ -303,10 +303,9 @@ class staff_model extends CI_Model
 
 
     public function fetch_staff_permmission($id){
-        $this->db->select('a.*,b.staff_username');
-        $this->db->from('user_permision a');
-        $this->db->join('staff b', 'a.staff_id=b.staff_id', 'left');       
-        $this->db->where('a.staff_id', $id);
+        $this->db->select('a.*');
+        $this->db->from('user_permision a');        
+        $this->db->where('a.role_id', $id);
         $this->db->limit(1);
    
         $query = $this->db->get();
@@ -373,6 +372,24 @@ class staff_model extends CI_Model
         }
         return false;
     }
+
+
+      public function fetch_role(){
+        $this->db->select('s.*');
+        $this->db->from('role_staff_maid s');      
+        $this->db->where('s.active', 1);
+       
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
 
 
 

@@ -22,7 +22,7 @@ class announcement extends CI_Controller {
 
 	public function index() {
 
-				$a = $this->user_permision->check_action_permision('announcement_view',$this->session->userdata('fcs_user_id'));
+				$a = $this->user_permision->check_action_permision('announcement_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['announcement_view'] == 0){
@@ -53,7 +53,7 @@ class announcement extends CI_Controller {
 	}
 	public function add(){
 
-			$a = $this->user_permision->check_action_permision('announcement_add',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('announcement_add',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['announcement_add'] == 0){
@@ -92,7 +92,7 @@ class announcement extends CI_Controller {
 
 	public function edit($id){
 
-			$a = $this->user_permision->check_action_permision('announcement_edit',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('announcement_edit',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['announcement_edit'] == 1){
@@ -138,7 +138,7 @@ class announcement extends CI_Controller {
 
 	public function delete($id="") {
 
-			$a = $this->user_permision->check_action_permision('announcement_del',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('announcement_del',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['announcement_del'] == 1){

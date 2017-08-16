@@ -29,7 +29,9 @@ class maid extends CI_Controller {
 
 	public function index() {
 
-		$a = $this->user_permision->check_action_permision('maid_view',$this->session->userdata('fcs_user_id'));
+		$data['b'] = $this->session->userdata('fcs_role_id');
+
+		$a = $this->user_permision->check_action_permision('maid_view',$this->session->userdata('fcs_role_id'));
 
 
 		if($a['maid_view'] == 0){
@@ -131,7 +133,7 @@ class maid extends CI_Controller {
 
 	public function add(){
 
-			$a = $this->user_permision->check_action_permision('maid_add',$this->session->userdata('fcs_user_id'));
+			$a = $this->user_permision->check_action_permision('maid_add',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['maid_add'] == 0){
@@ -218,7 +220,7 @@ class maid extends CI_Controller {
 	public function edit($id){	
 
 
-		$a = $this->user_permision->check_action_permision('maid_edit',$this->session->userdata('fcs_user_id'));
+		$a = $this->user_permision->check_action_permision('maid_edit',$this->session->userdata('fcs_role_id'));
 
 
 		if($a['maid_edit'] == 0){
@@ -310,7 +312,7 @@ class maid extends CI_Controller {
 
 	public function delete($id="") {
 
-		 $a = $this->user_permision->check_action_permision('maid_del',$this->session->userdata('fcs_user_id'));
+		 $a = $this->user_permision->check_action_permision('maid_del',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['maid_del'] == 0){
@@ -402,7 +404,7 @@ class maid extends CI_Controller {
 
         public function view_full_details($id){
 
-	        $a = $this->user_permision->check_action_permision('maid_view_bio',$this->session->userdata('fcs_user_id'));
+	        $a = $this->user_permision->check_action_permision('maid_view_bio',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['maid_view_bio'] == 0){
@@ -440,7 +442,7 @@ class maid extends CI_Controller {
 
 	 public function print_maid_info($id){
 
-	 		 $a = $this->user_permision->check_action_permision('maid_view',$this->session->userdata('fcs_user_id'));
+	 		 $a = $this->user_permision->check_action_permision('maid_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['maid_view'] == 0){
@@ -488,8 +490,9 @@ class maid extends CI_Controller {
 
 	public function tablet_view() {
 		
-
-			$a = $this->user_permision->check_action_permision('maid_tablet_view',$this->session->userdata('fcs_user_id'));
+			$data['b'] = $this->session->userdata('fcs_role_id');
+			
+			$a = $this->user_permision->check_action_permision('maid_tablet_view',$this->session->userdata('fcs_role_id'));
 
 
 			if($a['maid_tablet_view'] == 0){
