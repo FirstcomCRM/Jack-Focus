@@ -5,6 +5,7 @@ class login extends CI_Controller {
 		parent::__construct();
 		$this->load->model('user_model');
 		$this->load->model('staff_model');
+		$this->load->model('user_permision');
 		
 		if( $this->session->userdata('fcs_validate_user') ) {
 			redirect(base_url().'dashboard');
@@ -14,10 +15,13 @@ class login extends CI_Controller {
 
 	public function index() {
 
+			
 	
 			$this->load->helper('form');
 			$this->load->library('form_validation');
 			$data = '';
+
+
 			$this->form_validation->set_rules('username', 'Username', 'required|callback_check_user_username');
 			$this->form_validation->set_rules('password', 'Password', 'required|callback_check_user_password');
 			if ($this->form_validation->run() === FALSE) {
@@ -25,6 +29,8 @@ class login extends CI_Controller {
 			}
 			else {
 	              redirect(base_url().'dashboard');
+
+	              // $data['permission'] = $this->user_permision->permission_menu_list(1);
 			}
 
 		

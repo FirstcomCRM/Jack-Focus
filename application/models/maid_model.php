@@ -8,6 +8,13 @@ class maid_model extends CI_Model
     function __construct(){
         parent::__construct();
         $this->load->database();
+
+          $CI =& get_instance();
+         $CI->load->model('customer_maid_model');
+       
+
+
+
     }
     public function get($id=FALSE){
         if ($id === FALSE) {
@@ -552,11 +559,12 @@ class maid_model extends CI_Model
   //   }
 
 
-    public function fetch_maid_desc_edit($id){
+
+     public function single_fetch($id){
         $this->db->select('m.*');
-        $this->db->from('maid m');       
+        $this->db->from('maid m');    
         $this->db->where('m.active', 1);
-         $this->db->where('m.maid_id', $id);
+        $this->db->where('m.maid_id', $id);
 
         $query = $this->db->get();
 
@@ -569,19 +577,78 @@ class maid_model extends CI_Model
         return false;
     }
 
+
+    public function fetch_maid_desc_edit($id){
+        $this->db->select('m.maid_name,maid_code,b.*,c.customer_name');
+        $this->db->from('maid m'); 
+        $this->db->join('maid_deployment_dtl b', 'm.maid_id=b.maid_id', 'left');  
+        $this->db->join('customer_maid c', 'b.customer_id=c.customer_id', 'left');  
+        $this->db->where('m.active', 1);
+        $this->db->where('m.maid_id', $id);
+        $this->db->where('b.active', 1);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+
+
+
     public function update_maid_desc($id){
         $data = array(
-            'maid_amount'             => $this->input->post('maid_amount'),
-            'maid_description'  => $this->input->post('maid_description'),
-             'balance_loan'  => $this->input->post('balance_loan'),
-              'used_loan'  => $this->input->post('used_loan'),
-               'top_up'  => $this->input->post('top_up'),
-   
+            'date_deploy'             => $this->input->post('date_deploy'),
+            'date_deploy'  => $this->input->post('date_deploy'),
+            'top_up_placement_fee'  => $this->input->post('top_up_placement_fee'),
+            'refund'  => $this->input->post('refund'),          
+            'refund'  => $this->input->post('refund'),
+            'date_return'  => $this->input->post('date_return'),
+            'paid_placement_fee'  => $this->input->post('paid_placement_fee'),
+            'gst_on_agency_p_fee'  => $this->input->post('gst_on_agency_p_fee'),
+            'customer_id'  => $this->input->post('customer_id'),
+            'overseas_placement_fee'  => $this->input->post('overseas_placement_fee'),  
+            't_bal_p_fee'  => $this->input->post('t_bal_p_fee'),
+            'bal_placement_fee'  => $this->input->post('bal_placement_fee'),
+
            
         );
         $this->db->where('maid_id', $id);
         return $this->db->update('maid', $data);
     }
+
+
+
+        public function ins_maid_desc(){
+        $data = array(
+              'maid_id'             => $this->input->post('maid_id'),
+            'date_deploy'             => $this->input->post('date_deploy'),          
+            'top_up_placement_fee'  => $this->input->post('top_up_placement_fee'),                 
+            'refund'  => $this->input->post('refund'),
+            'date_return'  => $this->input->post('date_return'),
+            'paid_placement_fee'  => $this->input->post('paid_placement_fee'),
+            'gst_on_agency_p_fee'  => $this->input->post('gst_on_agency_p_fee'),
+            'customer_id'  => $this->input->post('customer_id'),
+            'overseas_placement_fee'  => $this->input->post('overseas_placement_fee'),  
+            't_bal_p_fee'  => $this->input->post('t_bal_p_fee'),
+            'bal_placement_fee'  => $this->input->post('bal_placement_fee'),
+            'active'  => 1
+
+           
+        );
+       
+          $this->db->insert('maid_deployment_dtl', $data);
+          return $this->db->insert_id();
+    }
+
+
+
+
 
 
 
@@ -601,6 +668,14 @@ class maid_model extends CI_Model
         );
         $this->db->where('maid_id', $id);
         return $this->db->update('maid', $data);
+    }
+
+    public function delete_maid_dep($id){
+        $data = array(
+            'active'          => 0,
+        );
+        $this->db->where('maid_dep_id', $id);
+        return $this->db->update('maid_deployment_dtl', $data);
     }
 
 
@@ -699,12 +774,13 @@ class maid_model extends CI_Model
             $query = $this->db->get('maid');
             return $query->result_array();
         }
-        $this->db->select('m.*, s.supplier_name, t.status_name, n.nationality_name,b.branch_name,f.staff_name');
+        $this->db->select('m.*, s.supplier_name, t.status_name, n.nationality_name,b.branch_name,f.staff_name,e.customer_name');
         $this->db->from('maid m');
-        $this->db->join('supplier_maid s', 'm.supplier_id=s.supplier_id');
-        $this->db->join('status t', 'm.status_id=t.status_id');
-        $this->db->join('nationality n', 'm.nationality_id=n.nationality_id');
-        $this->db->join('staff f', 'm.staff_id=f.staff_id');
+        $this->db->join('supplier_maid s', 'm.supplier_id=s.supplier_id', 'left');
+        $this->db->join('status t', 'm.status_id=t.status_id', 'left');
+        $this->db->join('customer_maid e', 'm.maid_employer=e.customer_id', 'left');
+        $this->db->join('nationality n', 'm.nationality_id=n.nationality_id', 'left');
+        $this->db->join('staff f', 'm.staff_id=f.staff_id', 'left');
         $this->db->join('branch b', 'm.branch_id=b.branch_id', 'left');
         $this->db->where('m.maid_id', $id);
 
@@ -836,10 +912,10 @@ public function update_status($id){
 
         $this->db->select('m.*, s.supplier_name, t.*, n.*,b.*, f.staff_name');
         $this->db->from('maid m');
-        $this->db->join('supplier_maid s', 'm.supplier_id=s.supplier_id');
-        $this->db->join('status t', 'm.status_id=t.status_id');
-        $this->db->join('nationality n', 'm.nationality_id=n.nationality_id');
-        $this->db->join('staff f', 'm.staff_id=f.staff_id');
+        $this->db->join('supplier_maid s', 'm.supplier_id=s.supplier_id', 'left');
+        $this->db->join('status t', 'm.status_id=t.status_id', 'left');
+        $this->db->join('nationality n', 'm.nationality_id=n.nationality_id', 'left');
+        $this->db->join('staff f', 'm.staff_id=f.staff_id', 'left');
         $this->db->join('branch b', 'm.branch_id=b.branch_id', 'left');
         $this->db->where('m.active', 1);
         $this->db->where('m.maid_id >', $id);
@@ -891,6 +967,54 @@ public function update_status($id){
 
      }
 
+
+     public function get_maid_dep($id){
+
+        $this->db->select('a.*,m.maid_id,m.maid_name,m.maid_code');
+        $this->db->from('maid_deployment_dtl a');
+        $this->db->join('maid m', 'a.maid_id=m.maid_id', 'left');   
+        $this->db->where('a.active', 1);
+        $this->db->where('m.active', 1);
+        $this->db->where('a.maid_dep_id', $id);
+
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+
+     }
+
+
+
+     public function update_maid_dep($id){
+
+        $data = array(            
+            'date_deploy'             => $this->input->post('date_deploy'),          
+            'top_up_placement_fee'  => $this->input->post('top_up_placement_fee'),                 
+            'refund'  => $this->input->post('refund'),
+            'date_return'  => $this->input->post('date_return'),
+            'paid_placement_fee'  => $this->input->post('paid_placement_fee'),
+            'gst_on_agency_p_fee'  => $this->input->post('gst_on_agency_p_fee'),
+            'customer_id'  => $this->input->post('customer_id'),
+            'overseas_placement_fee'  => $this->input->post('overseas_placement_fee'),  
+            't_bal_p_fee'  => $this->input->post('t_bal_p_fee'),
+            'bal_placement_fee'  => $this->input->post('bal_placement_fee')
+            );
+
+
+
+             $this->db->where('maid_dep_id', $id);
+            return $this->db->update('maid_deployment_dtl', $data);
+
+
+            return false;
+     }
 
 
 

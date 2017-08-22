@@ -8,6 +8,7 @@ class staff_model extends CI_Model
     function __construct(){
         parent::__construct();
         $this->load->database();
+            $this->load->model('user_permision');
     }
     public function get($id=FALSE){
         if ($id === FALSE) {
@@ -40,6 +41,12 @@ class staff_model extends CI_Model
                 'fcs_validate_user'    => true,
             );
             $this->session->set_userdata($data);
+
+              $arr_menu = $this->user_permision->permission_menu_list($row->role_id);
+              $this->session->set_userdata($arr_menu);
+
+
+
             return $row;
         }
         return false;

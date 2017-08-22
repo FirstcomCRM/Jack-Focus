@@ -20,17 +20,19 @@
 </div>
 
 
-<!-- <?php print_r($emp_name); ?> -->
+<?php if(!empty($maid_dep)){
 
-<!-- /.row -->
+         foreach($maid_dep as $x){
+
+    ?>
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
-               Maid Deployment Detail
+              Edit
                <div class="pull-right">
                     <div class="btn-group">
-                        <a class="btn btn-default btn-xs" href="<?=base_url()?>maid/maid_desc"></i> Back</a>
+                        <a class="btn btn-default btn-xs" href="<?=base_url()?>maid/maid_desc_edit/<?=$x->maid_id?>"></i> Back</a>
                     </div>
              </div>
             </div>
@@ -44,33 +46,30 @@
                     </div>
                     <?php } ?>
                 </div>
+
+
+
+
+
                  <form role="form" method="post">
 
                    <div class="row">
                    
                         <div class="col-lg-4">
 
-                                    <?php 
-                                        if(!empty($maids)){
-                                            foreach($maids as $r){
-                                                $maid_code = $r->maid_code;
-                                                $maid_name = $r->maid_name;
-                                                 $maid_id = $r->maid_id;
-                                              
+                                 
 
 
-                                            }
-                                        }
+                                  
 
-                                    ?>
 
-                                      <input type="hidden" class="form-control input-sm" name="maid_id"  value="<?=isset($maid_id) ? $maid_id : '' ?>" >   
+                                      <input type="hidden" class="form-control input-sm" name="maid_id"  value="<?=(isset($x->maid_id)) ? $x->maid_id : '' ?>" >   
 
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-lg-4"><label>Maid Code</label></div>
                                             <div class="col-lg-6 required-field-block">
-                                                <input class="form-control input-sm"  name="maid_code" value="<?=isset($maid_code) ? $maid_code : '' ?>" readonly>
+                                                <input class="form-control input-sm"  name="maid_code" value="<?=(isset($x->maid_code)) ? $x->maid_code : '' ?>" readonly>
                                       
                                             </div>
                                         </div>
@@ -85,7 +84,7 @@
 			                                    <div class="col-lg-4"><label>	Date Deploy	</label></div>
 			                                    	<div class="col-lg-6 required-field-block">
 			                                        <div class="input-group date " data-provide="datepicker">
-			                                            <input type="text" name="date_deploy" class="form-control" value="">
+			                                            <input type="text" name="date_deploy" class="form-control" value="<?=(isset($x->date_deploy)) ? $x->date_deploy : '' ?>">
 			                                        <div class="input-group-addon">
 			                                            <span class="glyphicon glyphicon-calendar" ></span>
 			                                        </div>
@@ -100,7 +99,7 @@
                                         <div class="row">
                                             <div class="col-lg-4"><label>Agency / Top Up Placement Fee  </label></div>
                                             <div class="col-lg-6 required-field-block">
-                                                <input id="top_fee" class="form-control input-sm number_in calc_add_bal_fee" name="top_up_placement_fee" value="<?=isset($maid_amount) ? $maid_amount : '' ?>">
+                                                <input id="top_fee" class="form-control input-sm number_in calc_add_bal_fee" name="top_up_placement_fee" value="<?=(isset($x->top_up_placement_fee)) ? $x->top_up_placement_fee : '' ?>">
                                        
                                             </div>
                                         </div>
@@ -112,7 +111,7 @@
                                         <div class="row">
                                             <div class="col-lg-4"><label> Refund  </label></div>
                                             <div class="col-lg-6 required-field-block">
-                                                <input id="refund" class="form-control input-sm number_in calc_add_bal_fee" name="refund" value="<?=isset($maid_amount) ? $maid_amount : '' ?>">
+                                                <input id="refund" class="form-control input-sm number_in calc_add_bal_fee" name="refund" value="<?=(isset($x->refund)) ? $x->refund : '' ?>">
                                        
                                             </div>
                                         </div>
@@ -131,7 +130,7 @@
                                         <div class="row">
                                             <div class="col-lg-4"><label>Maid Name</label></div>
                                             <div class="col-lg-6 required-field-block">
-                                                <input class="form-control input-sm" name="maid_name"  value="<?=isset($maid_name) ? $maid_name : '' ?>" disabled>
+                                                <input class="form-control input-sm" name="maid_name"  value="<?=(isset($x->maid_name)) ? $x->maid_name : '' ?>" disabled>
                                          
                                             </div>
                                         </div>
@@ -145,7 +144,7 @@
 	                                    <div class="col-lg-4"><label>	Date Return	</label></div>
 	                                    	<div class="col-lg-6 required-field-block">
 	                                        <div class="input-group date " data-provide="datepicker">
-	                                            <input type="text" name="date_return" class="form-control" value="">
+	                                            <input type="text" name="date_return" class="form-control" value="<?=(isset($x->date_return)) ? $x->date_return : '' ?>">
 	                                        <div class="input-group-addon">
 	                                            <span class="glyphicon glyphicon-calendar" ></span>
 	                                        </div>
@@ -163,7 +162,7 @@
                                         <div class="row">
                                             <div class="col-lg-4"><label> Paid Placement Fee  </label></div>
                                             <div class="col-lg-6 required-field-block">
-                                                <input id="paid_placement_fee" class="form-control input-sm number_in calc_add_bal_fee" name="paid_placement_fee" value="<?=isset($maid_amount) ? $maid_amount : '' ?>">
+                                                <input id="paid_placement_fee" class="form-control input-sm number_in calc_add_bal_fee" name="paid_placement_fee" value="<?=(isset($x->paid_placement_fee)) ? $x->paid_placement_fee : '' ?>">
                                        
                                             </div>
                                         </div>
@@ -175,7 +174,7 @@
                                         <div class="row">
                                             <div class="col-lg-4"><label> 7% GST ON Agency  </label></div>
                                             <div class="col-lg-6 required-field-block">
-                                                <input id="gst_on_agency_p_fee" class="form-control input-sm number_in calc_add_bal_fee" name=" gst_on_agency_p_fee" value="<?=isset($maid_amount) ? $maid_amount : '' ?>" readonly>
+                                                <input id="gst_on_agency_p_fee" class="form-control input-sm number_in calc_add_bal_fee" name=" gst_on_agency_p_fee" value="<?=(isset($x->gst_on_agency_p_fee)) ? $x->gst_on_agency_p_fee : '' ?>" readonly>
                                        
                                             </div>
                                         </div>
@@ -198,7 +197,7 @@
                                                         <option value=""> -- Select Employer Name  -- </option>
                                                         <?php if($emp_name){?>
                                                             <?php foreach($emp_name as $emp){ ?>    
-                                                            <option value="<?=$emp['customer_id']?>" <?=(isset($maid['maid_employer'])&&$maid['maid_employer']==$emp['customer_id']?'selected':'')?> >
+                                                            <option value="<?=$emp['customer_id']?>" <?=(isset($x->customer_id)&&$x->customer_id==$emp['customer_id']?'selected':'')?> >
 
                                                              <?=$emp['customer_name']?></option>
 
@@ -215,7 +214,7 @@
                                         <div class="row">
                                             <div class="col-lg-4"><label>Overseas Placement Fee  </label></div>
                                             <div class="col-lg-6 required-field-block">
-                                                <input id="ove_fee" class="form-control input-sm number_in calc_add_bal_fee" name="overseas_placement_fee" value="<?=isset($maid_amount) ? $maid_amount : '' ?>">
+                                                <input id="ove_fee" class="form-control input-sm number_in calc_add_bal_fee" name="overseas_placement_fee" value="<?=(isset($x->overseas_placement_fee)) ? $x->overseas_placement_fee : '' ?>">
                                        
                                             </div>
                                         </div>
@@ -227,7 +226,7 @@
                                         <div class="row">
                                             <div class="col-lg-4"><label> Balance Placement Fee  </label></div>
                                             <div class="col-lg-6 required-field-block">
-                                                <input id="total_bal_fee" class="form-control input-sm number_in" name="bal_placement_fee" value="<?=isset($maid_amount) ? $maid_amount : '' ?>" readonly>
+                                                <input id="total_bal_fee" class="form-control input-sm number_in" name="bal_placement_fee" value="<?=(isset($x->bal_placement_fee)) ? $x->bal_placement_fee : '' ?>" readonly>
                                        
                                             </div>
                                         </div>
@@ -238,19 +237,21 @@
                                         <div class="row">
                                             <div class="col-lg-4"><label>  Total Balance Placement Fee </label></div>
                                             <div class="col-lg-6 required-field-block">
-                                                <input id="t_bal_p_fee" class="form-control input-sm number_in calc_add_bal_fee" name="t_bal_p_fee" value="<?=isset($maid_amount) ? $maid_amount : '' ?>" readonly>
+                                                <input id="t_bal_p_fee" class="form-control input-sm number_in calc_add_bal_fee" name="t_bal_p_fee" value="<?=(isset($x->t_bal_p_fee)) ? $x->t_bal_p_fee : '' ?>" readonly>
                                        
                                             </div>
                                         </div>
                                   </div>
 
-                               
+                                  <br>
+                                  <br>
+                                  <br>
 
                                        <div class="form-group">
                                             <div class="row">
                                                 <div class="col-lg-4"></div>
                                                 <div class="col-lg-6">
-                                    <button type="submit" onclick="return confirm_submit()" class="btn btn-primary btn-md">&nbsp&nbsp&nbsp Add &nbsp&nbsp&nbsp </button>
+                                                    <button type="submit" onclick="return confirm_submit()" class="btn btn-primary btn-md">Update</button>
                                                 </div>
                                             </div>
                                         </div> 
@@ -263,95 +264,18 @@
 
 
                    </div>  
-
-
-                   <div class="row">
-
-                            <div class="table-responsive">
-                                    <table class="table table-striped table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Employer Name</th>
-                                                <th>Date Deploy</th>
-                                                <th>Date Return</th>
-                                                <th>Overseas Placement Fee</th>                                               
-                                                <th>Top Up Placement Fee</th>
-                                                <th>Paid Placement Fee</th>
-                                                <th>Balance Placement Fee</th>
-                                                <th>Refund</th>
-                                                <th>7% GST On Agency P. Fee</th>
-                                                <th>Total Balance Fee</th> 
-                                                <th class="col-md-1">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php if (!empty($maid_dep_dtl)): ?>
-                                                <?php foreach ($maid_dep_dtl as $m): ?>
-                                                    <tr id="<?=$m->maid_dep_id?>">
-                                                        <td><?=$m->customer_name?></td>
-                                                        <td><?=$m->date_deploy?></td>
-                                                        <td><?=$m->date_return?></td>
-                                                        <td><?=$m->overseas_placement_fee?></td>
-                                                        <td><?=$m->top_up_placement_fee?></td>
-                                                        <td><?=$m->paid_placement_fee?></td>
-                                                        <td><?=$m->bal_placement_fee?></td>
-                                                        <td><?=$m->refund?></td>
-                                                        <td><?=$m->gst_on_agency_p_fee?></td>
-                                                         <td><?=$m->t_bal_p_fee?></td>
-                                                        <td>
-                                                        <a class="btn btn-primary" title="Edit" href="<?=base_url()?>maid/maid_dep_edit/<?=$m->maid_dep_id?>" ><i class="fa fa-pencil-square-o"></i></a>&nbsp
-                                                     <button onclick="delete_maid_dep(<?=$m->maid_dep_id?>)" class="btn btn-primary" title="Delete"  id="del-maid-dep" ><i class="fa fa-trash-o"></i></button> 
-                                                        </td>
-
-                                                    
-                                                    </tr>
-                                                <?php endforeach ?>
-                                            <?php endif ?>
-                                        </tbody>
-                                       
-                                    </table>
-                                       
-
-
-                            </div>
-                   </div>
-
-                       
-                            
-               
+          
                         
-                   
-                                        
-             
                 </form>
+              
             </div>
         </div>
     </div> 
 </div>
-
-
+        <?php  } ?>
+<?php  } ?>
 <script type="text/javascript">
     
-    function delete_maid_dep(id){
-
-            if(confirm('Are you sure want to delete this ?')){
-                  
-
-                      var url_link = "<?=base_url()?>maid/maid_loan_del/"+id;
-
-                      $.ajax({
-                        url: url_link,                                             
-                        success: function(data){
-                            if(data == 'success'){
-                                alert('Successfully Deleted !');
-                                $('#'+id).remove();
-                            }
-                        }
-                        });
-
-            }          
-
-    }
 
 $(function () {
 
@@ -376,7 +300,7 @@ $(function () {
 
                   x = parseFloat(y) - parseFloat(c);
                
-                  //	balance placement fee = balance placement fee - refund	 
+                  //    balance placement fee = balance placement fee - refund   
                   x = parseFloat(x) - parseFloat(d);
                 
                   //balance placement fee = top up fee + overseas fee - paid placement fee 
@@ -429,4 +353,3 @@ $(function () {
 
 
 </script>
-

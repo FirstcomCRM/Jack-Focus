@@ -222,6 +222,7 @@ a{color:inherit;text-decoration:none}
 </head>
 
 <body class="login-page">
+
     <!--<div class="container">
         <div class="row">
             <div class="col-md-4 col-xs-12 login-row">

@@ -5,6 +5,7 @@ class maid extends CI_Controller {
 	
 	function __construct() {
 		parent::__construct();
+		is_login();
 		/*is_login();
 		$controller = ucfirst($this->router->class);
 		$role_id = $this->session->userdata('fcs_role_id');
@@ -23,6 +24,7 @@ class maid extends CI_Controller {
 		$this->load->model('staff_model');
 		$this->load->model('customer_maid_model');
 		$this->load->model('invoice_model');
+		$this->load->model('customer_maid_model');
 		$this->load->model('user_permision');
 		$this->load->library('session');
 	}
@@ -107,10 +109,17 @@ class maid extends CI_Controller {
 
 	public function maid_desc_edit($id){
 
-        $data['maids'] = $this->maid_model->fetch_maid_desc_edit($id);
+        $data['maids'] = $this->maid_model->single_fetch($id);
 		if (empty($data['maids'])) {
 			show_404();
 		}
+
+		$data['maid_dep_dtl'] = $this->maid_model->fetch_maid_desc_edit($id);
+		$data['emp_name'] = $this->customer_maid_model->get();
+
+
+
+
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
@@ -123,9 +132,9 @@ class maid extends CI_Controller {
 			$this->load->view('_template/footer', $data);	
 		}
 		else {
-			$this->maid_model->update_maid_desc($id);
-			$this->session->set_flashdata('msg', 'maid successfully updated');
-			redirect(base_url().'maid/maid_desc');
+			$this->maid_model->ins_maid_desc();
+			$this->session->set_flashdata('msg', 'successfully added');
+			redirect(base_url().'maid/maid_desc_edit/'.$id);
 		}
 
 	}
@@ -143,6 +152,10 @@ class maid extends CI_Controller {
 				$this->load->helper(array('form'));
 				$this->load->library('form_validation');
 				$this->form_validation->set_rules('maid_name', 'maid_name', 'required|callback_check_add_company_name');
+
+				$data['emp_name'] = $this->customer_maid_model->get();
+
+
 
 				$data['maxid'] = $this->maid_model->maxid();
 				$data['msg'] = $this->session->flashdata('msg');
@@ -234,6 +247,7 @@ class maid extends CI_Controller {
 				if (empty($data['maid'])) {
 					show_404();
 				}
+				$data['emp_name'] = $this->customer_maid_model->get();
 				$this->load->helper('form');
 				$this->load->library('form_validation');
 
@@ -328,6 +342,59 @@ class maid extends CI_Controller {
 
 			}		
 }
+
+
+
+	public function maid_loan_del($id=""){
+
+					if ($id=="") {
+						show_404();
+					}
+
+					$data['msg'] = "";
+
+					if($this->maid_model->delete_maid_dep($id)){
+						$data['msg'] = "success";
+					}	
+				
+			
+					$this->load->view('maid/maid_dep_msg', $data);
+	}
+
+
+
+	public function maid_dep_edit($id=""){
+		  
+		$data['maid_dep'] = $this->maid_model->get_maid_dep($id);
+		if (empty($data['maid_dep'])) {
+			show_404();
+		}
+
+		$data['emp_name'] = $this->customer_maid_model->get();
+
+
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('maid_code', 'maid_code', 'required');
+
+		if($this->form_validation->run() === FALSE) {
+		
+			$this->load->view('_template/header', $data);
+			$this->load->view('maid/maid_dep_edit', $data);
+			$this->load->view('_template/footer', $data);	
+		}
+		else {
+			$this->maid_model->update_maid_dep($id);
+			$this->session->set_flashdata('msg', 'Maid successfully updated');
+			redirect(base_url().'maid/maid_desc_edit/'.$this->input->post('maid_id'));
+		}
+					
+		
+	}
+
+
+
 
 	public function edit_img($id){
 

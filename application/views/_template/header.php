@@ -119,6 +119,9 @@
 </head>
 
 <body class="content-body">
+
+
+<!-- <?php echo "<pre>";print_r($this->session->all_userdata());echo "</pre>"; ?> -->
     <?php date_default_timezone_set('Asia/Singapore'); ?>
         <!-- Navigation -->
      

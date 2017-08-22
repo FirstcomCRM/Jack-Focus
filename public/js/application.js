@@ -95,4 +95,10 @@ $(function(){
          format:'dd-mm-yyyy',
      });
 
+
+    $('.date').datepicker({
+         format:'yyyy-mm-dd',
+     });
+
+
 });

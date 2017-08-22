@@ -128,7 +128,10 @@
             url: url_link,
             success: function(data){
                 $("#staff-information").html(data);
-            }
+            } ,
+             error: function (request, status, error) {
+                    alert(error);
+                }
             });
 
 

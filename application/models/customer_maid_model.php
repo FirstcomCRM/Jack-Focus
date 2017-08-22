@@ -285,7 +285,7 @@ class customer_maid_model extends CI_Model
     public function fetch($limit, $start){
             
 
-         if($this->session->userdata('fcs_role_id') == 1){
+         if($this->session->userdata('fcs_role_id') == 1 || $this->session->userdata('fcs_role_id') == 2){
 
 
                     $this->db->select('a.*,branch.branch_name,branch.branch_code');
@@ -518,7 +518,8 @@ class customer_maid_model extends CI_Model
     public function fetch_maid_record($limit, $start){
 
 
-         if($this->session->userdata('fcs_role_id') == 1){
+         if($this->session->userdata('fcs_role_id') == 1 || $this->session->userdata('fcs_role_id') == 2){
+            
                         $this->db->select('m.maid_code,m.maid_name, c.customer_code , c.customer_name, qp.select_date, qp.total_amount, qp.quotation_id');
                         $this->db->from('maid m');
                         $this->db->join('customer_maid c', 'c.customer_id=m.customer_id', 'left');

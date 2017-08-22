@@ -100,6 +100,23 @@ class user_permision extends CI_Model
      }
 
 
+     public function permission_menu_list($role_id){
+
+         
+                $this->db->select('*');
+                $this->db->from('user_permision');
+                $this->db->where('role_id', $role_id);
+
+                $query = $this->db->get();
+
+                return $query->row_array();
+         
+
+            return 0;
+
+     }
+
+
 
 }
 

@@ -83,13 +83,10 @@ class staff extends CI_Controller {
 				else{	
 					$a = $this->staff_model->add();
 
-					if($a){
-
-						$a = $this->staff_model->add_permission($this->input->post('role_id'));
+					
 						$this->session->set_flashdata('msg', 'New staff successfully created');
 						redirect(base_url().'staff');
-					}	
-
+					
 					
 				}
 

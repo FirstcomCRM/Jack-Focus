@@ -71,7 +71,7 @@ tr{
           </tr>
           <tr>
             <td><b>Employer</b></td>
-            <td><?=isset($maid['maid_employer'])?$maid['maid_employer']:''?></td>
+            <td><?=isset($maid['customer_name'])?$maid['customer_name']:''?></td>
           </tr>    
           <tr>
             <td><b>Salary</b></td>

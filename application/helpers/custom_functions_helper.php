@@ -32,6 +32,48 @@ if ( ! function_exists('is_login')) {
 
 
 
+//  convertion of date (mm / dd / yyyy) to (yyyy - mm - dd)
+
+// if ( ! function_exists('date_conv')) {
+//     function date_conv($date) {
+// 		$CI =& get_instance();
+		
+// 		if(!empty($date)){
+// 			$date = DateTime::createFromFormat('m/d/Y',$date);
+// 			return $date->format("Y-m-d");
+// 		}	
+		
+// 		return '2017-00-00';
+// 	}	
+// }   
+
+
+
+
+//  convertion of date (yyyy - mm - dd) to (mm / dd / yyyy) 
+
+// if ( ! function_exists('date_deconv')) {
+//     function date_deconv($date) {
+// 		$CI =& get_instance();
+		
+// 		if(!empty($date)){
+// 			$date = DateTime::createFromFormat('Y-m-d',$date);
+		
+// 		return $date->format("m/d/Y");
+// 		}
+
+// 		return '00/00/2017';
+// 	}	
+// }   
+
+
+
+
+
+
+
+
+
 if ( ! function_exists('send_email')) {
     function send_email($fromname, $from, $to, $subject, $message , $cc = NULL, $bcc = NULL) {
       	$CI =& get_instance();

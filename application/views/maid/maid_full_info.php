@@ -192,7 +192,7 @@
                                         <b>Employer</b>
                                    </td> 
                                    <td>
-                                        <?=isset($_POST['maid_employer'])?$_POST['maid_employer']:(isset($maid['maid_employer'])?$maid['maid_employer']:'')?>
+                                        <?=isset($_POST['maid_employer'])?$_POST['maid_employer']:(isset($maid['customer_name'])?$maid['customer_name']:'')?>
                                    </td>
                                 </tr>
 

@@ -7,7 +7,7 @@
           <li class="active"><?=$action=='add'?'New':'Edit'?> Maid</li>
             <div class="pull-right">
                 <div class="btn-group">
-                    <a class="btn btn-default btn-xs" href="<?=base_url()?>customer"><i class="fa fa-arrow-circle-o-left"></i> Back</a>
+                    <a class="btn btn-default btn-xs" href="<?=base_url()?>maid"><i class="fa fa-arrow-circle-o-left"></i> Back</a>
                 </div>
             </div>
         </ol>
@@ -160,10 +160,30 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                  <!--           <div class="form-group">
                                   <div class="row">
                                     <div class="col-lg-2"><label>Employer</label></div>
                                     <div class="col-lg-4"><input class="form-control input-sm" name="maid_employer" value="<?=isset($_POST['maid_employer'])?$_POST['maid_employer']:(isset($maid['maid_employer'])?$maid['maid_employer']:'')?>"></div>
+                                </div>
+                            </div> -->
+
+                               <div class="form-group">
+                                  <div class="row">
+                                    <div class="col-lg-2"><label>Employer</label></div>
+                                    <div class="col-lg-4">
+                                        
+                                        <select class="form-control input-sm" name="maid_employer" id="maid_employer">
+                                                 <option value=""> -- Select Employer Name  -- </option>
+                                            <?php if($emp_name){?>
+                                                <?php foreach($emp_name as $emp){ ?>    
+                                                <option value="<?=$emp['customer_id']?>" <?=isset($_POST['maid_employer'])&&$emp['customer_id']==$_POST['maid_employer']?'select':(isset($maid['maid_employer'])&&$maid['maid_employer']==$emp['customer_id']?'selected':'')?> >
+
+                                                 <?=$emp['customer_name']?></option>
+
+                                                <?php } ?>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1707,3 +1727,13 @@
 
 
 
+<script type="text/javascript">
+    
+
+$(document).ready(function(){
+         $("#maid_employer").select2();
+
+});
+
+   
+</script>
