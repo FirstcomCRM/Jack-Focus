@@ -22,7 +22,9 @@
                 Supplier
                 <div class="pull-right">
                     <div class="btn-group">
-                        <a class="btn btn-default btn-xs" href="<?=base_url()?>supplier/add"><i class="fa fa-plus"></i> Add</a>
+                        <?php if($this->session->userdata('supp_add') == 1) {?> 
+                            <a class="btn btn-default btn-xs" href="<?=base_url()?>supplier/add"><i class="fa fa-plus"></i> Add</a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -66,9 +68,14 @@
                                     <td><?=$supplier->supplier_address?></td>
                                     <td><?=$supplier->supplier_email?></td>
                                   
-                                    <td>
-                                        <a title="Edit" href="<?=base_url()?>supplier/edit/<?=$supplier->supplier_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
-                                        <a title="Delete" href="<?=base_url()?>supplier/delete/<?=$supplier->supplier_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
+                                    <td>                      
+                                        <?php if($this->session->userdata('supp_edit') == 1) {?> 
+                                            <a title="Edit" href="<?=base_url()?>supplier/edit/<?=$supplier->supplier_id?>"><i class="fa fa-pencil-square-o"></i></a>
+                                          &nbsp
+                                        <?php } ?>
+                                        <?php if($this->session->userdata('supp_del') == 1) {?> 
+                                            <a title="Delete" href="<?=base_url()?>supplier/delete/<?=$supplier->supplier_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                 <?php endforeach ?>

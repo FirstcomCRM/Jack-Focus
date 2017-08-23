@@ -111,22 +111,11 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-lg-2"><label>Status</label></div>
-                                    <div class="col-lg-4">
-                                        <select name="status_id" class="form-control input-sm" id="status" required>
-                                            <option value="">- Please Select Status-</option>
-                                            <?php if ($statusx!=''): ?>
-                                                  <?php foreach ($statusx as $status): ?>
-                                                    <option value="<?=$status['status_id']?>" <?=isset($_POST['status_id'])&&$status['status_id']==$_POST['status_id']?'select':(isset($maid['status_id'])&&$maid['status_id']==$status['status_id']?'selected':'')?>><?=$status['status_name']?></option>
-                                                    <?php endforeach ?>
-                                            <?php endif ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
+                           
+                            <!-- status value -->
+                                        <input type="hidden" name="status_id" value="1">
+                                  
+                      
 
                             <div class="form-group">
                                 <div class="row">

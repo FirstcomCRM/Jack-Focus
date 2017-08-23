@@ -25,7 +25,7 @@ class nationality extends CI_Controller {
 			$a = $this->user_permision->check_action_permision('setup_view',$this->session->userdata('fcs_role_id'));
 
 
-		if($a['setup_view'] == 0){
+		if($a['setup_view'] == 1){
 
 			redirect(base_url().'error_550');
 	     }else{

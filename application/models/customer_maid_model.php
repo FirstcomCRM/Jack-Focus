@@ -338,7 +338,7 @@ class customer_maid_model extends CI_Model
                 if(isset($_GET['customer_name']) || isset($_GET['customer_code']) || isset($_GET['customer_email']) || isset($_GET['employer_ic_no'])){
 
                           if($_GET['customer_name']!='' || $_GET['customer_code']!='' || $_GET['customer_email']!='' || $_GET['employer_ic_no']!='')  {
-                                $this->db->select('customer_maid.*,branch.branch_name,branch.branch_code');
+                                $this->db->select('a.*,branch.branch_name,branch.branch_code');
                                 $this->db->from('customer_maid a');
                                 $this->db->where('a.active', 1);
                                 $this->db->join('branch', 'branch.branch_id = a.branch_id', 'left');

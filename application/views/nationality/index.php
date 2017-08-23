@@ -14,7 +14,9 @@
                 Nationality
                 <div class="pull-right">
                     <div class="btn-group">
+                     <?php if($this->session->userdata('nationality_add') == 1) {?> 
                         <a class="btn btn-default btn-xs" href="<?=base_url()?>nationality/add"><i class="fa fa-plus"></i> Add</a>
+                    <?php } ?> 
                     </div>
                 </div>
             </div>
@@ -39,7 +41,7 @@
                             	<th>Flag</th>
                                 <th>Name</th>
                                 <th>Remarks</th>
-                                <th class="col-md-1">Action</th>
+                                <th class="col-md-1"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,8 +56,14 @@
                                     <td><?=$nationality->nationality_name?></td>
                                     <td><?=$nationality->nationality_remarks?></td>
                                     <td>
+
+                                    <?php if($this->session->userdata('nationality_edit') == 1) {?> 
                                         <a title="Edit" href="<?=base_url()?>nationality/edit/<?=$nationality->nationality_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
+                                    <?php } ?>   
+
+                                    <?php if($this->session->userdata('nationality_del') == 1) {?>  
                                         <a title="Delete" href="<?=base_url()?>nationality/delete/<?=$nationality->nationality_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
+                                    <?php } ?>    
                                     </td>
                                 </tr>
                                 <?php endforeach ?>

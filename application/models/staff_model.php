@@ -281,7 +281,7 @@ class staff_model extends CI_Model
     public function fetch($limit, $start){
         $this->db->select('s.*, b.branch_name, r.role_title');
         $this->db->from('staff s');
-        $this->db->join('branch b', 's.branch_id=b.branch_id');
+        $this->db->join('branch b', 's.branch_id=b.branch_id','left');
         $this->db->join('role_staff_maid r', 's.role_id=r.role_id', 'left');
         $this->db->where('s.active', 1);
         if (isset($_GET['b.branch_name'])&&$_GET['b.branch_name']!='') {

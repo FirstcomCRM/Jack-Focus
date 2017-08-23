@@ -69,12 +69,14 @@ class staff extends CI_Controller {
 				$this->form_validation->set_rules('staff_username', 'staff_username', 'required|callback_check_add_username');
 				$this->form_validation->set_rules('staff_password', 'staff_password', 'required');
 				$this->form_validation->set_rules('confirm_password', 'confirm Password', 'required|callback_check_confirm_password');
+				$this->form_validation->set_rules('role_id', 'role_id', 'required');
 				//$this->form_validation->set_rules('role_id', 'role_id', 'required');
-
-				if($this->form_validation->run() === FALSE) {
 					$data['roles'] = $this->role_staff_maid_model->get();
 					$data['branches'] = $this->branch_model->get();
 					$data['suppliers'] = $this->supplier_model->get();
+
+				if($this->form_validation->run() === FALSE) {
+					
 					$data['action'] = 'add';
 					$this->load->view('_template/header', $data);
 					$this->load->view('staff/add_edit', $data);

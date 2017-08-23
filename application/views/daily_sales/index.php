@@ -57,9 +57,14 @@
                                     <td><?=$daily_sales->total_gst?></td>
                                     
                                     <td>
-             
+                                        
+                                        <?php if($this->session->userdata('dailysales_edit') == 1) {?> 
                                         <a title="Edit" href="<?=base_url()?>daily_sales/edit/<?=$daily_sales->daily_sales_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
+                                        <?php } ?>
+
+                                        <?php if($this->session->userdata('dailysales_del') == 1) {?> 
                                         <a title="Delete" href="<?=base_url()?>daily_sales/delete/<?=$daily_sales->daily_sales_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
+                                         <?php } ?>
                                     </td>
                                 </tr>
                                 <?php endforeach ?>

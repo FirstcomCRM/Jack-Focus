@@ -28,7 +28,9 @@
                 Maid Listing
                 <div class="pull-right">
                     <div class="btn-group">
+                    <?php if($this->session->userdata('maid_add') == 1) {?>  
                         <a class="btn btn-default btn-xs" href="<?=base_url()?>maid/add"><i class="fa fa-plus"></i> Add</a>
+                    <?php } ?>    
                     </div>
                 </div>
             </div>

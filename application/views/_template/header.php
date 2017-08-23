@@ -121,11 +121,11 @@
 <body class="content-body">
 
 
-<!-- <?php echo "<pre>";print_r($this->session->all_userdata());echo "</pre>"; ?> -->
+<!-- <?php echo "<pre>";print_r($this->session->all_userdata());echo "</pre>"; ?>  -->
     <?php date_default_timezone_set('Asia/Singapore'); ?>
         <!-- Navigation -->
      
-  <!-- <h4><?php echo $this->session->userdata('fcs_username'); ?></h4>-->
+
      <div id="wrapper">
 
         <!-- Navigation -->
@@ -152,26 +152,43 @@
                          <li>
                                 <a class="<?=$this->uri->segment(1)=='dashboard'?'active':''?>" href="<?=base_url()?>dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> &nbsp;&nbsp;Dashboard</a>
                         </li>
+
+                <?php if($this->session->userdata('maid_view') == 1 ) {?>
                           <li class="dropdown">
                                   <a class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-female" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;Maid
                                       <span class="fa arrow"></span></a>
                                            <ul class="nav nav-second-level">
+
+                                       <?php if($this->session->userdata('maid_add') == 1) {?>     
                                               <li>
                                                   <a class="<?=$this->uri->segment(1)=='maid/add'?'active':''?>" href="<?=base_url()?>maid/add"><i class="fa fa-female" aria-hidden="true"></i> &nbsp;&nbsp;Create Maid</a>
                                               </li>
+
+                                       <?php } ?>  
+                                       
+                                        <?php if($this->session->userdata('maid_loan_edit') == 1) {?>      
                                               <li>
                                                   <a class="<?=$this->uri->segment(1)=='maid/maid_desc'?'active':''?>" href="<?=base_url()?>maid/maid_desc"><i class="fa fa-female" aria-hidden="true"></i> &nbsp;&nbsp;Maid Loan</a>
                                               </li>
+                                         <?php } ?>       
+
+                                      <?php if($this->session->userdata('maid_view') == 1) {?>
                                               <li>
                                                   <a class="<?=$this->uri->segment(1)=='maid'?'active':''?>" href="<?=base_url()?>maid"><i class="fa fa-female" aria-hidden="true"></i> &nbsp;&nbsp;View Maid</a>
                                               </li>
+                                      <?php } ?> 
+
+                                      <?php if($this->session->userdata('maid_tablet_view') == 1) {?>
                                               <li>
                                                   <a class="<?=$this->uri->segment(1)=='maid/tablet_view'?'active':''?>" href="<?=base_url()?>maid/tablet_view"><i class="fa fa-female" aria-hidden="true"></i> &nbsp;&nbsp;Tablet View</a>
                                               </li>
-                                           
+                                      <?php } ?>       
                                               
                                            </ul>
                               </li>
+              <?php } ?>   
+
+              <?php if($this->session->userdata('emp_view') == 1) {?>
 
                        <li class="dropdown">
                                   <a class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Employer
@@ -187,91 +204,123 @@
                                            
                                               
                                            </ul>
-                              </li>
+                        </li>
 
-                     
+             <?php } ?>    
+
+             <?php if($this->session->userdata('supp_view') == 1) {?>    
                          <li>
                            <a class="<?=$this->uri->segment(1)=='supplier'?'active':''?>" href="<?=base_url()?>supplier"><i class="fa fa-car" aria-hidden="true"></i> &nbsp;&nbsp;Supplier</a>
                         </li>
+
+              <?php } ?>  
+              
+               <?php if($this->session->userdata('branch_view') == 1) {?>             
                         <li>
                             <a class="<?=$this->uri->segment(1)=='branch'?'active':''?>" href="<?=base_url()?>branch"><i class="fa fa-building" aria-hidden="true"></i> &nbsp;&nbsp;&nbsp;Branch</a>
                        </li>
 
-                        
+               <?php } ?> 
+
+               <?php if($this->session->userdata('cont_view') == 1) {?>  
+
                         <li>
                             <a class="<?=$this->uri->segment(1)=='contract'?'active':''?>" href="<?=base_url()?>contract"><i class="fa fa-suitcase" aria-hidden="true"></i> &nbsp;&nbsp;Contracts</a>
                        </li>
+
+               <?php } ?> 
+
+               <?php if($this->session->userdata('pack_view') == 1) {?>  
+                       
                        <li>
                             <a class="<?=$this->uri->segment(1)=='package'?'active':''?>" href="<?=base_url()?>package"><i class="fa fa-cube" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Package</a>
                         </li>
 
+               <?php } ?>  
+               
+               <?php if($this->session->userdata('insu_view') == 1) {?>          
+
                         <li>
                                <a class="<?=$this->uri->segment(1)=='insurance_package'?'active':''?>" href="<?=base_url()?>insurance_package"><i class="fa fa-ambulance" aria-hidden="true"></i> &nbsp;&nbsp;Insurance</a>
                           </li>
+
+               <?php } ?>           
                       
                         <!--   <li>
                                 <a class="<?=$this->uri->segment(1)=='staff'?'active':''?>" href="<?=base_url()?>staff"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;Staff</a>
                             </li> -->
 
-
+                <?php if($this->session->userdata('staff_view') == 1 || $this->session->userdata('user_permision_view') == 1 ) {?> 
                           <li class="dropdown">
                                   <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;Staff
                                       <span class="fa arrow"></span></a>
                                            <ul class="nav nav-second-level">
+                                            <?php if($this->session->userdata('staff_view') == 1) {?>   
                                               <li>
                                                  <a class="<?=$this->uri->segment(1)=='staff'?'active':''?>" href="<?=base_url()?>staff"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;Staff Listing</a>
                                               </li>
+                                            <?php } ?>  
+                                              <?php if($this->session->userdata('user_permision_view') == 1) {?>     
                                               <li>
                                                   <a class="<?=$this->uri->segment(1)=='staff'?'active':''?>" href="<?=base_url()?>staff/staff_permission"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;Staff Permission</a>
                                               </li>
-                                            
+                                               <?php } ?>  
                                             
                                               
                                            </ul>
-                              </li>
+                          </li>
+
+               <?php } ?>   
 
 
-
-
-
+                          <?php if($this->session->userdata('inv_view') == 1) {?>   
                            <li>
-                                             <a class="<?=$this->uri->segment(1)=='invoice'?'active':''?>" href="<?=base_url()?>invoice"><i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;&nbsp;Invoice</a>
-                                             </li>
-                   
+                               <a class="<?=$this->uri->segment(1)=='invoice'?'active':''?>" href="<?=base_url()?>invoice"><i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;&nbsp;Invoice</a>
+                          </li>
+                          <?php } ?> 
 
-
-                                   <li>
+                          <?php if($this->session->userdata('sales_view') == 1) {?>   
+                           <li>
                                <a class="<?=$this->uri->segment(1)=='sales'?'active':''?>" href="<?=base_url()?>sales"><i class="fa fa-usd" aria-hidden="true"></i> &nbsp;&nbsp;Sales</a>
-                                   </li>
-                                    <li>
-                               <a class="<?=$this->uri->segment(1)=='daily_sales'?'active':''?>" href="<?=base_url()?>daily_sales"><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp;&nbsp;Daily Sales</a>
-                                   </li>
-                            
+                           </li>
+                            <?php } ?> 
 
+                          <?php if($this->session->userdata('dailysales_view') == 1) {?>    
+                          <li>
+                               <a class="<?=$this->uri->segment(1)=='daily_sales'?'active':''?>" href="<?=base_url()?>daily_sales"><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp;&nbsp;Daily Sales</a>
+                          </li>
+                            
+                          <?php } ?> 
 <!-- 
                             <li>
                                 <a class="<?=$this->uri->segment(1)=='setup'?'active':''?>" href="<?=base_url()?>setup"><i class="fa fa-wrench" aria-hidden="true"></i> &nbsp;&nbsp;Setup</a>
                             </li> -->
 
-                          
+                           <?php if($this->session->userdata('buss_part_view') == 1 || $this->session->userdata('nationality_view') == 1 || $this->session->userdata('announcement_view') == 1) {?> 
+
                            <li class="dropdown">
                                   <a class="dropdown-toggle" data-toggle="dropdown" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Setup
                                       <span class="fa arrow"></span></a>
                                            <ul class="nav nav-second-level">
+
+                                             <?php if($this->session->userdata('buss_part_view') == 1) {?> 
                                               <li>
                                                   <a class="<?=$this->uri->segment(1)=='partner'?'active':''?>" href="<?=base_url()?>partner"><span class="custom-sidebar-icon-supplier">&nbsp;&nbsp;&nbsp;&nbsp;</i> &nbsp;&nbsp;Business Partners</a>
                                               </li>
+                                              <?php } ?> 
+                                               <?php if($this->session->userdata('nationality_view') == 1) {?> 
                                               <li>
                                                   <a class="<?=$this->uri->segment(1)=='nationality'?'active':''?>" href="<?=base_url()?>nationality"><span class="custom-sidebar-icon-supplier">&nbsp;&nbsp;&nbsp;&nbsp;</i> &nbsp;&nbsp;Nationality Management</a>
                                               </li>
-                                            
+                                            <?php } ?> 
+                                             <?php if($this->session->userdata('announcement_view') == 1) {?> 
                                                 <li>
                                                  <a class="<?=$this->uri->segment(1)=='announcement'?'active':''?>" href="<?=base_url()?>announcement"><span class="custom-sidebar-icon-supplier">&nbsp;&nbsp;&nbsp;&nbsp;</i> &nbsp;&nbsp;Announcement Management</a>
                                                </li>
-                                              
+                                              <?php } ?> 
                                            </ul>
                               </li>
-
+                          <?php } ?> 
 
 
                     </ul>
@@ -283,6 +332,86 @@
 
         <div id="page-wrapper">
             <div class="row">
+
+
+<!-- 
+             [session_id] => 0834e5da08ed1909ce10413231e991d6
+    [ip_address] => ::1
+    [user_agent] => Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36
+    [last_activity] => 1503390698
+    [user_data] => 
+    [fcs_user_id] => 1
+    [fcs_username] => admin
+    [fcs_role_id] => 1
+    [branch_id] => 9
+    [fcs_supplier_id] => 0
+    [fcs_validate_user] => 1
+    [role_id] => 1
+    [maid_add] => 1
+    [maid_edit] => 1
+    [maid_del] => 1
+    [maid_view] => 1
+    [maid_view_bio] => 1
+    [maid_tablet_view] => 1
+    [maid_loan_edit] => 1
+    [emp_view] => 1
+    [emp_add] => 1
+    [emp_del] => 1
+    [emp_edit] => 1
+    [supp_view] => 1
+    [supp_edit] => 1
+    [supp_add] => 1
+    [supp_del] => 1
+    [branch_view] => 1
+    [branch_edit] => 1
+    [branch_del] => 1
+    [branch_add] => 1
+    [cont_edit] => 1
+    [cont_add] => 1
+    [cont_view] => 1
+    [cont_del] => 1
+    [pack_view] => 1
+    [pack_edit] => 1
+    [pack_add] => 1
+    [pack_del] => 1
+    [insu_view] => 1
+    [insu_add] => 1
+    [insu_edit] => 1
+    [insu_del] => 1
+    [staff_view] => 1
+    [staff_edit] => 1
+    [staff_add] => 1
+    [staff_del] => 1
+    [inv_view] => 1
+    [inv_add] => 1
+    [inv_edit] => 1
+    [inv_del] => 1
+    [sales_view] => 1
+    [dailysales_view] => 1
+    [dailysales_edit] => 1
+    [dailysales_del] => 1
+    [setup_view] => 0
+    [announcement_edit] => 1
+    [announcement_add] => 1
+    [announcement_view] => 1
+    [announcement_del] => 1
+    [buss_part_view] => 1
+    [buss_part_edit] => 1
+    [buss_part_del] => 1
+    [buss_part_add] => 1
+    [nationality_view] => 1
+    [nationality_add] => 1
+    [nationality_edit] => 1
+    [nationality_del] => 1
+    [user_permision_view] => 1
+    [user_permision_edit] => 1
+    [date_modified] => 2017-08-16 13:53:57
+    [arr_data] => Array
+        (
+            [0] => 41
+            [1] => 40
+            [2] => 39
+        )
     
-            
+             -->
    

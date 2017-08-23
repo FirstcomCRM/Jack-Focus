@@ -25,7 +25,9 @@
                     <a class="btn btn-default btn-xs" id="btn-export" href="<?=base_url()?>invoice/export_quotation"><i class="fa fa-file-excel-o ico-btn"></i> Export</a>
                   
                      <div class="btn-group">
+                         <?php if($this->session->userdata('inv_add') == 1) {?> 
                         <a class="btn btn-default btn-xs" href="<?=base_url()?>invoice/add_package"><i class="fa fa-plus"></i> New Invoice</a>
+                        <?php } ?>
                     </div>
 
                    
@@ -122,7 +124,7 @@
                                
                                 
                                  <th>Status</th>
-                                <th>Action</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -168,11 +170,14 @@
                                  
                                
                                             <a title="View" href="<?=base_url()?>invoice/view_package/<?=$quotation->quotation_id?>"><i class="fa fa-search"></i></a>&nbsp              
-                                
+                                             
+                                            <?php if($this->session->userdata('inv_edit') == 1) {?>    
                                             <a title="Edit" href="<?=base_url()?>invoice/edit_package/<?=$quotation->quotation_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp 
-                                 
-                
+                                            <?php } ?>
+
+                                              <?php if($this->session->userdata('inv_del') == 1) {?> 
                                             <a title="Delete" href="<?=base_url()?>invoice/delete/<?=$quotation->quotation_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
+                                            <?php } ?>
                                
                                     </td>
                                 </tr>

@@ -57,7 +57,7 @@
                                
                                 <th>Role</th>
                             
-                                <th class="col-md-1">Action</th>
+                                <th class="col-md-1"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,8 +69,9 @@
                                     <td><?=$r->role_title?></td>
                                  
                                     <td>
+                                    <?php if($this->session->userdata('user_permision_edit') == 1) {?> 
                                      <a title="Edit" href="<?=base_url()?>staff/staff_permission_edit/<?=$r->role_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp 
-                                     
+                                     <?php } ?>
                                     </td>
                                 </tr>
                                 <?php endforeach ?>

@@ -23,7 +23,9 @@
                 Branch
                 <div class="pull-right">
                     <div class="btn-group">
-                        <a class="btn btn-default btn-xs" href="<?=base_url()?>branch/add"><i class="fa fa-plus"></i> Add</a>
+                        <?php if($this->session->userdata('branch_add') == 1) {?> 
+                            <a class="btn btn-default btn-xs" href="<?=base_url()?>branch/add"><i class="fa fa-plus"></i> Add</a>
+                        <?php } ?>    
                     </div>
                 </div>
             </div>
@@ -67,8 +69,13 @@
                                     <td><?=$branch->branch_address?></td>
                                     <td><?=$branch->branch_email?></td>
                                     <td>
+                                     <?php if($this->session->userdata('branch_edit') == 1) {?> 
                                         <a title="Edit" href="<?=base_url()?>branch/edit/<?=$branch->branch_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
+                                     <?php } ?>
+
+                                      <?php if($this->session->userdata('branch_del') == 1) {?>    
                                         <a title="Delete" href="<?=base_url()?>branch/delete/<?=$branch->branch_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
+                                      <?php } ?>  
                                     </td>
                                 </tr>
                                 <?php endforeach ?>

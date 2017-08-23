@@ -28,7 +28,9 @@
                 Announcements
                 <div class="pull-right">
                     <div class="btn-group">
+                    <?php if($this->session->userdata('announcement_add') == 1) {?> 
                         <a class="btn btn-default btn-xs" href="<?=base_url()?>announcement/add"><i class="fa fa-plus"></i> Add</a>
+                    <?php } ?>    
                     </div>
                 </div>
             </div>
@@ -52,7 +54,7 @@
                                 <th>Title</th>
                                 <th>Announcement</th>
                                 <th>Date</th>
-                                <th class="col-md-1">Action</th>
+                                <th class="col-md-1"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,8 +65,14 @@
                                     <td><?=$announcement->announce_body?></td>
                                     <td><?=$announcement->announce_date?></td>
                                     <td>
+
+                                    <?php if($this->session->userdata('announcement_edit') == 1) {?> 
                                         <a title="Edit" href="<?=base_url()?>announcement/edit/<?=$announcement->announce_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
+                                    <?php } ?>   
+                                    
+                                    <?php if($this->session->userdata('announcement_del') == 1) {?>  
                                         <a title="Delete" href="<?=base_url()?>announcement/delete/<?=$announcement->announce_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
+                                    <?php } ?>    
                                     </td>
                                 </tr>
                                 <?php endforeach ?>

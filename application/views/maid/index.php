@@ -25,7 +25,9 @@
                 Maid Listing
                 <div class="pull-right">
                     <div class="btn-group">
+                    <?php if($this->session->userdata('maid_add') == 1) {?>  
                         <a class="btn btn-default btn-xs" href="<?=base_url()?>maid/add"><i class="fa fa-plus"></i> Add</a>
+                    <?php } ?>    
                     </div>
                 </div>
             </div>
@@ -137,8 +139,12 @@
                                     <td><?=$maid->maid_description?></td>
                                     <td>
                                         <a title="View More" href="<?=base_url()?>maid/view_full_details/<?=$maid->maid_id?>"><i class="fa fa-info-circle"></i></a>&nbsp
+                                        <?php if($this->session->userdata('maid_edit') == 1) {?>  
                                         <a title="Edit" href="<?=base_url()?>maid/edit/<?=$maid->maid_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
+                                        <?php } ?>
+                                        <?php if($this->session->userdata('maid_del') == 1) {?>  
                                         <a title="Delete" href="<?=base_url()?>maid/delete/<?=$maid->maid_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a> &nbsp
+                                         <?php } ?>
                                         
                                     </td>
                                 </tr>

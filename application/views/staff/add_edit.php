@@ -44,7 +44,7 @@
                                             <option value="">- Please Select Branch -</option>
                                             <?php if ($branches!=''): ?>
                                                   <?php foreach ($branches as $branch): ?>
-                                                    <option value="<?=$branch['branch_id']?>" <?=isset($_POST['branch_id'])&&$staff['branch_id']==$_POST['branch_id']?'select':(isset($staff['branch_id'])&&$staff['branch_id']==$branch['branch_id']?'selected':'')?>><?=$branch['branch_name']?></option>
+                                                    <option value="<?=$branch['branch_id']?>" <?=(isset($staff['branch_id'])&&$staff['branch_id']==$branch['branch_id']?'selected':'')?>><?=$branch['branch_name']?></option>
                                                     <?php endforeach ?>
                                             <?php endif ?>
                                         </select>
@@ -92,7 +92,7 @@
                                             <option value="">- Please Select Role -</option>
                                             <?php if ($roles!=''): ?>
                                                   <?php foreach ($roles as $role): ?>
-                                                    <option value="<?=$role['role_id']?>" <?=isset($_POST['role_id'])&&$staff['role_id']==$_POST['role_id']?'select':(isset($staff['role_id'])&&$staff['role_id']==$role['role_id']?'selected':'')?>><?=$role['role_title']?></option>
+                                                    <option value="<?=$role['role_id']?>" <?=(isset($staff['role_id'])&&$staff['role_id']==$role['role_id']?'selected':'')?>><?=$role['role_title']?></option>
                                                     <?php endforeach ?>
                                             <?php endif ?>
                                         </select>

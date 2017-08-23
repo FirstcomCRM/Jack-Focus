@@ -22,7 +22,9 @@
                 Package Listing
                 <div class="pull-right">
                     <div class="btn-group">
+                          <?php if($this->session->userdata('pack_add') == 1 ) {?>
                         <a class="btn btn-default btn-xs" href="<?=base_url()?>package/add"><i class="fa fa-plus"></i> Add</a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -68,8 +70,14 @@
                                     <td><?=$package->replacement_times?></td>
                                     <td><?=$package->remark?></td>
                                     <td>
+
+                                        <?php if($this->session->userdata('pack_edit') == 1 ) {?>
                                         <a title="Edit" href="<?=base_url()?>package/edit/<?=$package->package_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
+                                        <?php } ?>
+
+                                        <?php if($this->session->userdata('pack_del') == 1 ) {?>
                                         <a title="Delete" href="<?=base_url()?>package/delete/<?=$package->package_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                 <?php endforeach ?>

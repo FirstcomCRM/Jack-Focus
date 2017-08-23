@@ -22,7 +22,9 @@
                 Employer Listing
                 <div class="pull-right">
                     <div class="btn-group">
+                         <?php if($this->session->userdata('emp_add') == 1) {?> 
                         <a class="btn btn-default btn-xs" href="<?=base_url()?>customer_maid/add"><i class="fa fa-plus"></i> Add</a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -87,10 +89,21 @@
                         <tbody>
                             <?php if (!empty($customers)): ?>
                                 <?php foreach ($customers as $customer): ?>
-                                <tr>
-                                    <td><a  href="<?=base_url()?>customer_maid/edit/<?=$customer->customer_id?>"><?=$customer->customer_code?></a></td>
-                                    <td><a  href="<?=base_url()?>customer_maid/edit/<?=$customer->customer_id?>"><?=$customer->customer_name?></a></td>
-
+                                <tr>  <?php echo $this->session->userdata('emp_edit') ;?>
+                                    <td>
+                                     <?php if($this->session->userdata('emp_edit') == 1) {?> 
+                                                <a  href="<?=base_url()?>customer_maid/edit/<?=$customer->customer_id?>"><?=$customer->customer_code?></a>
+                                      <?php } else{?>   
+                                        <?=$customer->customer_code?>
+                                      <?php } ?>             
+                                    </td>
+                                    <td>
+                                      <?php if($this->session->userdata('emp_edit') == 1) {?>    
+                                                <a  href="<?=base_url()?>customer_maid/edit/<?=$customer->customer_id?>"><?=$customer->customer_name?></a>
+                                      <?php } else{?>   
+                                        <?=$customer->customer_code?>
+                                      <?php } ?> 
+                                    </td>   
                      <?php if ($this->session->userdata('fcs_role_id') == '1' || $this->session->userdata('fcs_role_id') == '2') { ?>                
                                     <td><?=$customer->customer_address?></td>
                                     <td><?=$customer->customer_email?></td>
@@ -100,8 +113,13 @@
                                     <td><?=$customer->customer_postal?></td>
                                     <td><?=$customer->branch_name?></td>
                                     <td>
+
+                                <?php if($this->session->userdata('emp_edit') == 1) {?> 
                                         <a title="Edit" href="<?=base_url()?>customer_maid/edit/<?=$customer->customer_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
+                                <?php } ?>  
+                               <?php if($this->session->userdata('emp_del') == 1) {?>        
                                         <a title="Delete" href="<?=base_url()?>customer_maid/delete/<?=$customer->customer_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
+                                <?php } ?>          
                                     </td>
                     <?php } ?>                
                                 </tr>

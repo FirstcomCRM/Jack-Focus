@@ -14,7 +14,9 @@
                Insurance
                 <div class="pull-right">
                     <div class="btn-group">
+                         <?php if($this->session->userdata('inv_add') == 1) {?> 
                         <a class="btn btn-default btn-xs" href="<?=base_url()?>insurance_package/add"><i class="fa fa-plus"></i> Add</a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -58,9 +60,14 @@
                                     <td><?=$insurance->description?></td>
                                     
                                     <td>
-             
+                                        <?php if($this->session->userdata('inv_edit') == 1) {?> 
                                         <a title="Edit" href="<?=base_url()?>insurance_package/edit/<?=$insurance->insurance_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp
+                                        <?php } ?>
+
+                                        <?php if($this->session->userdata('inv_del') == 1) {?> 
                                         <a title="Delete" href="<?=base_url()?>insurance_package/delete/<?=$insurance->insurance_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
+                                        <?php } ?>
+
                                     </td>
                                 </tr>
                                 <?php endforeach ?>
