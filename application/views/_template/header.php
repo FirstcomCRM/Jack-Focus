@@ -121,7 +121,6 @@
 <body class="content-body">
 
 
-<!-- <?php echo "<pre>";print_r($this->session->all_userdata());echo "</pre>"; ?>  -->
     <?php date_default_timezone_set('Asia/Singapore'); ?>
         <!-- Navigation -->
      
@@ -334,84 +333,3 @@
             <div class="row">
 
 
-<!-- 
-             [session_id] => 0834e5da08ed1909ce10413231e991d6
-    [ip_address] => ::1
-    [user_agent] => Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36
-    [last_activity] => 1503390698
-    [user_data] => 
-    [fcs_user_id] => 1
-    [fcs_username] => admin
-    [fcs_role_id] => 1
-    [branch_id] => 9
-    [fcs_supplier_id] => 0
-    [fcs_validate_user] => 1
-    [role_id] => 1
-    [maid_add] => 1
-    [maid_edit] => 1
-    [maid_del] => 1
-    [maid_view] => 1
-    [maid_view_bio] => 1
-    [maid_tablet_view] => 1
-    [maid_loan_edit] => 1
-    [emp_view] => 1
-    [emp_add] => 1
-    [emp_del] => 1
-    [emp_edit] => 1
-    [supp_view] => 1
-    [supp_edit] => 1
-    [supp_add] => 1
-    [supp_del] => 1
-    [branch_view] => 1
-    [branch_edit] => 1
-    [branch_del] => 1
-    [branch_add] => 1
-    [cont_edit] => 1
-    [cont_add] => 1
-    [cont_view] => 1
-    [cont_del] => 1
-    [pack_view] => 1
-    [pack_edit] => 1
-    [pack_add] => 1
-    [pack_del] => 1
-    [insu_view] => 1
-    [insu_add] => 1
-    [insu_edit] => 1
-    [insu_del] => 1
-    [staff_view] => 1
-    [staff_edit] => 1
-    [staff_add] => 1
-    [staff_del] => 1
-    [inv_view] => 1
-    [inv_add] => 1
-    [inv_edit] => 1
-    [inv_del] => 1
-    [sales_view] => 1
-    [dailysales_view] => 1
-    [dailysales_edit] => 1
-    [dailysales_del] => 1
-    [setup_view] => 0
-    [announcement_edit] => 1
-    [announcement_add] => 1
-    [announcement_view] => 1
-    [announcement_del] => 1
-    [buss_part_view] => 1
-    [buss_part_edit] => 1
-    [buss_part_del] => 1
-    [buss_part_add] => 1
-    [nationality_view] => 1
-    [nationality_add] => 1
-    [nationality_edit] => 1
-    [nationality_del] => 1
-    [user_permision_view] => 1
-    [user_permision_edit] => 1
-    [date_modified] => 2017-08-16 13:53:57
-    [arr_data] => Array
-        (
-            [0] => 41
-            [1] => 40
-            [2] => 39
-        )
-    
-             -->
-   

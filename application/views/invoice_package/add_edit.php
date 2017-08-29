@@ -337,7 +337,7 @@
                                             <?php } ?>
                                         </select>   
                                     </div>
-
+                                    </div>
                                     
                                    <!-- <div class="col-md-1">
                                         <input type="text" class="form-control input-sm" name="quantity" id='quantity' placeholder="Qty" />

@@ -44,25 +44,47 @@ class invoice extends CI_Controller {
 				redirect(base_url().'error_550');
 		     }else{
 
+
+
+
 				$data['msg'] = $this->session->flashdata('msg');
 				$b_url = base_url().'invoice/index';
-				$t_rows = $this->invoice_model->count();
-				$pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
-				$this->pagination->initialize($pageConfig);
-				$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-				
-				$data['quotations'] = $this->invoice_model->fetch($pageConfig['per_page'], $page);
-				$data['links'] = $this->pagination->create_links();
 
-				$current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
-				$data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
-				$data['customers'] = $this->customer_maid_model->get();
-				$data['staffx'] = $this->staff_model->get();
+					$data['customers'] = $this->customer_maid_model->get();
+					// $data['products'] = $this->package_model->get();
+					$data['maid_products'] = $this->maid_model->getAvailable();
+					$data['insurance_products'] = $this->insurance_package_model->get();
+					$data['staffx'] = $this->staff_model->get();
+
+				$data['invoice_list'] = $this->invoice_model->get_all_invoice();
+
 				$this->load->view('_template/header', $data);
 		        $this->load->view('invoice/index', $data);
 		        $this->load->view('_template/footer', $data);
 
+				// $t_rows = $this->invoice_model->count();
+				// $pageConfig = create_pagination_config( $b_url, $t_rows, 10, 3);
+				// $this->pagination->initialize($pageConfig);
+				// $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+				
+				// $data['quotations'] = $this->invoice_model->fetch($pageConfig['per_page'], $page);
+				// $data['links'] = $this->pagination->create_links();
+
+				// $current_page =  floor(($this->uri->segment(3) / $pageConfig['per_page']) + 1);
+				// $data['pagination_msg'] = create_pagination_msg($current_page, $pageConfig['per_page'], $t_rows);
+				// $data['customers'] = $this->customer_maid_model->get();
+				// $data['staffx'] = $this->staff_model->get();
+
+
+
+			
+
 		     }   
+
+
+
+
+
 	}
 	public function add(){
 		$this->load->helper(array('form'));
@@ -178,6 +200,114 @@ class invoice extends CI_Controller {
 
 			}		
 	}
+
+
+public function add_invoice(){
+
+
+			$a = $this->user_permision->check_action_permision('inv_add',$this->session->userdata('fcs_role_id'));
+
+
+			if($a['inv_add'] == 0){
+
+				redirect(base_url().'error_550');
+		     }else{
+
+					$this->load->helper(array('form'));
+					$this->load->library('form_validation');
+					$this->form_validation->set_rules('customer_id', 'customer', 'required');
+					$this->form_validation->set_rules('branch_id', 'branch', 'required');
+					// $this->form_validation->set_rules('date', 'date', 'required');
+					$this->form_validation->set_rules('maid_id', 'maid', 'required');
+					$this->form_validation->set_rules('staff_id', 'staff', 'required');
+					
+
+					$fcs_role_id = $this->session->userdata('fcs_role_id');
+					$branch_id = $this->session->userdata('branch_id');
+
+					$m_inv = $this->invoice_model->max_inv_id();
+					$data['m_inv'] =  $m_inv['max'] + 1;
+
+
+					if($this->form_validation->run() === FALSE) {
+						
+						
+
+						$data['action'] = 'add';
+						$data['customers'] = $this->customer_maid_model->get();
+						$data['products'] = $this->package_model->get();
+						$data['maid_products'] = $this->maid_model->getAvailable();
+						$data['insurance_products'] = $this->insurance_package_model->get();
+						$data['sale_persons'] = $this->staff_model->get();
+						$data['branches'] = $this->branch_model->get();
+						$this->load->view('_template/header', $data);
+						$this->load->view('invoice_package/add_invoice', $data);
+						$this->load->view('_template/footer', $data);
+					}
+					else{
+
+						 $this->invoice_model->add_invoice_tbl();                  
+
+					 	 $inv_id = $this->input->post('inv_id');
+                       	redirect(base_url().'invoice/add_invoice_payment/'. $inv_id);
+
+                     
+
+						// $this->session->set_flashdata('msg', '	Invoice Successfully Created');
+						// $ret = array(
+						// 	'status'       => 'success',
+							// 'quotation_id' => $quotation_id,
+						// );
+						// echo json_encode($ret);
+					}
+
+			}		
+	}
+
+
+
+public function add_invoice_payment($inv_id){
+
+		if(empty($inv_id)){
+			show_404();
+		}
+
+		$data['inv_dtl'] = $this->invoice_model->get_single_inv($inv_id);
+			if(empty($data['inv_dtl'])){
+			show_404();
+		}
+	
+
+		$data['adhoc_dtl'] = $this->invoice_model->get_adhoc_item($inv_id);
+		$data['payment_dtl'] = $this->invoice_model->payment_invoice_dtl($inv_id);
+		$data['payment_option'] = $this->invoice_model->payment_option();
+
+
+
+
+		$this->load->view('_template/header', $data);
+		$this->load->view('invoice_package/add_invoice_payment', $data);
+		$this->load->view('_template/footer', $data);
+
+		
+
+}
+
+
+
+public function ins_payment_dtl ($inv_id,$payment_date,$amount,$payment_type,$remark){
+
+	$this->invoice_model->ins_payment_dtl($inv_id,$payment_date,$amount,$payment_type,$remark);
+	redirect(base_url().'invoice/add_invoice_payment/'. $inv_id);
+}
+
+
+public function delete_payment($inv_id,$payment_id){
+	$this->invoice_model->del_payment_dtl($payment_id);
+	redirect(base_url().'invoice/add_invoice_payment/'. $inv_id);
+}
+
+
 
 	public function jsoncustomer(){
 
@@ -971,4 +1101,85 @@ class invoice extends CI_Controller {
 		);
 		$this->excel->export($quo_export, "QuotationReport(" . date('d-m-Y', time()) . ").xls");	
 	}
+
+
+
+
+public function edit_invoice($inv_id){
+
+
+		
+
+					$this->load->helper(array('form'));
+					$this->load->library('form_validation');
+					$this->form_validation->set_rules('customer_id', 'customer', 'required');
+					$this->form_validation->set_rules('branch_id', 'branch', 'required');					
+					$this->form_validation->set_rules('maid_id', 'maid', 'required');
+					$this->form_validation->set_rules('staff_id', 'staff', 'required');
+					
+
+					$fcs_role_id = $this->session->userdata('fcs_role_id');
+					$branch_id = $this->session->userdata('branch_id');
+
+					// $m_inv = $this->invoice_model->max_inv_id();
+					// $data['m_inv'] =  $m_inv['max'] + 1;
+					$data['inv_dtl'] = $this->invoice_model->get_single_inv($inv_id);
+					$data['adhoc_item'] = $this->invoice_model->get_adhoc_item($inv_id);
+						if (empty($data['inv_dtl'])) {
+							show_404();
+						}
+
+					if($this->form_validation->run() === FALSE) {
+						
+						
+
+						$data['action'] = '';
+						$data['customers'] = $this->customer_maid_model->get();
+						$data['products'] = $this->package_model->get();
+						$data['maid_products'] = $this->maid_model->getAvailable();
+						$data['insurance_products'] = $this->insurance_package_model->get();
+						$data['sale_persons'] = $this->staff_model->get();
+						$data['branches'] = $this->branch_model->get();
+						$this->load->view('_template/header', $data);
+						$this->load->view('invoice_package/edit_invoice', $data);
+						$this->load->view('_template/footer', $data);
+					}
+					else{
+
+						 $this->invoice_model->edit_invoice_tbl($inv_id);                  
+
+					 	 // $inv_id = $this->input->post('inv_id');
+                       	redirect(base_url().'invoice/add_invoice_payment/'. $inv_id);
+
+                     
+
+						// $this->session->set_flashdata('msg', '	Invoice Successfully Created');
+						// $ret = array(
+						// 	'status'       => 'success',
+							// 'quotation_id' => $quotation_id,
+						// );
+						// echo json_encode($ret);
+					}
+
+			
+	}
+
+
+public function delete_adhoc($id){
+
+	   if($this->invoice_model->del_adhoc_item($id)){
+	   		echo "Successfuly Deleted";
+	   }
+}
+
+
+
+
+
+
+
+
+
+
+
 }

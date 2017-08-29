@@ -64,7 +64,7 @@
 	                                         			
 	                                         					<button class="btn btn-primary pull-right" onclick="PurchaseItem(<?=$r[0]->maid_id?>);" >Purchase</button>
 
-	                                         					<a class="btn btn-primary pull-left" href="<?=base_url()?>maid/print_maid_summary/<?=$r[0]->maid_id?>" target="_blank">Print</a>
+	                                         					<a class="btn btn-primary pull-left" href="<?=base_url()?>maid/print_maid_info/<?=$r[0]->maid_id?>" target="_blank">Print</a>
 	                                         			
 	                                         			   
 	                                         		</div>

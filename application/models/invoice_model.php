@@ -748,9 +748,9 @@ class invoice_model extends CI_Model
         $data = array(
             'active'          => 0,
         );
-        $this->db->where('quotation_id', $id);
-        return $this->db->update('quotation_maid', $data);
-        }
+        $this->db->where('inv_id', $id);
+        return $this->db->update('invoice_tbl', $data);
+    }
 
     public function getAmount($id=FALSE){
         if ($id === FALSE) {
@@ -995,6 +995,383 @@ class invoice_model extends CI_Model
             $query = $this->db->get();
             return $query->result_array();
     }
+
+
+
+
+    public function add_adhoc_item( $inv_id,$adhoc_item,$qty,$price,$remark){
+
+               $data = array(
+                'inv_id' => $inv_id,
+                'adhoc_item'     => $adhoc_item,
+                'qty'    => $qty,
+                'price'   => $price,
+                'remark'       => $remark,
+           
+        );
+        return $this->db->insert('adhoc_item', $data);
+     
+    }
+
+
+    public function add_invoice_tbl(){
+
+             
+            $inv_id = $this->input->post('inv_id');
+                
+
+              $data = array(
+                'inv_id' => $inv_id,
+                'inv_code' => "INV-".$inv_id,
+                'customer_id' =>  $this->input->post('customer_id'),   
+                'branch_id' =>  $this->input->post('branch_id'),
+                'maid_id' =>  $this->input->post('maid_id'),
+                'date' =>  date('Y-m-d'),
+                'payment' =>  $this->input->post('payment_terms'),
+                'issued_by' =>  $this->input->post('issued_by'),
+                'staff_id' =>  $this->input->post('staff_id'),
+                'remark' =>  $this->input->post('inv_remark'),
+                'internal_remark    ' =>  $this->input->post('internal_remark'),
+                'package_item' =>  $this->input->post('package_id'),
+                'package_price' =>  $this->input->post('unit_price'),
+                'insurance_item' =>  $this->input->post('product_insurance_id'),
+                'insurance_price' =>  $this->input->post('unit_insurance_price'),
+                'active'       => 1
+
+                );
+
+              // return $this->db->insert('invoice_tbl', $data);
+
+               if($this->db->insert('invoice_tbl', $data)){
+
+                      $j = "[".$this->input->post('mydata')."]";
+                      $json =json_decode($j);
+                     
+                     $i=0;           
+                    foreach($json as $key => $r){                
+
+
+                         $data = array(
+                            'inv_id' => $inv_id,       
+                            'adhoc_item'     => $r->addhoc_item,
+                            'qty'    => $r->qty,
+                            'price'   => $r->item_p,                        
+                            'remark'       => $r->remark,
+                            'active'       => 1
+                       
+                            );
+                            $this->db->insert('adhoc_item', $data);
+                        
+                     $i++;       
+                    }
+
+
+            }
+
+                       
+
+             
+
+               return false;
+
+    }
+
+
+
+    public function edit_invoice_tbl($inv_id){                     
+                
+
+              $data = array(              
+                'customer_id' =>  $this->input->post('customer_id'),   
+                'branch_id' =>  $this->input->post('branch_id'),
+                'maid_id' =>  $this->input->post('maid_id'),               
+                'payment' =>  $this->input->post('payment_terms'),
+                'issued_by' =>  $this->input->post('issued_by'),
+                'staff_id' =>  $this->input->post('staff_id'),
+                'remark' =>  $this->input->post('inv_remark'),
+                'internal_remark    ' =>  $this->input->post('internal_remark'),
+                'package_item' =>  $this->input->post('package_id'),
+                'package_price' =>  $this->input->post('unit_price'),
+                'insurance_item' =>  $this->input->post('product_insurance_id'),
+                'insurance_price' =>  $this->input->post('unit_insurance_price')
+                
+
+                );
+
+               $this->db->where('inv_id', $inv_id);
+        
+
+               if($this->db->update('invoice_tbl', $data)){
+
+                      $j = "[".$this->input->post('mydata')."]";
+                      $json =json_decode($j);
+                     
+                     $i=0;           
+                    foreach($json as $key => $r){                
+
+
+                         $data = array(
+                            'inv_id' => $inv_id,       
+                            'adhoc_item'     => $r->addhoc_item,
+                            'qty'    => $r->qty,
+                            'price'   => $r->item_p,                        
+                            'remark'       => $r->remark,
+                            'active'       => 1
+                       
+                            );
+                            $this->db->insert('adhoc_item', $data);
+                        
+                     $i++;       
+                    }
+
+
+            }
+
+                       
+
+             
+
+               return false;
+
+    }
+
+
+
+
+
+
+
+
+
+    public function max_inv_id(){
+            $this->db->select('max(inv_id) as max');
+            $this->db->from('invoice_tbl');         
+            $query = $this->db->get();
+            return $query->row_array();
+    }
+
+
+    public function get_single_inv($inv_id){
+
+            $this->db->select('a.*,b.customer_name,b.customer_code,c.maid_code,c.maid_name,d.package_name,e.insurance_name,f.staff_name');
+            $this->db->from('invoice_tbl a');
+            $this->db->join('customer_maid b','a.customer_id=b.customer_id', 'left');
+            $this->db->join('maid c','a.maid_id=c.maid_id', 'left');
+            $this->db->join('package d','a.package_item=d.package_id', 'left');
+            $this->db->join('insurance_package e','a.insurance_item=e.insurance_id', 'left');
+            $this->db->join('staff f','f.staff_id=f.staff_id', 'left');
+            $this->db->where('a.active', 1);
+            $this->db->where('a.inv_id', $inv_id);
+            $this->db->group_by('a.inv_id'); 
+            $this->db->limit(1);
+   
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+
+        public function get_adhoc_item($inv_id){
+
+            $this->db->select('*');
+            $this->db->from('adhoc_item a');           
+            $this->db->where('a.active', 1);
+            $this->db->where('a.inv_id', $inv_id);
+
+   
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+
+
+
+    public function add_payment_dtl(){
+
+               $data = array(
+                'inv_id' => $inv_id,
+                'date_p'     => $adhoc_item,
+                'amount'    => $qty,
+                'payment_type'   => $price,
+                'remark'       => $remark,
+           
+        );
+        return $this->db->insert('inv_payment_dtl', $data);
+     
+    }
+
+
+
+        public function payment_option(){
+
+            $this->db->select('*');
+            $this->db->from('payment_option');         
+            $this->db->where('active', 1);
+       
+
+   
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+
+
+    public function payment_invoice_dtl($inv_id){
+
+            $this->db->select('a.*,b.payment_opt_name');
+            $this->db->from('invoice_payment a');    
+            $this->db->join('payment_option b','a.payment_type=b.payment_opt_id', 'left');     
+            $this->db->where('a.active', 1);
+            $this->db->where('a.invoice_id', $inv_id);
+       
+
+   
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+
+
+
+
+    public function ins_payment_dtl($inv_id,$payment_date,$amount,$payment_type,$remark) {
+        $data = array(
+            'invoice_id'     => $inv_id,
+            'payment_date'    => $payment_date,
+            'amount'   =>   $amount,
+            'payment_type'       => $payment_type,
+            'remark'        => $remark,
+            'active'  => 1,
+         
+        );
+        return $this->db->insert('invoice_payment', $data);
+       
+         
+    }
+
+
+    public function del_payment_dtl($payment_id){
+             $data = array(
+            'active'  => 0
+         
+        );
+
+        $this->db->where('invoice_payment_id', $payment_id);
+        return $this->db->update('invoice_payment', $data);
+    }
+
+        public function del_adhoc_item($ad_id){
+             $data = array(
+            'active'  => 0
+         
+        );
+
+        $this->db->where('adhoc_id', $ad_id);
+        return $this->db->update('adhoc_item', $data);
+    }
+
+
+    public function get_all_invoice(){
+
+
+            $this->db->select('a.*,i.branch_name,h.staff_name,g.maid_name,d.customer_name,e.package_name,f.insurance_name,
+                                (a.insurance_price+ a.package_price) AS total_package_price, 
+                                 SUM(c.qty * c.price) AS total_adhoc,
+                                (SUM(c.qty * c.price) + (a.insurance_price+ a.package_price)) AS total_placement_fee, 
+                                ((SUM(c.qty * c.price) + (a.insurance_price+ a.package_price)) * 0.07) + (SUM(c.qty * c.price) + (a.insurance_price+ a.package_price)) AS total_inc_gst');
+            $this->db->from('invoice_tbl a');    
+            $this->db->join('adhoc_item c','a.inv_id=c.inv_id AND c.active = 1', 'left');    
+            $this->db->join('customer_maid d','a.customer_id=d.customer_id', 'left');  
+            $this->db->join('package e','a.package_item=e.package_id', 'left');   
+            $this->db->join('insurance_package f','a.insurance_item=f.insurance_id', 'left');   
+            $this->db->join('maid g','a.maid_id=g.maid_id', 'left');    
+            $this->db->join('staff h','a.staff_id=h.staff_id', 'left'); 
+             $this->db->join('branch i','a.branch_id=i.branch_id', 'left');  
+
+            if($this->session->userdata('fcs_role_id') > 2 ){                
+                              
+                $this->db->where('a.branch_id', $this->session->userdata('branch_id'));
+            }
+
+
+            if (isset($_GET['customer'])&&$_GET['customer']!='') {
+                $this->db->where('a.customer_id', $_GET['customer']);
+            }
+
+             if (isset($_GET['staff_id'])&&$_GET['staff_id']!='') {
+                $this->db->where('a.staff_id', $_GET['staff_id']);
+            }
+
+
+            if (isset($_GET['inv_no'])&&$_GET['inv_no']!='') {
+
+                    $this->db->where('a.inv_code', $_GET['inv_no']);
+             }    
+              if (isset($_GET['issued_by'])&&$_GET['issued_by']!='') {
+
+                    $this->db->where('a.issued_by', $_GET['issued_by']);
+                  // $this->db->like('a.issued_by', $_GET['issued_by']);
+            }
+
+            // $this->db->where('sell_date BETWEEN "'. date('Y-m-d', strtotime($start_date)). '" and "'. date('Y-m-d', strtotime($end_date)).'"');
+
+
+            $this->db->where('a.active', 1);
+            $this->db->group_by('a.inv_id');
+
+             if (isset($_GET['sort_by'])&&$_GET['sort_by']!='') {
+            
+                 $this->db->order_by('a.date',$_GET['sort_by']);
+            }else{
+                  $this->db->order_by('a.date','desc');
+            }
+
+
+           
+
+
+         $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+
+
+    }
+
+
+
 
  
 }

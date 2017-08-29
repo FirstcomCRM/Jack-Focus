@@ -133,48 +133,7 @@
                                 </div>
                             </div>
 
-                          <div class="form-group">
-                                <div class="row">
-                                    <div class="col-lg-2"><label>Staff</label></div>
-                                    <div class="col-lg-4">
-                                        <select name="staff_id" class="form-control input-sm" id="staff" required>
-                                            <option value="">- Please Select Staff-</option>
-                                            <?php if ($staffx!=''): ?>
-                                                  <?php foreach ($staffx as $staff): ?>
-                                                    <option value="<?=$staff['staff_id']?>" <?=isset($_POST['staff_id'])&&$staff['staff_id']==$_POST['staff_id']?'select':(isset($maid['staff_id'])&&$maid['staff_id']==$staff['staff_id']?'selected':'')?>><?=$staff['staff_name']?></option>
-                                                    <?php endforeach ?>
-                                            <?php endif ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                  <!--           <div class="form-group">
-                                  <div class="row">
-                                    <div class="col-lg-2"><label>Employer</label></div>
-                                    <div class="col-lg-4"><input class="form-control input-sm" name="maid_employer" value="<?=isset($_POST['maid_employer'])?$_POST['maid_employer']:(isset($maid['maid_employer'])?$maid['maid_employer']:'')?>"></div>
-                                </div>
-                            </div> -->
-
-                               <div class="form-group">
-                                  <div class="row">
-                                    <div class="col-lg-2"><label>Employer</label></div>
-                                    <div class="col-lg-4">
-                                        
-                                        <select class="form-control input-sm" name="maid_employer" id="maid_employer">
-                                                 <option value=""> -- Select Employer Name  -- </option>
-                                            <?php if($emp_name){?>
-                                                <?php foreach($emp_name as $emp){ ?>    
-                                                <option value="<?=$emp['customer_id']?>" <?=isset($_POST['maid_employer'])&&$emp['customer_id']==$_POST['maid_employer']?'select':(isset($maid['maid_employer'])&&$maid['maid_employer']==$emp['customer_id']?'selected':'')?> >
-
-                                                 <?=$emp['customer_name']?></option>
-
-                                                <?php } ?>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                  
 
 
                             <div class="form-group">

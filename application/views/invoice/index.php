@@ -1,3 +1,4 @@
+
 <br>
 <div class="row">
     <div class="col-lg-12">
@@ -26,7 +27,7 @@
                   
                      <div class="btn-group">
                          <?php if($this->session->userdata('inv_add') == 1) {?> 
-                        <a class="btn btn-default btn-xs" href="<?=base_url()?>invoice/add_package"><i class="fa fa-plus"></i> New Invoice</a>
+                        <a class="btn btn-default btn-xs" href="<?=base_url()?>invoice/add_invoice"><i class="fa fa-plus"></i> New Invoice</a>
                         <?php } ?>
                     </div>
 
@@ -38,7 +39,7 @@
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <input class="form-control input-sm" name="quotation_no" placeholder="Invoice No." value="<?=isset($_GET['quotation_no'])?$_GET['quotation_no']:''?>">
+                                <input class="form-control input-sm" name="inv_no" placeholder="Invoice No." value="<?=isset($_GET['inv_no'])?$_GET['inv_no']:''?>">
                             </div>
                         </div>
 
@@ -46,9 +47,9 @@
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <select class="form-control input-sm" name="customer" id="customer">
-                                    <option value=""> - All Customers - </option>
+                                    <option value=""> - All Employer - </option>
                                     <?php foreach ($customers as $customer): ?>
-                                    <option value="<?=$customer['customer_id']?>" <?=isset($_GET['customer_name'])&&$_GET['customer_name']==$customer['customer_id']?"selected":""?>><?=$customer['customer_name']?></option>
+                                    <option value="<?=$customer['customer_id']?>" <?=($_GET['customer'] == $customer['customer_id']) ? 'selected' : ''?>><?=$customer['customer_name']?></option>
                                     <?php endforeach ?>
                                 </select>
                             </div>
@@ -66,7 +67,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-2">
+                     <!--    <div class="col-lg-2">
                             <div class="form-group">
                                 <input class="form-control input-sm" name="date_from" id="date-from" placeholder="Date From" value="<?=isset($_GET['date_from'])?$_GET['date_from']:date('d-m-Y')?>">
                             </div>
@@ -75,7 +76,7 @@
                             <div class="form-group">
                                 <input class="form-control input-sm" name="date_to" id="date-to" placeholder="Date to" value="<?=isset($_GET['date_to'])?$_GET['date_to']:date('d-m-Y')?>">
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <select class="form-control input-sm" name="sort_by">
@@ -90,15 +91,7 @@
                                 <input class="form-control input-sm" name="issued_by" placeholder="Issued By" value="<?=isset($_GET['issued_by'])?$_GET['issued_by']:''?>">
                             </div>
                         </div>
-                        <div class="col-lg-2">
-                            <div class="form-group">
-                                <select class="form-control input-sm" name="status">
-                                    <option value=""> - Status - </option>
-                                    <option value="1" <?=isset($_GET['status'])&&$_GET['status']=='1'?'selected':''?>>Closed</option>
-                                    <option value="0" <?=isset($_GET['status'])&&$_GET['status']=='0'?'selected':''?>>Pending</option>
-                                </select>
-                            </div>
-                        </div>
+                 
                         <div class="col-lg-2">
                             <button type="submit" class="btn btn-default btn-sm">Search</button>
                         </div>
@@ -109,17 +102,17 @@
                         <thead>
                             <tr>
                                 <th>Invoice No.</th>
-
-                                <!-- <th>Type</th> -->
-                                <th>Customer</th>
-                                <th>Package</th>
+                                <th>Employer</th>
                                 <th>Maid</th>
+                                <th>Branch</th>
+                                <th>Package</th>                                
                                 <th>Insurance</th>
                                 <th>Date</th>
                                 <th>Issued By</th>
                                 <th>Staff</th>
-                                <th>Total Placement Fee</th>
-                                <th>GST</th>
+                                <th>Total Adhoc Item</th>
+                                <th>Total Package </th>
+                                <th>Total Placement Fee</th>                               
                                 <th>Total Inc GST</th>
                                
                                 
@@ -129,75 +122,43 @@
                         </thead>
                         <tbody>
 
-
-                            <?php if (!empty($quotations)): ?>
-                                <?php foreach ($quotations as $quotation): ?>
+                            <?php if (!empty($invoice_list)){ ?>
+                                <?php foreach ($invoice_list as $r){ ?>
                                 <tr>
-                                    <td><?=$quotation->quotation_no?></td>
-                                   <!--  <td>
-                                    <?php
-                                       //  if ($quotation->invoice_type == 1)
-                                       //  echo "FDW";
-                                       // else if ($quotation->invoice_type == 2)
-                                       //  echo "Package";
-                                       // else if ($quotation->invoice_type == 3)
-                                       //  echo "Insurance";
-                                       // else if ($quotation->invoice_type == 4)
-                                       //  echo "Contract";
-                                     ?>
-                                    </td> -->
-                                    <td><?=$quotation->customer_code." ".$quotation->customer_name?></td>
-                                    <td><?=$quotation->package_name?></td>
-                                    <td><?=$quotation->maid_name?></td>
-                                    <td><?=$quotation->insurance_name?></td>
-                                    <td><?= date('d M Y', $quotation->quotation_date) ?></td>
-                                    <td><?=$quotation->issued_by?></td>
-                                    <td><?=$quotation->s_name?></td>
-                                    <td>$<?=number_format($quotation->total_amount, 2)?></td>
-                                    <td><?=$quotation->gst?>%</td>
-                                    <td>$<?=number_format($quotation->total_inc_gst, 2)?></td>
-
+                                    <td><?=$r->inv_code?></td>
+                                    <td><?=$r->customer_name?></td>
+                                    <td><?=$r->maid_name?></td>
+                                    <td><?=$r->branch_name?></td>
+                                    <td><?=$r->package_name?></td>
+                                    <td><?=$r->insurance_name?></td> 
+                                    <td><?=$r->date?></td>
+                                    <td><?=$r->issued_by?></td>
+                                    <td><?=$r->staff_name?></td>
+                                    <td><?=$r->total_adhoc?></td>
+                                    <td><?=$r->total_package_price?></td>
+                                    <td><?=$r->total_placement_fee?></td> 
+                                    <td><?=$r->total_inc_gst?></td>
                                     
-                                   
-                                    <td class="<?=$quotation->is_paid==1?
-                                    'text-success':($quotation->is_paid==0?
-                                    'text-danger':'text-warning')?>"><?=$quotation->is_paid==1?'Fully Paid':($quotation->is_paid==0?'Unpaid':'Partial Paid')?>
-                                    
-                                    </td>
-                                    <!--<td class="<?=$quotation->is_close==1?'text-success':'text-danger'?>"><?=$quotation->is_close==1?'Closed':'Pending'?></td>-->
-
                                     <td>
-                                 
-                               
-                                            <a title="View" href="<?=base_url()?>invoice/view_package/<?=$quotation->quotation_id?>"><i class="fa fa-search"></i></a>&nbsp              
-                                             
-                                            <?php if($this->session->userdata('inv_edit') == 1) {?>    
-                                            <a title="Edit" href="<?=base_url()?>invoice/edit_package/<?=$quotation->quotation_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp 
-                                            <?php } ?>
+                                       
+                                        <a title="View" href="<?=base_url()?>invoice/add_invoice_payment/<?=$r->inv_id?>"><i class="fa fa-search"></i></a>&nbsp;    
 
-                                              <?php if($this->session->userdata('inv_del') == 1) {?> 
-                                            <a title="Delete" href="<?=base_url()?>invoice/delete/<?=$quotation->quotation_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o"></i></a>
-                                            <?php } ?>
-                               
+                                        <a title="Edit" href="<?=base_url()?>invoice/edit_invoice/<?=$r->inv_id?>"><i class="fa fa-pencil-square-o"></i></a>&nbsp; 
+
+                                        <a title="Delete" href="<?=base_url()?>invoice/delete/<?=$r->inv_id?>" onclick="return confirm_delete()" ><i class="fa fa-trash-o">
                                     </td>
+
+                                    
+               
                                 </tr>
-                                 <?php endforeach?>
-                                        <?php endif ?>
+                                 <?php } ?>
+                            <?php } ?>
                                
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="panel-footer">
-                <div class="row">
-                    <div class="col-lg-6 text-left">
-                        <strong><?php echo $pagination_msg?></strong>
-                    </div>
-                    <div class="col-lg-6 text-right">
-                        <?php echo $links; ?>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div> 
 </div>
