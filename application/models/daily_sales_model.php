@@ -130,5 +130,60 @@ class daily_sales_model extends CI_Model
         $this->db->where('daily_sales_id', $id);
         return $this->db->update('daily_sales', $data);
     }
+
+
+
+        public function get_daily_sales(){
+
+
+            $this->db->select('a.*,i.branch_name,h.staff_name,g.maid_name,d.customer_name,e.package_name,f.insurance_name,
+                                (a.insurance_price+ a.package_price) AS total_package_price, 
+                                 SUM(c.qty * c.price) AS total_adhoc,
+                                (SUM(c.qty * c.price) + (a.insurance_price+ a.package_price)) AS total_placement_fee, 
+                                ((SUM(c.qty * c.price) + (a.insurance_price+ a.package_price)) * 0.07) + (SUM(c.qty * c.price) + (a.insurance_price+ a.package_price)) AS total_inc_gst');
+            $this->db->from('invoice_tbl a');    
+            $this->db->join('adhoc_item c','a.inv_id=c.inv_id AND c.active = 1', 'left');    
+            $this->db->join('customer_maid d','a.customer_id=d.customer_id', 'left');  
+            $this->db->join('package e','a.package_item=e.package_id', 'left');   
+            $this->db->join('insurance_package f','a.insurance_item=f.insurance_id', 'left');   
+            $this->db->join('maid g','a.maid_id=g.maid_id', 'left');    
+            $this->db->join('staff h','a.staff_id=h.staff_id', 'left'); 
+             $this->db->join('branch i','a.branch_id=i.branch_id', 'left');  
+
+            if($this->session->userdata('fcs_role_id') > 2 ){                
+                              
+                $this->db->where('a.branch_id', $this->session->userdata('branch_id'));
+            }
+
+
+          
+
+            $this->db->where('a.date', date('Y-m-d'));
+            $this->db->where('a.active', 1);
+            $this->db->group_by('a.inv_id');            
+            $this->db->order_by('a.inv_id','asc');
+    
+            
+
+
+           
+
+
+         $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+
+
+    }
+
+
+
+
 }
 // --------------------------------------------------------------------------------------------------------------------------

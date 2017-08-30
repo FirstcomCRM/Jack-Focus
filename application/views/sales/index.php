@@ -1,4 +1,4 @@
-<br>
+<!-- <br>
 <div class="row">
     <div class="col-lg-12">
         <?php if(isset($msg) && $msg != '') { ?>
@@ -106,4 +106,4 @@
             </div>
         </div>
     </div> 
-</div>
+</div> -->

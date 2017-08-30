@@ -28,15 +28,16 @@ class maid_model extends CI_Model
     }
 
      public function getAvailable($id=FALSE){
-        if ($id === FALSE) {
-            $this->db->where('active =', 1);
-            $this->db->where('status_id !=', 6);
+      
+            $this->db->where('active =', 1);          
             $this->db->order_by('maid_id','desc');
             $query = $this->db->get('maid');
             return $query->result_array();
-        }
-        $query = $this->db->get_where('maid', array('maid_id' => $id, 'status_id !=', 6, 'active' => 1));
-        return $query->row_array();
+  
+     
+        
+
+
     }
 
     public function getPurchaseMaid($id=FALSE){
@@ -586,6 +587,7 @@ class maid_model extends CI_Model
         $this->db->where('m.active', 1);
         $this->db->where('m.maid_id', $id);
         $this->db->where('b.active', 1);
+        $this->db->order_by('b.date_created','desc');
 
         $query = $this->db->get();
 
@@ -613,7 +615,7 @@ class maid_model extends CI_Model
             'gst_on_agency_p_fee'  => $this->input->post('gst_on_agency_p_fee'),
             'customer_id'  => $this->input->post('customer_id'),
             'overseas_placement_fee'  => $this->input->post('overseas_placement_fee'),  
-            't_bal_p_fee'  => $this->input->post('t_bal_p_fee'),
+            // 't_bal_p_fee'  => $this->input->post('t_bal_p_fee'),
             'bal_placement_fee'  => $this->input->post('bal_placement_fee'),
 
            
@@ -635,8 +637,9 @@ class maid_model extends CI_Model
             'gst_on_agency_p_fee'  => $this->input->post('gst_on_agency_p_fee'),
             'customer_id'  => $this->input->post('customer_id'),
             'overseas_placement_fee'  => $this->input->post('overseas_placement_fee'),  
-            't_bal_p_fee'  => $this->input->post('t_bal_p_fee'),
+            // 't_bal_p_fee'  => $this->input->post('t_bal_p_fee'),
             'bal_placement_fee'  => $this->input->post('bal_placement_fee'),
+            'date_created'  => date('Y-m-d'),
             'active'  => 1
 
            
@@ -1015,6 +1018,31 @@ public function update_status($id){
 
             return false;
      }
+
+
+
+     public function get_maid_dep_loan($maid_id){
+
+ 
+        $query = $this->db->query("SELECT maid_dep_id , (bal_placement_fee + gst_on_agency_p_fee) AS total_bal_amount 
+                                    FROM maid_deployment_dtl
+                                    WHERE active = 1
+                                    AND maid_id = ".$this->db->escape($maid_id)."
+                                    AND maid_dep_id IN (SELECT MAX(maid_dep_id)
+                                     FROM maid_deployment_dtl WHERE maid_id = ".$this->db->escape($maid_id)." AND active = 1)");
+
+        
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+
+     }
+
 
 
 

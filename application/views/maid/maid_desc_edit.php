@@ -297,7 +297,7 @@
                                                         <td><?=$m->bal_placement_fee?></td>
                                                         <td><?=$m->refund?></td>
                                                         <td><?=$m->gst_on_agency_p_fee?></td>
-                                                         <td><?=$m->t_bal_p_fee?></td>
+                                                         <td><?=$m->gst_on_agency_p_fee + $m->bal_placement_fee?></td>
                                                         <td>
                                                         <a class="btn btn-primary" title="Edit" href="<?=base_url()?>maid/maid_dep_edit/<?=$m->maid_dep_id?>" ><i class="fa fa-pencil-square-o"></i></a>&nbsp
                                                      <button onclick="delete_maid_dep(<?=$m->maid_dep_id?>)" class="btn btn-primary" title="Delete"  id="del-maid-dep" ><i class="fa fa-trash-o"></i></button> 

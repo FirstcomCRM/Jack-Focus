@@ -89,7 +89,7 @@
                         <tbody>
                             <?php if (!empty($customers)): ?>
                                 <?php foreach ($customers as $customer): ?>
-                                <tr>  <?php echo $this->session->userdata('emp_edit') ;?>
+                                <tr> 
                                     <td>
                                      <?php if($this->session->userdata('emp_edit') == 1) {?> 
                                                 <a  href="<?=base_url()?>customer_maid/edit/<?=$customer->customer_id?>"><?=$customer->customer_code?></a>

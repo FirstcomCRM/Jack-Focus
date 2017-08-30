@@ -55,6 +55,8 @@
                 					</div>
                 					<div class="col-lg-6">
                 						<?=$r->customer_name?>
+
+                          
                 					</div>
                 			</div>
 
@@ -103,6 +105,23 @@
                 						<?=$r->issued_by?>
                 					</div>
                 			</div>
+
+                            <div class="row">
+                                    <div class="col-lg-4">
+                                        <label>Invoice Type</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <?=$r->inv_type?>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                    <div class="col-lg-4">
+                                        <label>Maid Loan Amount</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <?=$r->maid_loan_amt?>
+                                    </div>
+                            </div>
 
 
 

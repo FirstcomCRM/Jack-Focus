@@ -1026,6 +1026,8 @@ class invoice_model extends CI_Model
                 'customer_id' =>  $this->input->post('customer_id'),   
                 'branch_id' =>  $this->input->post('branch_id'),
                 'maid_id' =>  $this->input->post('maid_id'),
+                'invoice_type' =>  $this->input->post('inv_type'),
+                'maid_loan_amt' =>  $this->input->post('maid_loan_amount'),
                 'date' =>  date('Y-m-d'),
                 'payment' =>  $this->input->post('payment_terms'),
                 'issued_by' =>  $this->input->post('issued_by'),
@@ -1084,7 +1086,9 @@ class invoice_model extends CI_Model
               $data = array(              
                 'customer_id' =>  $this->input->post('customer_id'),   
                 'branch_id' =>  $this->input->post('branch_id'),
-                'maid_id' =>  $this->input->post('maid_id'),               
+                'maid_id' =>  $this->input->post('maid_id'),  
+                'invoice_type' =>  $this->input->post('inv_type'),
+                'maid_loan_amt' =>  $this->input->post('maid_loan_amount'),             
                 'payment' =>  $this->input->post('payment_terms'),
                 'issued_by' =>  $this->input->post('issued_by'),
                 'staff_id' =>  $this->input->post('staff_id'),
@@ -1106,7 +1110,9 @@ class invoice_model extends CI_Model
                       $j = "[".$this->input->post('mydata')."]";
                       $json =json_decode($j);
                      
-                     $i=0;           
+                     $i=0;
+
+
                     foreach($json as $key => $r){                
 
 
@@ -1153,13 +1159,14 @@ class invoice_model extends CI_Model
 
     public function get_single_inv($inv_id){
 
-            $this->db->select('a.*,b.customer_name,b.customer_code,c.maid_code,c.maid_name,d.package_name,e.insurance_name,f.staff_name');
+            $this->db->select('a.*,g.inv_type,b.customer_name,b.customer_code,c.maid_code,c.maid_name,d.package_name,e.insurance_name,f.staff_name');
             $this->db->from('invoice_tbl a');
             $this->db->join('customer_maid b','a.customer_id=b.customer_id', 'left');
             $this->db->join('maid c','a.maid_id=c.maid_id', 'left');
             $this->db->join('package d','a.package_item=d.package_id', 'left');
             $this->db->join('insurance_package e','a.insurance_item=e.insurance_id', 'left');
-            $this->db->join('staff f','f.staff_id=f.staff_id', 'left');
+            $this->db->join('staff f','a.staff_id=f.staff_id', 'left');
+             $this->db->join('invoice_type_opt g','a.invoice_type=g.inv_type_id', 'left');
             $this->db->where('a.active', 1);
             $this->db->where('a.inv_id', $inv_id);
             $this->db->group_by('a.inv_id'); 
@@ -1336,8 +1343,8 @@ class invoice_model extends CI_Model
              }    
               if (isset($_GET['issued_by'])&&$_GET['issued_by']!='') {
 
-                    $this->db->where('a.issued_by', $_GET['issued_by']);
-                  // $this->db->like('a.issued_by', $_GET['issued_by']);
+                    // $this->db->where('a.issued_by', $_GET['issued_by']);
+                  $this->db->like('a.issued_by', $_GET['issued_by']);
             }
 
             // $this->db->where('sell_date BETWEEN "'. date('Y-m-d', strtotime($start_date)). '" and "'. date('Y-m-d', strtotime($end_date)).'"');
@@ -1368,6 +1375,28 @@ class invoice_model extends CI_Model
         return false;
 
 
+    }
+
+
+
+    public function get_invoice_type(){
+
+            $this->db->select('*');
+            $this->db->from('invoice_type_opt');                 
+            $this->db->where('active', 1);
+            
+
+
+
+            $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
     }
 
 

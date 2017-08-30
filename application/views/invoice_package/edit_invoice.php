@@ -64,6 +64,9 @@
                     $package_price = $r->package_price;
                     $insurance_item = $r->insurance_item;
                     $insurance_price = $r->insurance_price;
+                    
+                    $invoice_type = $r->invoice_type;
+                    $maid_loan_amt = $r->maid_loan_amt;
                  } 
              }
              ?>
@@ -165,6 +168,37 @@
                               
                             </div>
                         </div>
+
+
+
+                <div class="form-group">
+                            <div class="row">
+                         
+                                        <div class="col-lg-4"><label>Invoice Type</label></div>
+                                        <div class="col-lg-6">
+                                        <select  class="form-control input-sm" id="inv_type" name="inv_type">
+                                         <option value="0"> --------- </option>
+                                     <?php if($inv_type){ ?>
+                                        <?php foreach($inv_type as $inv) { ?>
+                                        <option value="<?=$inv->inv_type_id?>" <?=( $invoice_type == $inv->inv_type_id) ? 'selected' : '' ?> > <?=$inv->inv_type?></option>
+                                         <?php } ?>    
+                                     <?php } ?>                                 
+                                        </select>
+                                        </div>
+                            
+                            </div>
+                        </div>
+
+                        <div id="maid_loan_field">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4"><label>Maid Balance Loan Amount</label></div>
+                                    <div class="col-lg-6">
+                                         <input type="text" class="form-control input-sm" name="maid_loan_amount" id='maid_loan_amount' value="<?=$maid_loan_amt?>" readonly>
+                                    </div>
+                                </div>
+                            </div>
+            </div>      
 
 
 
@@ -416,6 +450,68 @@ function del_adhoc_item(id){
    $(document).ready(function(){
 
 
+        if($("#inv_type").val() !== '1' ) {
+            $('#maid_loan_field').hide();
+            $("#maid_loan_amount").val('');
+        }
+
+        $("#inv_type").change(function(){
+            var a = $(this).val();
+            var maid_id = $('#maid_id').val();
+            if(a=='1'){
+                $('#maid_loan_field').show();
+
+
+                      $.ajax({
+                                url: '<?=base_url()?>invoice/maid_total_bal_fee/'+maid_id,
+                                type: 'POST',               
+                                
+                                success: function (data) {
+                                   $("#maid_loan_amount").val(data);
+                               
+                                }
+                           
+                               
+                            }); 
+
+
+
+            }else{
+                $('#maid_loan_field').hide();
+                $("#maid_loan_amount").val('');
+            }
+
+        });
+
+         $('#maid_id').change(function(){
+
+            var a = $('#inv_type').val();
+            var maid_id = $(this).val();
+            if(a=='1'){
+                $('#maid_loan_field').show();
+
+
+                      $.ajax({
+                                url: '<?=base_url()?>invoice/maid_total_bal_fee/'+maid_id,
+                                type: 'POST',               
+                                
+                                success: function (data) {
+                                   $("#maid_loan_amount").val(data);
+                               
+                                }
+                           
+                               
+                            }); 
+
+
+
+            }else{
+                $('#maid_loan_field').hide();
+                $("#maid_loan_amount").val('');
+            }
+            
+
+         }); 
 
 
 
@@ -612,12 +708,16 @@ function del_adhoc_item(id){
 
 
 
-    $( "#form_inv" ).submit(function( event ) {
+$( "#form_inv" ).submit(function( event ) {
                
         total = 0;
         cnt_tr = $('#myTable tbody tr').length;
         var arr_data =[];
-                  x=0;  
+       
+        if(cnt_tr > 0){
+             x=0;  
+               
+
             for (i = 1; i < cnt_tr; i++) {
 
                 ad = $('#addhoc_item'+i).val();
@@ -625,11 +725,7 @@ function del_adhoc_item(id){
                 ip = $('#item_p'+i).val();
                 r = $('#remark'+i).val();
 
-                // arr_data.push({'addhoc':ad,'qty':qt,'item_p':ip,'remark':r});
-               // arr_data.push(ad,qt,ip,r);
-               // data_val = [ad,qt,ip,r]
-
-
+              
                   var data_value =  { 
                             addhoc_item: ad,
                             qty: qt, 
@@ -639,19 +735,31 @@ function del_adhoc_item(id){
                         
                arr_data.push( JSON.stringify(data_value) );
 
-            
+       
                 x++;    
             }
-     
-              var input = $("<input>").attr("type", "hidden").attr("name", "mydata").val(arr_data);
-            $(this).append($(input));
 
+          
+          if(counter > 1){ // counter of the row
+           
+                var input = $("<input>").attr("type", "hidden").attr("name", "mydata").val(arr_data);
+                $(this).append($(input));
+
+           }     
+
+            
+     }
+            
     });
 
 
 
 
 });
+
+
+
+
 
 
 

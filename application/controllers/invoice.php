@@ -58,6 +58,8 @@ class invoice extends CI_Controller {
 
 				$data['invoice_list'] = $this->invoice_model->get_all_invoice();
 
+
+
 				$this->load->view('_template/header', $data);
 		        $this->load->view('invoice/index', $data);
 		        $this->load->view('_template/footer', $data);
@@ -231,7 +233,7 @@ public function add_invoice(){
 
 					if($this->form_validation->run() === FALSE) {
 						
-						
+						$data['inv_type'] = $this->invoice_model->get_invoice_type();
 
 						$data['action'] = 'add';
 						$data['customers'] = $this->customer_maid_model->get();
@@ -1063,43 +1065,47 @@ public function delete_payment($inv_id,$payment_id){
 
 	public function export_quotation(){
 		$this->load->library('excel');
-		$quotations = $this->invoice_model->get();
+		$quotations = $this->invoice_model->get_all_invoice();
 		$quo_export =  array();
 		$no = 1;
 		$total = 0; $total_paid = 0; $total_outstand = 0;
-		foreach($quotations as $key=>$quotation) {     
+		foreach($quotations as $r) {     
 			$quo_export[] = array(
 				'No.'		        => $no,	
-				'Quotation No.'		=> $quotation['quotation_no'],
-				'Customer'			=> $quotation['customer_name'],
-				'Date' 				=> date('d-m-Y', $quotation['quotation_date']),
-				'Total Amount'		=> $quotation['total_amount'],
-				'GST'				=> $quotation['gst'].'%',
-				'Total Inc GST'		=> $quotation['total_inc_gst'],
-				'Status'            => ($quotation['is_close'] == 1) ? 'Closed': 'Pending',
-                'Payment Terms'     => $quotation['payment_terms'],
-                'Issued By'         => $quotation['issued_by'],
-				'Remark'			=> $quotation['remark'],
-				'Internal Remark'	=> $quotation['internal_remark'],
+				'Invoice No.'		=> $r->inv_code,
+				'Employer'			=> $r->customer_name,
+				'Maid Name' 		=> $r->maid_name,
+				'Date' 				=> $r->date,
+				'Total Amount'		=> $r->total_placement_fee,
+				'GST'				=> '7%',
+				'Total GST'			=> $r->total_placement_fee * 0.07,
+				'Total Inc GST'		=> $r->total_inc_gst,				
+                'Payment Terms'     => $r->payment,
+                'Issued By'         => $r->issued_by,
+				'Remark'			=> $r->remark,
+				'Internal Remark'	=> $r->internal_remark,
 			);
-			$total += $quotation['total_inc_gst'];
+			$total += $r->total_inc_gst;
 			$no++;
 		}
 		$quo_export[] = array(
 				'No.'		        => '',	
-				'Quotation No.'		=> '',
-				'Customer'			=> '',
+				'Invoice No.'		=>'',
+				'Employer'			=> '',
+				'Maid Name' 		=> '',
 				'Date' 				=> '',
 				'Total Amount'		=> '',
-				'GST'				=> 'Total',
-				'Total Inc GST'		=> $total,
-				'Status'            => '',
+				'GST'				=> '',
+				'Total GST'			=> 'TOTAL',
+				'Total Inc GST'		=> $total,				
                 'Payment Terms'     => '',
                 'Issued By'         => '',
 				'Remark'			=> '',
 				'Internal Remark'	=> '',
+
+				
 		);
-		$this->excel->export($quo_export, "QuotationReport(" . date('d-m-Y', time()) . ").xls");	
+		$this->excel->export($quo_export, "Invoice_Report(" . date('d-m-Y', time()) . ").xls");	
 	}
 
 
@@ -1132,7 +1138,7 @@ public function edit_invoice($inv_id){
 					if($this->form_validation->run() === FALSE) {
 						
 						
-
+						$data['inv_type'] = $this->invoice_model->get_invoice_type();
 						$data['action'] = '';
 						$data['customers'] = $this->customer_maid_model->get();
 						$data['products'] = $this->package_model->get();
@@ -1173,7 +1179,17 @@ public function delete_adhoc($id){
 }
 
 
+public function maid_total_bal_fee ($maid_id){
+		$a = $this->maid_model->get_maid_dep_loan($maid_id);
+		$maid_loan = 0;
+		if($a){
+			foreach($a as $r){
+				$maid_loan = $r->total_bal_amount;
+			}
+		}
 
+		echo $maid_loan;
+}
 
 
 
